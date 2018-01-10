@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/vinayakkini101/BEProject#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0-beta",
     "chart.js": "2.6.0",
     "datatables.net-bs4": "1.10.15",
