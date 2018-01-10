@@ -25,6 +25,7 @@
     "font-awesome": "4.7.0",
     "jquery": "^3.2.1",
     "jquery.easing": "^1.4.1",
+    "mysql": "^2.15.0",
     "popper.js": "1.12.3"
   },
   "devDependencies": {
