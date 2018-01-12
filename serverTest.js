@@ -44,9 +44,9 @@ router.get('/syllabus.html',function(req,res){
 });
 
 
-/*router.get('/syllabusScheme.html',function(req,res){
+router.get('/syllabusScheme.html',function(req,res){
   res.sendFile(path+'/syllabusScheme.html');
-});*/
+});
 
 
 app.post('/virtualPage',function(req,res){
@@ -72,6 +72,52 @@ app.post('/virtualPage',function(req,res){
 });
 
 
+router.get('/schemeResult.html',function(req,res){
+  console.log("polwa");
+var q = "SELECT * FROM syllabusScheme";
+  connection.query(q, function(err,rows){
+      if(!!err){
+	  console.log('Error in the read query');
+       }else{
+	  console.log('Successful read query');
+        }
+
+    res.render('schemeData',{obj:rows});
+  });
+});
+
+
+app.post('/virtualPage2',function(req,res){
+  console.log(req.body);
+  var query = "INSERT INTO syllabusScheme(subjectCode,courseName,IATest1,IATest2,IATestAvg,endSem,examDuration,TW,oral,total) VALUES(";
+ query+= " '"+req.body.subjectCode+"',";
+ query+= " '"+req.body.courseName+"',";
+ query+= " '"+req.body.iatest1+"',";
+ query+= " '"+req.body.iatest2+"',";
+ query+= " '"+req.body.iatestavg+"',";
+ query+= " '"+req.body.endsem+"',";
+ query+= " '"+req.body.duration+"',";
+ query+= " '"+req.body.tw+"',";
+ query+= " '"+req.body.or+"',";
+ query+= " '"+req.body.total+"')";
+
+ connection.query(query, function(err,rows,fields){
+    if(!!err){
+	console.log('Error in the scheme insert query');
+     }else{
+	console.log('Successful scheme insert query');
+      }
+});
+
+  res.redirect('/syllabusScheme.html');	//using POST REDIRECT GET
+
+});
+
+
+
+
+
+
 router.get('/syllabusModules.html',function(req,res){
   res.sendFile(path+'/syllabusModules.html');
   var q = "SELECT * FROM syllabusModules";
@@ -86,8 +132,8 @@ router.get('/syllabusModules.html',function(req,res){
 });
 
 
+
 router.get('/syllabResult.html',function(req,res){
-  
   console.log("polwa");
 var q = "SELECT * FROM syllabusModules";
   connection.query(q, function(err,rows){

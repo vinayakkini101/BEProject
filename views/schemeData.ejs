@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact form using Bootstrap 3.3.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin.css">
+</head>
+<body style="background-color: #7e7e7e">
+	
+<div class="content-wrapper">
+
+      <div class="container-fluid">
+
+
+
+<div >
+  <h2>Examination Scheme</h2>          
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Subject Code</th>
+        <th>Course Name</th>
+        <th>IA Test 1</th>
+        <th>IA Test 2</th>
+	<th>IA Test Avg</th>
+        <th>End Sem</th>
+	<th>Exam duration</th>
+	<th>TW</th>
+        <th>Oral</th>
+        <th>Total</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    	<% obj.forEach(function(row,index){%>
+
+      <tr>
+        <td> <%= row.subjectCode %>     </td>
+        <td> <%= row.courseName %>	</td>
+	<td> <%= row.IATest1 %>         </td>
+	<td> <%= row.IATest2 %> 	</td>
+	<td> <%= row.IATestAvg %>	</td>
+	<td> <%= row.endSem %>		</td>
+	<td> <%= row.examDuration %>	</td>
+	<td> <%= row.TW %>		</td>
+	<td> <%= row.oral %>		</td>
+	<td> <%= row.total %>		</td>
+        
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+<a name="viewTable"  id="viewTable" class="btn btn-success btn-lg pull-right" href="/syllabusScheme.html" ">Go Back</a>
+</div>
+
+
+
+</div>
+</div>
+
+</body>
+</html>
