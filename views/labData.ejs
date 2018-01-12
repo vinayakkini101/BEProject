@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact form using Bootstrap 3.3.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin.css">
+</head>
+<body style="background-color: #7e7e7e">
+	
+<div class="content-wrapper">
+
+      <div class="container-fluid">
+
+    <!--Displaying Data from Database Objectives-->
+
+
+<div >
+  <h2>Labs</h2>        
+  <table class="table table-striped">
+    <thead>
+      <tr>
+	<th>Expt no.</th>
+	<th>Date A</th>
+        <th>Date B</th>
+        <th>Date C</th>
+        <th>Date D</th>
+	<th>Concept</th>
+	<th>Aim</th>
+        
+      </tr>
+    </thead> 
+    <tbody>
+    	<% obj.forEach(function(row,index){%>
+      <tr>
+	<td><%= row.Expt %> </td>
+	<td><%= row.DateA %> </td>
+        <td><%= row.DateB %> </td>
+	<td><%= row.DateC %> </td>
+	<td><%= row.DateD %> </td>
+        <td><%= row.Concept %> </td>
+	<td><%= row.Aim %> </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<a name="viewTable"  id="viewTable" class="btn btn-success btn-lg pull-right" href="/lab.html" ">Go Back</a>
+
+</div>
+</div>
+
+</body>
+</html>
+
+
+

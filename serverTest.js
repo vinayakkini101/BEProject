@@ -68,6 +68,10 @@ router.get('/syllabusScheme.html',function(req,res){
 });
 
 
+router.get('/ass.html',function(req,res){
+  res.sendFile(path+'/ass.html');
+});
+
 app.post('/virtualPage',function(req,res){
   console.log(req.body);
   //res.sendFile(path+'/syllabusModules.html');
@@ -91,9 +95,26 @@ app.post('/virtualPage',function(req,res){
 });
 
 
-router.get('/schemeResult.html',function(req,res){
-  //console.log("polwa");
-var q = "SELECT * FROM syllabusScheme";
+
+router.get('/syllabusModules.html',function(req,res){
+  res.sendFile(path+'/syllabusModules.html');
+  var q = "SELECT * FROM syllabusModules";
+  connection.query(q, function(err,rows,fields){
+      if(!!err){
+	  console.log('Error in the read query');
+       }else{
+	  console.log('Successful read query');
+        }
+  //console.log(rows[0].moduleName);
+  });
+});
+
+
+
+
+router.get('/syllabResult.html',function(req,res){
+ // console.log("polwa");
+var q = "SELECT * FROM syllabusModules";
   connection.query(q, function(err,rows){
       if(!!err){
 	  console.log('Error in the read query');
@@ -101,9 +122,11 @@ var q = "SELECT * FROM syllabusScheme";
 	  console.log('Successful read query');
         }
 
-    res.render('schemeData',{obj:rows});
+    res.render('syllabData',{obj:rows});
   });
 });
+
+
 
 
 app.post('/virtualPage2',function(req,res){
@@ -130,6 +153,24 @@ app.post('/virtualPage2',function(req,res){
 
   res.redirect('/syllabusScheme.html');	//using POST REDIRECT GET
 
+});
+
+
+
+
+
+router.get('/schemeResult.html',function(req,res){
+  //console.log("polwa");
+var q = "SELECT * FROM syllabusScheme";
+  connection.query(q, function(err,rows){
+      if(!!err){
+	  console.log('Error in the read query');
+       }else{
+	  console.log('Successful read query');
+        }
+
+    res.render('schemeData',{obj:rows});
+  });
 });
 
 
@@ -178,34 +219,127 @@ var q = "SELECT * FROM lectureSchedule";
 
 
 
-router.get('/syllabusModules.html',function(req,res){
-  res.sendFile(path+'/syllabusModules.html');
-  var q = "SELECT * FROM syllabusModules";
-  connection.query(q, function(err,rows,fields){
-      if(!!err){
-	  console.log('Error in the read query');
-       }else{
-	  console.log('Successful read query');
-        }
-  //console.log(rows[0].moduleName);
-  });
+
+app.post('/virtualPage4',function(req,res){
+  console.log(req.body);
+  var query = "INSERT INTO planLab(Expt,DateA,DateB,DateC,DateD,Concept,Aim) VALUES(";
+ query+= " '"+req.body.expt+"',";
+ query+= " '"+req.body.dateA+"',";
+ query+= " '"+req.body.dateB+"',";
+ query+= " '"+req.body.dateC+"',";
+ query+= " '"+req.body.dateD+"',";
+ query+= " '"+req.body.concept+"',";
+ query+= " '"+req.body.aim+"')";
+
+ connection.query(query, function(err,rows,fields){
+    if(!!err){
+	console.log('Error in the lab insert query');
+     }else{
+	console.log('Successful lab insert query');
+      }
+});
+
+  res.redirect('/lab.html');	//using POST REDIRECT GET
+
 });
 
 
 
-router.get('/syllabResult.html',function(req,res){
- // console.log("polwa");
-var q = "SELECT * FROM syllabusModules";
+
+router.get('/labResult.html',function(req,res){
+var q = "SELECT * FROM planLab";
   connection.query(q, function(err,rows){
       if(!!err){
-	  console.log('Error in the read query');
+	  console.log('Error in the lab read query');
        }else{
-	  console.log('Successful read query');
+	  console.log('Successful lab read query');
         }
 
-    res.render('syllabData',{obj:rows});
+    res.render('labData',{obj:rows});
   });
 });
+
+
+
+
+
+app.post('/virtualPage5',function(req,res){
+  console.log(req.body);
+  var query = "INSERT INTO assignment(question,subDate,givenDate) VALUES(";
+ query+= " '"+req.body.question+"',";
+ query+= " '"+req.body.givenDate+"',";
+ query+= " '"+req.body.subDate+"')";
+
+ connection.query(query, function(err,rows,fields){
+    if(!!err){
+	console.log('Error in the assignm insert query');
+     }else{
+	console.log('Successful assignm insert query');
+      }
+});
+
+  res.redirect('/ass.html');	//using POST REDIRECT GET
+
+});
+
+
+
+
+router.get('/assResult.html',function(req,res){
+var q = "SELECT * FROM assignment";
+  connection.query(q, function(err,rows){
+      if(!!err){
+	  console.log('Error in the assignm read query');
+       }else{
+	  console.log('Successful assignm read query');
+        }
+
+    res.render('assData',{obj:rows});
+  });
+});
+
+
+
+
+
+
+
+app.post('/virtualPage6',function(req,res){
+  console.log(req.body);
+  var query = "INSERT INTO miniProject(date,activity) VALUES(";
+ query+= " '"+req.body.mpDate+"',";
+ query+= " '"+req.body.activity+"')";
+
+ connection.query(query, function(err,rows,fields){
+    if(!!err){
+	console.log('Error in the mp insert query');
+     }else{
+	console.log('Successful mp insert query');
+      }
+});
+
+  res.redirect('/mp.html');	//using POST REDIRECT GET
+
+});
+
+
+
+
+router.get('/mpResult.html',function(req,res){
+var q = "SELECT * FROM miniProject";
+  connection.query(q, function(err,rows){
+      if(!!err){
+	  console.log('Error in the mp read query');
+       }else{
+	  console.log('Successful mp read query');
+        }
+
+    res.render('mpData',{obj:rows});
+  });
+});
+
+
+
 
 
 

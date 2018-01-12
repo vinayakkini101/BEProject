@@ -1,61 +1,3 @@
-<!--<?php
-header('courseObjective.php',true,303);
-include("headerAndSide.php");
-
-?>
-
-<?php
-
-
-
-//echo 'Before the isset';
-include '../db.php';
-
-	$db= new Db();
-	$conn= $db->connect();
-if(isset($_POST['submit'] ))
-{
-
-
-  
-  $obj= "sjnjsnsjx";
-  //echo 'before the stmt';
-  if($stmt= $conn-> prepare("INSERT INTO lecture(portion,example,pdate,adate,method) VALUES(?,?,?,?,?)"))
-  {
-    $stmt-> bind_param("sssss", $_POST['portion'],$_POST['example'],$_POST['pdate'],$_POST['adate'],$_POST['method']);
-    $res= $stmt->execute();
-    //echo "hhdhdhdhhd";
-
-
-
-  }
-
-  else
-  {
-    echo 'error ';
-  }
-  //$get_info = "?status=success"; 
-  //header("Location: " .$_SERVER['REQUEST_URI'].$get_info);
-
-}
-else
-{
-  //echo 'submit not clicked';
-
-}
-
-
-
-# Retrieveing data form database
-
-$stmt= $conn-> prepare('SELECT * FROM lecture');
-#$stmt = $subjects::$conn->prepare('SELECT * FROM subject');
- $stmt->execute();
-$subjectResult = $stmt->get_result();
-
-?>
-
--->
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +18,10 @@ $subjectResult = $stmt->get_result();
           <li class="breadcrumb-item">
             <a href="/">Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">My Dashboard</li>
+	  <li class="breadcrumb-item">
+            <a href="/plans.html">Plans</a>
+          </li>
+          <li class="breadcrumb-item active">Lecture Schedule</li>
         </ol>
 
 	<a name="viewTable"  id="viewTable" class="btn btn-success btn-lg pull-right" href="/lectureResult.html" ">View table</a>
