@@ -1,4 +1,4 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Contact form using Bootstrap 3.3.4</title>
@@ -14,43 +14,45 @@
 
       <div class="container-fluid">
 
-     Displaying Data from Database Objectives
+    <!--Displaying Data from Database Objectives-->
 
 
 <div >
-  <h2>Modules</h2>        
+  <h2>Lecture Schedule</h2>        
   <table class="table table-striped">
     <thead>
       <tr>
-	<th>Module No.</th>
-        <th>Module Name</th>
-        <th>Module Content</th>
-        <th>Hours</th>
+	<th>ID</th>
+	<th>Portion</th>
+        <th>Example</th>
+        <th>Planned Date</th>
+        <th>Actual Date</th>
+	<th>Delivery Method<th>
         
       </tr>
-    </thead> -->
+    </thead> 
     <tbody>
-    	<% rows.forEach(function(rows,index){%>
+    	<% obj.forEach(function(row,index){%>
       <tr>
-	<td><%= rows.moduleID %> </td>
-	 <td><%= rows.moduleName %> </td>
-        <td><%= rows.content %> </td>
-	<td><%= rows.hours %> </td>
-	
-        
+	<td><%= row.lecID %> </td>
+	<td><%= row.portion %> </td>
+        <td><%= row.eg %> </td>
+	<td><%= row.plannedDate %> </td>
+	<td><%= row.actualDate %> </td>
+        <td><%= row.delivery %> </td>
       </tr>
       <% }); %>
-    </tbody><!--
+    </tbody>
   </table>
 </div>
 
-<a name="viewTable"  id="viewTable" class="btn btn-success btn-lg pull-right" href="/syllabusModules.html" ">Go Back</a>
+<a name="viewTable"  id="viewTable" class="btn btn-success btn-lg pull-right" href="/lecture.html" ">Go Back</a>
 
 </div>
 </div>
 
 </body>
-</html>-->
+</html>
 
 
 

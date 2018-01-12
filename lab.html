@@ -1,0 +1,200 @@
+<!--<?php
+header('plan_lab.php',true,303);
+include("headerAndSide.php");
+
+?>
+
+
+<?php
+
+//echo 'Before the isset';
+include '../db.php';
+
+	$db= new Db();
+	$conn= $db->connect();
+
+if(isset($_POST['submit'] ))
+{
+
+
+	
+	$obj= "sjnjsnsjx";
+	//echo 'before the stmt';
+	if($stmt= $conn-> prepare("INSERT INTO planLab(Expt,DateA,DateB,DateC,DateD,Concept,Aim) VALUES(?,?,?,?,?,?,?)"))
+	{
+		$stmt-> bind_param("issssss", $_POST['exp'],$_POST['dateA'],$_POST['dateB'],$_POST['dateC'],$_POST['dateD'],$_POST['concept'],$_POST['aim']);
+		$res= $stmt->execute();
+		//echo "hhdhdhdhhd";
+
+
+
+	}
+
+	else
+	{
+		echo 'error ';
+	}
+	$get_info = "?status=success"; 
+	//header("Location: " .$_SERVER['REQUEST_URI'].$get_info);
+
+}
+else
+{
+	//echo 'submit not clicked';
+
+}
+
+
+
+# Retrieveing data form database
+
+$stmt= $conn-> prepare('SELECT * FROM planLab');
+#$stmt = $subjects::$conn->prepare('SELECT * FROM subject');
+            $stmt->execute();
+$subjectResult = $stmt->get_result();
+                    
+           /* while($row = mysqli_fetch_assoc($subjectResult))
+            {
+                echo "{$row['objectiveID']}"."("."{$row['objective']}".")";
+                echo "<br>";
+            }*/
+
+?>
+-->
+<!-- Email wala form  Jp onlinr uthaya tha -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact form using Bootstrap 3.3.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin.css">
+</head>
+<body style="background-color: #7e7e7e">
+	<div class="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">My Dashboard</li>
+        </ol>
+
+        <div class="col-sm-12 col-sm-offset-3">
+
+
+    <div class="well" style="margin-top: 5%;">
+    <h3>Plan</h3>
+    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="">
+       
+	<div class="form-group">
+	   <br>
+	   Expt No.
+	   <input type="text" class="form-control" name="exp" placeholder="Enter Exp No.">
+	</div>
+
+	<div class="form-group">
+	   <br>
+	   Date A
+	   <input type="date" class="form-control" name="dateA" placeholder="Enter Date A">
+	</div>
+
+	<div class="form-group">
+	   <br>
+	    Date B
+	   <input type="date" class="form-control" name="dateB" placeholder="Enter Date B">
+	</div>
+
+	<div class="form-group">
+	    <br>
+	   Date C
+	   <input type="date" class="form-control" name="dateC" placeholder="Enter Date C">
+	</div>
+
+	<div class="form-group">
+	    <br>
+	    Date D
+	   <input type="date" class="form-control" name="dateD" placeholder="Enter Date D">
+	</div>
+	
+        <div class="form-group">
+           <br>
+	    Concept
+            <textarea id="message123" class="form-control" rows="2" placeholder="Enter the Concept" name="concept" required ></textarea>
+            <div class="help-block with-errors"></div>
+        </div>
+
+	 <div class="form-group">
+           <br>
+	    Title/Aim
+            <textarea id="message456" class="form-control" rows="2" placeholder="Enter the Title/Aim" name="aim" required ></textarea>
+            <div class="help-block with-errors"></div>
+        </div>	
+
+
+	
+	
+        <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+        <div id="msgSubmit" class="h3 text-center hidden"></div>
+        <div class="clearfix"></div>
+    </form>
+    </div>
+
+
+
+
+    <!-- Displaying Data from Database Objectives-->
+
+
+<div >
+  <h2>Practical/Lab Plan</h2>    
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Expt No.</th>
+        <th>Date A</th>
+        <th>Date B</th>
+        <th>Date C</th>
+	<th>Date D</th>
+        <th>Concept</th>
+	<th>Title/Aim</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    	<?php foreach ($subjectResult as $value) {
+    	?>
+
+      <tr>
+        <td><?php echo "{$value['Expt']}";     ?> </td>
+        <td><?php echo "{$value['DateA']}"; ?></td>
+	<td><?php echo "{$value['DateB']}"; ?></td>
+	<td><?php echo "{$value['DateC']}"; ?></td>
+	<td><?php echo "{$value['DateD']}"; ?></td>
+	<td><?php echo "{$value['Concept']}"; ?></td>
+	<td><?php echo "{$value['Aim']}"; }?></td>
+        
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+
+</body>
+</html>
+
+
+<?php 
+
+
+#$db->closedb(); 
+
+?>
+

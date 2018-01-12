@@ -43,6 +43,25 @@ router.get('/syllabus.html',function(req,res){
   res.sendFile(path+'/syllabus.html');
 });
 
+router.get('/plans.html',function(req,res){
+  res.sendFile(path+'/plans.html');
+});
+
+router.get('/lecture.html',function(req,res){
+  res.sendFile(path+'/lecture.html');
+});
+
+router.get('/lab.html',function(req,res){
+  res.sendFile(path+'/lab.html');
+});
+
+router.get('/assignment.html',function(req,res){
+  res.sendFile(path+'/assignment.html');
+});
+
+router.get('/mp.html',function(req,res){
+  res.sendFile(path+'/mp.html');
+});
 
 router.get('/syllabusScheme.html',function(req,res){
   res.sendFile(path+'/syllabusScheme.html');
@@ -73,7 +92,7 @@ app.post('/virtualPage',function(req,res){
 
 
 router.get('/schemeResult.html',function(req,res){
-  console.log("polwa");
+  //console.log("polwa");
 var q = "SELECT * FROM syllabusScheme";
   connection.query(q, function(err,rows){
       if(!!err){
@@ -118,6 +137,47 @@ app.post('/virtualPage2',function(req,res){
 
 
 
+app.post('/virtualPage3',function(req,res){
+  console.log(req.body);
+  var query = "INSERT INTO lectureSchedule(portion,eg,plannedDate,actualDate,delivery) VALUES(";
+ query+= " '"+req.body.portion+"',";
+ query+= " '"+req.body.example+"',";
+ query+= " '"+req.body.pdate+"',";
+ query+= " '"+req.body.adate+"',";
+ query+= " '"+req.body.delivery+"')";
+
+ connection.query(query, function(err,rows,fields){
+    if(!!err){
+	console.log('Error in the lecture insert query');
+     }else{
+	console.log('Successful lecture insert query');
+      }
+});
+
+  res.redirect('/lecture.html');	//using POST REDIRECT GET
+
+});
+
+
+
+
+router.get('/lectureResult.html',function(req,res){
+var q = "SELECT * FROM lectureSchedule";
+  connection.query(q, function(err,rows){
+      if(!!err){
+	  console.log('Error in the read query');
+       }else{
+	  console.log('Successful read query');
+        }
+
+    res.render('lecData',{obj:rows});
+  });
+});
+
+
+
+
+
 router.get('/syllabusModules.html',function(req,res){
   res.sendFile(path+'/syllabusModules.html');
   var q = "SELECT * FROM syllabusModules";
@@ -134,7 +194,7 @@ router.get('/syllabusModules.html',function(req,res){
 
 
 router.get('/syllabResult.html',function(req,res){
-  console.log("polwa");
+ // console.log("polwa");
 var q = "SELECT * FROM syllabusModules";
   connection.query(q, function(err,rows){
       if(!!err){
