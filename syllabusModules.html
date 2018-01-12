@@ -19,17 +19,19 @@
         <!-- Breadcrumbs -->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
+            <a href="/">Dashboard</a>
           </li>
           <li class="breadcrumb-item active">My Dashboard</li>
         </ol>
 
         <div class="col-sm-12 col-sm-offset-3">
 
+     <a name="viewTable"  id="viewTable" class="btn btn-success btn-lg pull-right" href="/syllabResult.html" ">View table</a>
+
 
     <div class="well" style="margin-top: 5%;">
     <h3>Scheme</h3>
-    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/syllabusModules.html">
+    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/virtualPage">
        
 
 	<div class="form-group">
@@ -69,7 +71,7 @@
 
 
 
-    <!-- Displaying Data from Database Objectives-->
+    <!-- Displaying Data from Database Objectives
 
 
 <div >
@@ -85,19 +87,19 @@
       </tr>
     </thead>
     <tbody>
-    	<?php foreach ($subjectResult as $value) {
-    	?>
-
+    	<% rows.forEach(function(rows,index){%>
       <tr>
-	<td><?php echo "{$value['moduleID']}";   ?> </td>
-	 <td><?php echo "{$value['moduleName']}"; ?></td>
-        <td><?php echo "{$value['content']}";   ?> </td>
-	<td><?php echo "{$value['hours']}"; }?></td>
+	<td><%= rows.moduleID %> </td>
+	 <td><%= rows.moduleName %> </td>
+        <td><%= rows.content %> </td>
+	<td><%= rows.hours %> </td>
 	
         
       </tr>
       
-    </tbody>
+    </tbody>-->
+
+      
   </table>
 </div>
 
