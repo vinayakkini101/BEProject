@@ -31,51 +31,32 @@ connection.connect(function(error){
 
 
 
+app.listen(7000,function(){
+  console.log('Server running at Port 7000');
+});
+
+
 router.get('/',function(req,res){
-  res.sendFile(path+'/index.html');
+  res.render('index');
 });
 
-router.get('/login.html',function(req,res){
-  res.sendFile(path+'/login.html');
+router.get('/syllabus',function(req,res){
+  res.render('syllabus');
 });
 
-router.get('/syllabus.html',function(req,res){
-  res.sendFile(path+'/syllabus.html');
-});
-
-router.get('/plans.html',function(req,res){
-  res.sendFile(path+'/plans.html');
-});
-
-router.get('/lecture.html',function(req,res){
-  res.sendFile(path+'/lecture.html');
-});
-
-router.get('/lab.html',function(req,res){
-  res.sendFile(path+'/lab.html');
-});
-
-router.get('/assignment.html',function(req,res){
-  res.sendFile(path+'/assignment.html');
-});
-
-router.get('/mp.html',function(req,res){
-  res.sendFile(path+'/mp.html');
-});
-
-router.get('/syllabusScheme.html',function(req,res){
-  res.sendFile(path+'/syllabusScheme.html');
+router.get('/plans',function(req,res){
+  res.render('plans');
 });
 
 
-router.get('/ass.html',function(req,res){
-  res.sendFile(path+'/ass.html');
-});
+
+
+
+
+// Syllabus Modules---------------------------------------------------
 
 app.post('/virtualPage',function(req,res){
   console.log(req.body);
-  //res.sendFile(path+'/syllabusModules.html');
-  //res.write('id is "'+req.body.modulename+'".\n');
   var query = "INSERT INTO syllabusModules(moduleID,moduleName,hours,content) VALUES(";
  query+= " '"+req.body.moduleID+"',";
  query+= " '"+req.body.modulename+"',";
@@ -89,45 +70,29 @@ app.post('/virtualPage',function(req,res){
 	console.log('Successful insert query');
       }
 });
-
-  res.redirect('/syllabusModules.html');	//using POST REDIRECT GET
+  res.redirect('/syllabusModules');	//using POST REDIRECT GET
 
 });
 
 
-
-router.get('/syllabusModules.html',function(req,res){
-  res.sendFile(path+'/syllabusModules.html');
+router.get('/syllabusModules',function(req,res){
   var q = "SELECT * FROM syllabusModules";
-  connection.query(q, function(err,rows,fields){
-      if(!!err){
-	  console.log('Error in the read query');
-       }else{
-	  console.log('Successful read query');
-        }
-  //console.log(rows[0].moduleName);
-  });
-});
-
-
-
-
-router.get('/syllabResult.html',function(req,res){
- // console.log("polwa");
-var q = "SELECT * FROM syllabusModules";
   connection.query(q, function(err,rows){
       if(!!err){
 	  console.log('Error in the read query');
        }else{
 	  console.log('Successful read query');
         }
-
-    res.render('syllabData',{obj:rows});
+      res.render('moduleData',{obj:rows});
   });
 });
 
 
 
+
+
+
+// Syllabus Examination Scheme-----------------------------------------------
 
 app.post('/virtualPage2',function(req,res){
   console.log(req.body);
@@ -151,16 +116,13 @@ app.post('/virtualPage2',function(req,res){
       }
 });
 
-  res.redirect('/syllabusScheme.html');	//using POST REDIRECT GET
+  res.redirect('/syllabusScheme');	//using POST REDIRECT GET
 
 });
 
 
 
-
-
-router.get('/schemeResult.html',function(req,res){
-  //console.log("polwa");
+router.get('/syllabusScheme',function(req,res){
 var q = "SELECT * FROM syllabusScheme";
   connection.query(q, function(err,rows){
       if(!!err){
@@ -177,6 +139,7 @@ var q = "SELECT * FROM syllabusScheme";
 
 
 
+// Lecture Schedule--------------------------------------------------------
 
 app.post('/virtualPage3',function(req,res){
   console.log(req.body);
@@ -195,14 +158,14 @@ app.post('/virtualPage3',function(req,res){
       }
 });
 
-  res.redirect('/lecture.html');	//using POST REDIRECT GET
+  res.redirect('/lecture');	//using POST REDIRECT GET
 
 });
 
 
 
 
-router.get('/lectureResult.html',function(req,res){
+router.get('/lecture',function(req,res){
 var q = "SELECT * FROM lectureSchedule";
   connection.query(q, function(err,rows){
       if(!!err){
@@ -217,8 +180,7 @@ var q = "SELECT * FROM lectureSchedule";
 
 
 
-
-
+// Lab ---------------------------------------------------------------
 
 app.post('/virtualPage4',function(req,res){
   console.log(req.body);
@@ -239,14 +201,13 @@ app.post('/virtualPage4',function(req,res){
       }
 });
 
-  res.redirect('/lab.html');	//using POST REDIRECT GET
+  res.redirect('/lab');	//using POST REDIRECT GET
 
 });
 
 
 
-
-router.get('/labResult.html',function(req,res){
+router.get('/lab',function(req,res){
 var q = "SELECT * FROM planLab";
   connection.query(q, function(err,rows){
       if(!!err){
@@ -262,6 +223,7 @@ var q = "SELECT * FROM planLab";
 
 
 
+// Assignments---------------------------------------------------------------
 
 app.post('/virtualPage5',function(req,res){
   console.log(req.body);
@@ -278,14 +240,12 @@ app.post('/virtualPage5',function(req,res){
       }
 });
 
-  res.redirect('/ass.html');	//using POST REDIRECT GET
+  res.redirect('/ass');	//using POST REDIRECT GET
 
 });
 
 
-
-
-router.get('/assResult.html',function(req,res){
+router.get('/ass',function(req,res){
 var q = "SELECT * FROM assignment";
   connection.query(q, function(err,rows){
       if(!!err){
@@ -301,8 +261,7 @@ var q = "SELECT * FROM assignment";
 
 
 
-
-
+// Mini Project---------------------------------------------------------------
 
 app.post('/virtualPage6',function(req,res){
   console.log(req.body);
@@ -318,15 +277,15 @@ app.post('/virtualPage6',function(req,res){
       }
 });
 
-  res.redirect('/mp.html');	//using POST REDIRECT GET
+  res.redirect('/mp');	//using POST REDIRECT GET
 
 });
 
 
 
-
-router.get('/mpResult.html',function(req,res){
-var q = "SELECT * FROM miniProject";
+router.get('/mp',function(req,res){
+  //res.sendFile(path+'/mp.html');
+	var q = "SELECT * FROM miniProject";
   connection.query(q, function(err,rows){
       if(!!err){
 	  console.log('Error in the mp read query');
@@ -337,25 +296,6 @@ var q = "SELECT * FROM miniProject";
     res.render('mpData',{obj:rows});
   });
 });
-
-
-
-
-
-
-app.listen(3000,function(){
-  console.log('Server running at Port 3000');
-});
-
-
-
-
-
-
-
-
-
-
 
 
 
