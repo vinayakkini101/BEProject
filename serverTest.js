@@ -312,7 +312,7 @@ if(req.body.method == "test1")
 	attainlevel = 1;
  else if(attainper>60 && attainper<=70)
 	attainlevel = 2;
- else
+ else if(attainper>70)
 	attainlevel = 3;
 
 if(req.body.method == "lab19" || req.body.method == "oral")
@@ -331,6 +331,8 @@ if(req.body.method == "theory")
  else
 	attainlevel = 3;
 
+
+
   var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
  query+= " '"+req.body.method+"',";
  query+= " '"+req.body.weightage+"',";
@@ -343,6 +345,8 @@ if(req.body.method == "theory")
 
 
 
+
+
  connection.query(query, function(err,rows,fields){
     if(!!err){
   console.log('Error in the coattain insert query');
@@ -350,6 +354,9 @@ if(req.body.method == "theory")
   console.log('Successful coattain insert query');
       }
 });
+
+
+
 
   res.redirect('/coattain');  //using POST REDIRECT GET
 
@@ -367,8 +374,34 @@ router.get('/coattain',function(req,res){
     console.log('Successful coattain read query');
         }
 
+
+
+        console.log('before the  quewsry');
+  var directattain = 0;
+  var q = "SELECT method,attainlevel FROM coattain";
+
+
+connection.query(q, function(err,rowstwo){
+      if(!!err){
+    console.log('Error in the coattain read query');
+       }else{
+    console.log('Successful coattain read query');
+        }
+    
+  console.log('after the  quewsry');
+        rows.forEach(function(rowtwo,index)
+        {
+        	directattain = directattain + rowtwo.weightage * rowtwo.attainlevel;
+        });
+
+        console.log('after the  foreach');
+       console.log(directattain);
+
     res.render('coattain',{obj:rows});
   });
 });
 
 
+
+
+});
