@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> cfb8c1dff63856b70ffc95f46a5c745f29e13cff
 var express = require('express');
 var app = express();
 var router = express.Router();
@@ -7,7 +10,12 @@ app.use('/',router);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname+'/public'));
 
+<<<<<<< HEAD
 var bodyParser = require('body-parser');
+=======
+
+var bodyParser = require('body-parser')
+>>>>>>> cfb8c1dff63856b70ffc95f46a5c745f29e13cff
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var mysql = require('mysql');
@@ -49,7 +57,9 @@ router.get('/plans',function(req,res){
   res.render('plans');
 });
 
-
+// router.get('/coattain',function(req,res){
+//   res.render('coattain');
+// });
 
 
 
@@ -300,7 +310,109 @@ router.get('/mp',function(req,res){
 
 
 
+// CO Attainment---------------------------------------------------------------
+
+app.post('/virtualPage7',function(req,res){
+  console.log(req.body);
+
+var attainper = (req.body.numstu / 77) * 100 ;
+console.log(req.body.method);
+var attainlevel;
+if(req.body.method == "test1")
+ if(attainper>=50 && attainper<=60)
+	attainlevel = 1;
+ else if(attainper>60 && attainper<=70)
+	attainlevel = 2;
+ else if(attainper>70)
+	attainlevel = 3;
+
+if(req.body.method == "lab19" || req.body.method == "oral")
+ if(attainper>=70 && attainper<=80)
+	attainlevel = 1;
+ else if(attainper>80 && attainper<=90)
+	attainlevel = 2;
+ else
+	attainlevel = 3;
+
+if(req.body.method == "theory")
+ if(attainper>=60 && attainper<=70)
+	attainlevel = 1;
+ else if(attainper>70 && attainper<=85)
+	attainlevel = 2;
+ else
+	attainlevel = 3;
+
+
+
+  var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
+ query+= " '"+req.body.method+"',";
+ query+= " '"+req.body.weightage+"',";
+ query+= " '"+req.body.totalmarks+"',";
+ query+= " '"+req.body.minmarks+"',";
+ query+= " '"+req.body.numstu+"',";
+ query+= " '"+attainper+"',";
+ query+= " '"+attainlevel+"')";
+  //var a = req.body.weightage * req.body.totalmarks;
 
 
 
 
+
+ connection.query(query, function(err,rows,fields){
+    if(!!err){
+  console.log('Error in the coattain insert query');
+     }else{
+  console.log('Successful coattain insert query');
+      }
+});
+
+
+
+
+  res.redirect('/coattain');  //using POST REDIRECT GET
+
+});
+
+
+
+router.get('/coattain',function(req,res){
+  //res.sendFile(path+'/mp.html');
+  var q = "SELECT * FROM coattain";
+  connection.query(q, function(err,rows){
+      if(!!err){
+    console.log('Error in the coattain read query');
+       }else{
+    console.log('Successful coattain read query');
+        }
+
+
+
+        console.log('before the  quewsry');
+  var directattain = 0;
+  var q = "SELECT method,attainlevel FROM coattain";
+
+
+connection.query(q, function(err,rowstwo){
+      if(!!err){
+    console.log('Error in the coattain read query');
+       }else{
+    console.log('Successful coattain read query');
+        }
+    
+  console.log('after the  quewsry');
+        rows.forEach(function(rowtwo,index)
+        {
+        	directattain = directattain + rowtwo.weightage * rowtwo.attainlevel;
+        });
+
+        console.log('after the  foreach');
+       console.log(directattain);
+
+    res.render('coattain',{obj:rows});
+  });
+});
+
+
+
+
+});
