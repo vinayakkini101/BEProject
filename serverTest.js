@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> cfb8c1dff63856b70ffc95f46a5c745f29e13cff
 var express = require('express');
 var app = express();
 var router = express.Router();
@@ -10,18 +7,13 @@ app.use('/',router);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname+'/public'));
 
-<<<<<<< HEAD
-var bodyParser = require('body-parser');
-=======
 
-var bodyParser = require('body-parser')
->>>>>>> cfb8c1dff63856b70ffc95f46a5c745f29e13cff
+var bodyParser = require('body-parser');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 var mysql = require('mysql');
-
-
-
 var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
