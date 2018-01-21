@@ -60,7 +60,8 @@ router.get('/plans',function(req,res){
 
 app.post('/virtualPage',function(req,res){
   console.log(req.body);
-  var query = "INSERT INTO syllabusModules(moduleID,moduleName,hours,content) VALUES(";
+  var query = "INSERT INTO syllabusModules(courseID,moduleID,moduleName,hours,content) VALUES(";
+ query+= " '"+req.body.courseID+"',";
  query+= " '"+req.body.moduleID+"',";
  query+= " '"+req.body.modulename+"',";
  query+= " '"+req.body.hours+"',";
@@ -358,9 +359,6 @@ if(req.body.method == "theory")
       }
 });
 
-
-
-
   res.redirect('/coattain');  //using POST REDIRECT GET
 
 });
@@ -379,7 +377,7 @@ router.get('/coattain',function(req,res){
 
 
 
-        console.log('before the  quewsry');
+   console.log('before the  quewsry');
   var directattain = 0;
   var q = "SELECT method,attainlevel FROM coattain";
 
