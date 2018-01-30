@@ -36,14 +36,14 @@
 
 	<div class="form-group">
 	   <br>
-	   Course ID
-	   <input type="text" class="form-control" name="courseID" placeholder="Course ID">
+	   Module ID
+	   <input type="text" class="form-control" name="moduleID" placeholder="Module No.">
 	</div>	
 
 	<div class="form-group">
 	   <br>
-	   Module ID
-	   <input type="text" class="form-control" name="moduleID" placeholder="Module No.">
+	   Course ID
+	   <input type="text" class="form-control" name="courseID" placeholder="Course ID">
 	</div>	
 	
 	<div class="form-group">
@@ -84,8 +84,8 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-	<th>Course ID</th>
 	<th>Module No.</th>
+	<th>Course ID</th>
         <th>Module Name</th>
         <th>Module Content</th>
         <th>Hours</th>
@@ -95,8 +95,8 @@
     <tbody>
     	<% obj.forEach(function(row,index){%>
       <tr>
-	<td><%= row.courseID %> </td>
 	<td><%= row.moduleID %> </td>
+	<td><%= row.courseID %> </td>
 	 <td><%= row.moduleName %> </td>
         <td><%= row.content %> </td>
 	<td><%= row.hours %> </td>

@@ -9,26 +9,35 @@ app.use(express.static(__dirname+'/public'));
 
 
 var bodyParser = require('body-parser');
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password:'',
-	database:'BEProject'
-});
 
-connection.connect(function(error){
-	if(!!error){
-		console.log('Error');
-	}else{
-		console.log('Connected');
-	}
-});
 
+var MongoClient = require('mongodb').MongoClient;
+
+// Connection URL
+var url = 'mongodb://localhost:27017';
+
+var dbo;
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  dbo = db.db("BEProject");
+  console.log("Connected to BEProject");
+}); 
+
+
+
+
+
+/*
+var mongoUtil = require( 'mongoUtil.js' );
+
+mongoUtil.connectToServer( function( err ) {
+  // start the rest of your app here
+   console.log("Connected to server");
+} );
+*/
 
 
 
@@ -60,9 +69,9 @@ router.get('/plans',function(req,res){
 
 app.post('/virtualPage',function(req,res){
   console.log(req.body);
-  var query = "INSERT INTO syllabusModules(courseID,moduleID,moduleName,hours,content) VALUES(";
- query+= " '"+req.body.courseID+"',";
+  var query = "INSERT INTO syllabusModules(moduleID,courseID,moduleName,hours,content) VALUES(";
  query+= " '"+req.body.moduleID+"',";
+ query+= " '"+req.body.courseID+"',";
  query+= " '"+req.body.modulename+"',";
  query+= " '"+req.body.hours+"',";
  query+= " '"+req.body.content+"')";
@@ -269,37 +278,29 @@ var q = "SELECT * FROM assignment";
 
 app.post('/virtualPage6',function(req,res){
   console.log(req.body);
-  var query = "INSERT INTO miniProject(date,activity) VALUES(";
- query+= " '"+req.body.mpDate+"',";
- query+= " '"+req.body.activity+"')";
 
- connection.query(query, function(err,rows,fields){
-    if(!!err){
-	console.log('Error in the mp insert query');
-     }else{
-	console.log('Successful mp insert query');
-      }
-});
-
+   var myobj={};
+   myobj['mpDate'] = req.body.mpDate;
+   myobj['activity'] = req.body.activity;
+   dbo.collection("MiniProject").insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 MP document inserted");
+   });
+ 
   res.redirect('/mp');	//using POST REDIRECT GET
 
 });
 
 
-
 router.get('/mp',function(req,res){
-  //res.sendFile(path+'/mp.html');
-	var q = "SELECT * FROM miniProject";
-  connection.query(q, function(err,rows){
-      if(!!err){
-	  console.log('Error in the mp read query');
-       }else{
-	  console.log('Successful mp read query');
-        }
 
-    res.render('mpData',{obj:rows});
-  });
+    dbo.collection('MiniProject').find().toArray(function(err , rows){
+	if (err) return console.log(err)
+	res.render('mpData', {obj:rows});
+    });
 });
+
+
 
 
 

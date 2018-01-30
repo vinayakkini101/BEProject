@@ -72,15 +72,16 @@
       </tr>
     </thead> 
     <tbody>
-    	<% obj.forEach(function(row,index){%>
+    	<% obj.forEach(function(rows,index){%>
       <tr>
-	<td><%= row.date %> </td>
-	<td><%= row.activity %> </td>
+	<td><%= rows.mpDate %> </td>
+	<td><%= rows.activity %> </td>
       </tr>
       <% }); %>
     </tbody>
   </table>
 </div>
+
 
 </div>
 </div>
