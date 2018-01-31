@@ -135,16 +135,16 @@
     	<% obj.forEach(function(row,index){%>
 
       <tr>
-        <td> <%= row.subjectCode %>     </td>
+        <td> <%= row.courseID %>     </td>
         <td> <%= row.courseName %>	</td>
-	<td> <%= row.IATest1 %>         </td>
-	<td> <%= row.IATest2 %> 	</td>
-	<td> <%= row.IATestAvg %>	</td>
-	<td> <%= row.endSem %>		</td>
-	<td> <%= row.examDuration %>	</td>
-	<td> <%= row.TW %>		</td>
-	<td> <%= row.oral %>		</td>
-	<td> <%= row.total %>		</td>
+      	<td> <%= row.iatest1 %>         </td>
+      	<td> <%= row.iatest2 %> 	</td>
+      	<td> <%= row.iatestavg %>	</td>
+      	<td> <%= row.endsem %>		</td>
+      	<td> <%= row.duration %>	</td>
+      	<td> <%= row.tw %>		</td>
+      	<td> <%= row.or %>		</td>
+      	<td> <%= row.total %>		</td>
         
       </tr>
       <% }); %>
