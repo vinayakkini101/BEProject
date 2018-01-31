@@ -30,16 +30,6 @@ MongoClient.connect(url, function(err, db) {
 
 
 
-/*
-var mongoUtil = require( 'mongoUtil.js' );
-
-mongoUtil.connectToServer( function( err ) {
-  // start the rest of your app here
-   console.log("Connected to server");
-} );
-*/
-
-
 
 app.listen(7000,function(){
   console.log('Server running at Port 7000');
@@ -58,9 +48,9 @@ router.get('/plans',function(req,res){
   res.render('plans');
 });
 
-// router.get('/coattain',function(req,res){
-//   res.render('coattain');
-// });
+router.get('/course',function(req,res){
+  res.render('course');
+});
 
 
 
@@ -69,35 +59,27 @@ router.get('/plans',function(req,res){
 
 app.post('/virtualPage',function(req,res){
   console.log(req.body);
-  var query = "INSERT INTO syllabusModules(moduleID,courseID,moduleName,hours,content) VALUES(";
- query+= " '"+req.body.moduleID+"',";
- query+= " '"+req.body.courseID+"',";
- query+= " '"+req.body.modulename+"',";
- query+= " '"+req.body.hours+"',";
- query+= " '"+req.body.content+"')";
-
- connection.query(query, function(err,rows,fields){
-    if(!!err){
-	console.log('Error in the insert query');
-     }else{
-	console.log('Successful insert query');
-      }
-});
-  res.redirect('/syllabusModules');	//using POST REDIRECT GET
+  var myobj={};
+   myobj['courseID'] = req.body.courseID;
+   myobj['moduleName'] = req.body.moduleName;
+   myobj['hours'] = req.body.hours;
+   myobj['content'] = req.body.content;
+   dbo.collection("SyllabusModules").insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 modules doc inserted");
+   });
+ 
+  res.redirect('/syllabusModules');  //using POST REDIRECT GET
 
 });
 
 
 router.get('/syllabusModules',function(req,res){
-  var q = "SELECT * FROM syllabusModules";
-  connection.query(q, function(err,rows){
-      if(!!err){
-	  console.log('Error in the read query');
-       }else{
-	  console.log('Successful read query');
-        }
-      res.render('moduleData',{obj:rows});
-  });
+  dbo.collection('SyllabusModules').find().toArray(function(err , rows){
+    if (err) return console.log(err)
+    res.render('moduleData', {obj:rows});
+          console.log("Module doc read");
+    });
 });
 
 
@@ -109,43 +91,35 @@ router.get('/syllabusModules',function(req,res){
 
 app.post('/virtualPage2',function(req,res){
   console.log(req.body);
-  var query = "INSERT INTO syllabusScheme(subjectCode,courseName,IATest1,IATest2,IATestAvg,endSem,examDuration,TW,oral,total) VALUES(";
- query+= " '"+req.body.subjectCode+"',";
- query+= " '"+req.body.courseName+"',";
- query+= " '"+req.body.iatest1+"',";
- query+= " '"+req.body.iatest2+"',";
- query+= " '"+req.body.iatestavg+"',";
- query+= " '"+req.body.endsem+"',";
- query+= " '"+req.body.duration+"',";
- query+= " '"+req.body.tw+"',";
- query+= " '"+req.body.or+"',";
- query+= " '"+req.body.total+"')";
 
- connection.query(query, function(err,rows,fields){
-    if(!!err){
-	console.log('Error in the scheme insert query');
-     }else{
-	console.log('Successful scheme insert query');
-      }
-});
-
-  res.redirect('/syllabusScheme');	//using POST REDIRECT GET
+  var myobj={};
+   myobj['courseID'] = req.body.courseID;
+   myobj['courseName'] = req.body.courseName;
+   myobj['iatest1'] = req.body.iatest1;
+   myobj['iatest2'] = req.body.iatest2;
+   myobj['iatestavg'] = req.body.iatestavg;
+   myobj['endsem'] = req.body.endsem;
+   myobj['duration'] = req.body.duration;
+   myobj['tw'] = req.body.tw;
+   myobj['or'] = req.body.or;
+   myobj['total'] = req.body.total;
+   dbo.collection('SyllabusScheme').insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 scheme doc inserted");
+   });
+ 
+  res.redirect('/syllabusScheme');  //using POST REDIRECT GET
 
 });
 
 
 
 router.get('/syllabusScheme',function(req,res){
-var q = "SELECT * FROM syllabusScheme";
-  connection.query(q, function(err,rows){
-      if(!!err){
-	  console.log('Error in the read query');
-       }else{
-	  console.log('Successful read query');
-        }
-
-    res.render('schemeData',{obj:rows});
-  });
+  dbo.collection('SyllabusScheme').find().toArray(function(err , rows){
+  if (err) return console.log(err)
+  res.render('schemeData', {obj:rows});
+        console.log("Scheme doc read");
+    });
 });
 
 
@@ -259,16 +233,11 @@ app.post('/virtualPage5',function(req,res){
 
 
 router.get('/ass',function(req,res){
-var q = "SELECT * FROM assignment";
-  connection.query(q, function(err,rows){
-      if(!!err){
-	  console.log('Error in the assignm read query');
-       }else{
-	  console.log('Successful assignm read query');
-        }
-
-    res.render('assData',{obj:rows});
-  });
+    dbo.collection('Assignments').find().toArray(function(err , rows){
+	if (err) return console.log(err)
+	res.render('assData', {obj:rows});
+        console.log("Ass doc read");
+    });
 });
 
 
@@ -284,7 +253,7 @@ app.post('/virtualPage6',function(req,res){
    myobj['activity'] = req.body.activity;
    dbo.collection("MiniProject").insertOne(myobj, function(err, res) {
       if (err) throw err;
-      console.log("1 MP document inserted");
+      console.log("1 MP doc inserted");
    });
  
   res.redirect('/mp');	//using POST REDIRECT GET
@@ -296,7 +265,9 @@ router.get('/mp',function(req,res){
 
     dbo.collection('MiniProject').find().toArray(function(err , rows){
 	if (err) return console.log(err)
+    // console.log(rows[0].mpDate);
 	res.render('mpData', {obj:rows});
+        console.log("MP doc read");
     });
 });
 
@@ -308,7 +279,7 @@ router.get('/mp',function(req,res){
 
 app.post('/virtualPage7',function(req,res){
   console.log(req.body);
-
+/*
 var attainper = (req.body.numstu / 77) * 100 ;
 console.log(req.body.method);
 var attainlevel;
@@ -337,7 +308,6 @@ if(req.body.method == "theory")
 	attainlevel = 3;
 
 
-
   var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
  query+= " '"+req.body.method+"',";
  query+= " '"+req.body.weightage+"',";
@@ -347,63 +317,211 @@ if(req.body.method == "theory")
  query+= " '"+attainper+"',";
  query+= " '"+attainlevel+"')";
   //var a = req.body.weightage * req.body.totalmarks;
+*/
+
+  var myobj={};
+   myobj['courseName'] = req.body.courseName;
+   myobj['coID'] = req.body.coID;
+   myobj['text'] = req.body.text;
+
+  // var found = 0;
+  // if(dbo.collection('CourseOutcome').find({coID:myobj['coID']}).count(function(err, count) {
+        
+  //         if(count > 0)
+  //         {
+  //             console.log("Found"+myobj['coID']);
+              // dbo.collection('CourseOutcome').updateOne(
+              //   { coID:myobj['coID'] },
+              //   { 
+              //     $set: { 
+              //               courseName : req.body.courseName,
+              //               coID : req.body.coID,
+              //               text : req.body.text,
+              //               "tool.toolName" : req.body.toolName,
+              //               "tool.targetMark" : req.body.targetMark,
+              //               "tool.targetStud" : req.body.targetStud,
+              //               "tool.weightage" : req.body.weightage,
+              //               "tool.minMark" : req.body.minMark,
+              //               "tool.numStud" : req.body.numStud,
+              //               "tool.totalStud" : req.body.totalStud,
+              //               "tool.low" : req.body.low,
+              //               "tool.mod" : req.body.mod,
+              //               "tool.high" : req.body.high
+              //           } 
+              //   },
+              //   { upsert : true}
+              // );
+          // }
+          // else
+          // {
+
+               // var tool=[];
+               var tempTool={};
+               // tool1['toolName'] = req.body.tool;
+               // tool1['targetMark'] = parseFloat(req.body.targetMark);
+               // tool1['targetStud'] = parseFloat(req.body.targetStud);
+               tempTool['weightage'] = parseFloat(req.body.weightage);
+               // tool1['minMark'] = parseFloat(req.body.minMark);
+               tempTool['numStud'] = parseFloat(req.body.numStud);
+               tempTool['totalStud'] = parseFloat(req.body.totalStud);
+               tempTool['low'] = parseFloat(req.body.low);
+               tempTool['mod'] = parseFloat(req.body.mod);
+               tempTool['high'] = parseFloat(req.body.high);
+               tempTool['indirectAttain'] = parseFloat(req.body.indirectAttain);
+               // tool.push(tool1);
+               // myobj.tool = tool;
+
+
+              //console.log(tool['targetMark']+tool['targetStud']);
+               tempTool['attainPercent'] = tempTool['numStud'] / tempTool['totalStud'] * 100;
+               if(tempTool['attainPercent'] >= tempTool['low'] && tempTool['attainPercent'] < tempTool['mod'])
+                  tempTool['attainLevel'] = 1;
+               else if(tempTool['attainPercent'] >= tempTool['mod'] && tempTool['attainPercent'] < tempTool['high'])
+                  tempTool['attainLevel'] = 2;
+               else 
+                  tempTool['attainLevel'] = 3;
+
+                dbo.collection('CourseOutcome').find({"coID" : req.body.coID}).toArray(function(err , rows){
+                      if (err) return console.log(err)
+                      // console.log(rows.length);
+                      if(rows.length == 0)
+                          tempTool['directAttain'] = 0;
+                      else
+                          tempTool['directAttain'] = parseFloat(rows[0].directAttain);
+                      // console.log(tempTool['directAttain']);
+                      tempTool['directAttain'] = tempTool['directAttain'] + ( tempTool['weightage'] * tempTool['attainLevel'] );  
+                      // console.log(tempTool['directAttain']);
+                      tempTool['overallAttain'] = (0.8 * tempTool['directAttain']) + (0.2 * tempTool['indirectAttain']);
+
+                      dbo.collection('CourseOutcome').updateOne(
+                      { coID:myobj['coID'] },
+                      {
+                          $set: {
+                                    courseName : req.body.courseName,
+                                    coID : req.body.coID,
+                                    text : req.body.text,
+                                    directAttain : tempTool['directAttain'],
+                                    indirectAttain : tempTool['indirectAttain'],
+                                    overallAttain : tempTool['overallAttain']
+                                },
+
+                          $push: { 
+                                    "tool" : {
+                                                toolName : req.body.tool,
+                                                targetMark : parseFloat(req.body.targetMark),
+                                                targetStud : parseFloat(req.body.targetStud),
+                                                weightage : parseFloat(req.body.weightage),
+                                                minMark : parseFloat(req.body.minMark),
+                                                numStud : parseFloat(req.body.numStud),
+                                                totalStud : parseFloat(req.body.totalStud),
+                                                low : parseFloat(req.body.low),
+                                                mod : parseFloat(req.body.mod),
+                                                high : parseFloat(req.body.high),
+                                                attainPercent : tempTool['attainPercent'],
+                                                attainLevel : tempTool['attainLevel']
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+
+                });
 
 
 
+              // dbo.collection('CourseOutcome').updateOne(
+              //   { coID:myobj['coID'] },
+              //   {
+              //       $set: {
+              //                 courseName : req.body.courseName,
+              //                 coID : req.body.coID,
+              //                 text : req.body.text,
+              //                 directAttain : tempTool['directAttain']
+              //             },
+
+              //       $push: { 
+              //                 "tool" : {
+              //                             toolName : req.body.tool,
+              //                             targetMark : parseFloat(req.body.targetMark),
+              //                             targetStud : parseFloat(req.body.targetStud),
+              //                             weightage : parseFloat(req.body.weightage),
+              //                             minMark : parseFloat(req.body.minMark),
+              //                             numStud : parseFloat(req.body.numStud),
+              //                             totalStud : parseFloat(req.body.totalStud),
+              //                             low : parseFloat(req.body.low),
+              //                             mod : parseFloat(req.body.mod),
+              //                             high : parseFloat(req.body.high),
+              //                             attainPercent : tempTool['attainPercent'],
+              //                             attainLevel : tempTool['attainLevel']
+              //                          }
+              //             }
+              //   },
+              //   { upsert : true }
+
+              //   );
+
+               
 
 
- connection.query(query, function(err,rows,fields){
-    if(!!err){
-  console.log('Error in the coattain insert query');
-     }else{
-  console.log('Successful coattain insert query');
-      }
+                // dbo.collection("CourseOutcome").insertOne(myobj, function(err, res) {
+                //   if (err) throw err;
+                //   console.log("1 CO doc inserted");
+                // });
+          // }
+           
+
+           res.redirect('/coattain');  //using POST REDIRECT GET
+
+    // }));
 });
 
-  res.redirect('/coattain');  //using POST REDIRECT GET
 
-});
+  // console.log("fnd is "+found);
+  
 
 
 
 router.get('/coattain',function(req,res){
-  //res.sendFile(path+'/mp.html');
-  var q = "SELECT * FROM coattain";
-  connection.query(q, function(err,rows){
-      if(!!err){
-    console.log('Error in the coattain read query');
-       }else{
-    console.log('Successful coattain read query');
-        }
+  //For the dropdown
+   dbo.collection('Course').find().toArray(function(err , rows){
+  if (err) return console.log(err)
+       res.render('coattain', {obj:rows});
+        console.log("CO doc read");
+    });
 
-
-
-   console.log('before the  quewsry');
-  var directattain = 0;
-  var q = "SELECT method,attainlevel FROM coattain";
-
-
-connection.query(q, function(err,rowstwo){
-      if(!!err){
-    console.log('Error in the coattain read query');
-       }else{
-    console.log('Successful coattain read query');
-        }
-    
-  console.log('after the  quewsry');
-        rows.forEach(function(rowtwo,index)
-        {
-        	directattain = directattain + rowtwo.weightage * rowtwo.attainlevel;
-        });
-
-        console.log('after the  foreach');
-       console.log(directattain);
-
-    res.render('coattain',{obj:rows});
-  });
-});
-
-
+  //  dbo.collection('Course').find().toArray(function(err , rows){
+  // if (err) return console.log(err)
+  //   });
 
 
 });
+
+
+
+
+
+// Course --------------------------------------------------------------
+
+app.post('/virtualPage8',function(req,res){
+  console.log(req.body);
+
+  var myobj={};
+   myobj['courseID'] = req.body.courseID;
+   myobj['courseName'] = req.body.courseName;
+   dbo.collection('Course').insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 course doc inserted");
+   });
+ 
+  res.redirect('/coattain');  //using POST REDIRECT GET
+});
+
+
+router.get('/coattain',function(req,res){
+   dbo.collection('Course').find().toArray(function(err , rows){
+  if (err) return console.log(err)
+  res.render('coattain', {obj:rows});
+        console.log("coattain doc read");
+    });
+});
+

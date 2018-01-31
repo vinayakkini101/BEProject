@@ -32,45 +32,144 @@
 
 
     <div class="well" style="margin-top: 5%;">
+
+    <h3>Add Course</h3>
+    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/virtualPage8">
+       
+
+          <div class="form-group">
+           <br>
+           Course ID
+           <input type="text" class="form-control" name="courseID" placeholder="Course ID">
+        </div>
+
+        <div class="form-group">
+           <br>
+           Course Name
+           <input type="text" class="form-control" name="courseName" placeholder="Course Name">
+        </div>
+
+        
+        <br>
+              <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+              <div id="msgSubmit" class="h3 text-center hidden"></div>
+              <div class="clearfix"></div>
+          </form>
+          </div>
+           <hr>
+           <br><br>
+
+
+    </form>
+
+
+
+
+
+
+
+
+
+
+
     <h3>CO Attainment</h3>
     <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/virtualPage7">
        
 
   <div class="form-group">
-  <label for="sel1">Select list:</label>
-  <select class="form-control" id="sel1" name="method">
-    <option name="test1">test1</option>
-    <option name="lab19">lab19</option>
-    <option name="theory">theory</option>
-    <option name="oral">oral</option>
+  <label for="sel1">Select Course</label>
+  <select class="form-control" id="sel1" name="courseName">
+   <% obj.forEach(function(rows,index){%>
+    <option name="<%= rows.courseName %>"><%= rows.courseName %></option>
+  <% }); %>
   </select>
 </div>
    
+  
+  <div class="form-group">
+     <br>
+     Course Outcome ID
+     <input type="text" class="form-control" name="coID" >
+  </div>
+
+  <div class="form-group">
+     <br>
+     Text
+     <input type="text" class="form-control" name="text" >
+  </div>
+
+  <div class="form-group">
+     <br>
+     Tool
+     <input type="text" class="form-control" name="tool" >
+  </div>
+
+  <div class="form-group">
+     <br>
+     Target % of marks
+     <input type="text" class="form-control" name="targetMark" >
+  </div>
+
+  <div class="form-group">
+     <br>
+     Target % of students
+     <input type="text" class="form-control" name="targetStud" >
+  </div>
 
 	<div class="form-group">
 	   <br>
 	   Weightage
-	   <input type="text" class="form-control" name="weightage" placeholder="weightage">
+	   <input type="text" class="form-control" name="weightage" >
 	</div>
-
+<!--
 	<div class="form-group">
 	   <br>
 	   Total marks
-	   <input type="text" class="form-control" name="totalmarks" placeholder="totalmarks">
+	   <input type="text" class="form-control" name="totalMark" >
 	</div>
-
+-->
 	<div class="form-group">
 	   <br>
 	    Minimum Marks
-	   <input type="text" class="form-control" name="minmarks" placeholder="minmarks">
+	   <input type="text" class="form-control" name="minMark" >
 	</div>
 
 	<div class="form-group">
 	    <br>
-	    Number of Students
-	   <input type="text" class="form-control" name="numstu" placeholder="numstu">
+	    Number of Successful Students
+	   <input type="text" class="form-control" name="numStud" >
 	</div>
 
+  <div class="form-group">
+      <br>
+      Total Students
+     <input type="text" class="form-control" name="totalStud" >
+  </div>
+  <br><br>
+
+  <h4>Target Level Percentage</h4>
+  <div class="form-group">
+      Low
+     <input type="text" class="form-control" name="low" >
+  </div>
+
+  <div class="form-group">
+      <br>
+      Moderate
+     <input type="text" class="form-control" name="mod" >
+  </div>
+
+  <div class="form-group">
+      <br>
+      High
+     <input type="text" class="form-control" name="high" >
+  </div>
+
+  <div class="form-group">
+      <br>
+      Indirect Attainment
+     <input type="text" class="form-control" name="indirectAttain" >
+  </div>
 	
 	<br>
         <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
@@ -81,10 +180,15 @@
      <hr>
      <br><br>
 
-	
+	   
+
+     <div>
 
 
-    <!-- Displaying Data from Database Objectives-->
+     </div>
+
+
+<!--
 
 <div >
   <h3>CO Attainment</h3>          
@@ -118,6 +222,6 @@
   </table>
 
 </div>
-
+-->
 </body>
 </html>
