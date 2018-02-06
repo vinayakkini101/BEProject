@@ -17,12 +17,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var MongoClient = require('mongodb').MongoClient;
 
 // Connection URL
-var url = 'mongodb://localhost:27017';
+var url = 'mongodb://vinayakkini101:beproject@ds225608.mlab.com:25608/beproject';  //  Use this url when running the app locally -----> 'mongodb://localhost:27017';
 
 var dbo;
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  dbo = db.db("BEProject");
+  dbo = db.db("beproject");			// Use "BEProject" while running locally
   console.log("Connected to BEProject");
 }); 
 
