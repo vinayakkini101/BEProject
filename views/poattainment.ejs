@@ -1,0 +1,163 @@
+<% include headerAndSide.ejs %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact form using Bootstrap 3.3.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin.css">
+</head>
+<body style="background-color: #7e7e7e">
+	<div class="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">Dashboard</a>
+          </li>
+	  
+          <li class="breadcrumb-item active">PO Attainment</li>
+        </ol>
+
+
+     <div class="well" style="margin-top: 5%;">
+     <h3>PO Attainment</h3>
+     <form role="form" id="contactForm" data-toggle="validator" class="shake" method="post" action="/virtualPage8">
+            
+
+        <div class="form-group">
+           <br>
+			<div class="form-group">
+			    <label for="sel1">Select Course Outcome</label>
+			    <select class="form-control" id="sel1" name="coID">
+			     <% obj1.forEach(function(COrows,index){%>
+			      <option name="<%= COrows.coID %>"><%= COrows.coID %></option>
+            
+
+
+			    <% }); %>
+			    </select>
+			  </div>
+
+
+
+
+
+		
+<div class="container">
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>PO1</th>
+          <th>PO2</th>
+          <th>PO3</th>
+          <th>PO4</th>
+          <th>PO5</th>
+          <th>PO6</th>
+          <th>PO7</th>
+          <th>PO8</th>
+          <th>PO9</th>
+          <th>PO10</th>
+          <th>PO11</th>
+          <th>PO12</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          
+          <td>
+            <input type="text" class="form-control" size="16" name="po1" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po2" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po3" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po4" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po5" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po6" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po7" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po8" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po9" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po10" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po11" value="">
+          </td>
+          <td>
+            <input type="text" class="form-control" size="16" name="po12" value="">
+          </td>
+
+
+
+
+
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+        <br>
+        <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+        <div id="msgSubmit" class="h3 text-center hidden"></div>
+        <div class="clearfix"></div>
+    </form>
+    <hr>
+    <br><br>
+
+<div >
+  <h3>PO Attainment</h3>        
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+	<th>Question </th>
+	<th>Submission Date</th>
+        <th>Given Date</th>
+      </tr>
+    </thead> 
+    <tbody>
+    	<% obj1.forEach(function(row,index){%>
+      <tr>
+	<td><%= row.question %> </td>
+	<td><%= row.subDate %> </td>
+	<td><%= row.givenDate %> </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+
+</div>
+</div>
+</div>
+
+
+
+</body>
+</html>
+
+
+
