@@ -12,17 +12,14 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
-
 var MongoClient = require('mongodb').MongoClient;
-
 // Connection URL
-var url = 'mongodb://localhost:27017';
+var url = 'mongodb://vinayakkini101:beproject@ds225608.mlab.com:25608/beproject';  
 
 var dbo;
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  dbo = db.db("BEProject");
+  dbo = db.db("beproject");			
   console.log("Connected to BEProject");
 }); 
 
@@ -30,8 +27,8 @@ MongoClient.connect(url, function(err, db) {
 
 
 
-
-app.listen(7000,function(){
+var port_number = app.listen(process.env.PORT || 7000);
+app.listen(port_number,function(){
   console.log('Server running at Port 7000');
 });
 
@@ -327,9 +324,9 @@ if(req.body.method == "theory")
 */
 
   var myobj={};
-   myobj['courseName'] = req.body.courseName;
+   //myobj['courseName'] = req.body.courseName;
    myobj['coID'] = req.body.coID;
-   myobj['text'] = req.body.text;
+   //myobj['text'] = req.body.text;
 
   // var found = 0;
   // if(dbo.collection('CourseOutcome').find({coID:myobj['coID']}).count(function(err, count) {
@@ -374,7 +371,7 @@ if(req.body.method == "theory")
                tempTool['low'] = parseFloat(req.body.low);
                tempTool['mod'] = parseFloat(req.body.mod);
                tempTool['high'] = parseFloat(req.body.high);
-               tempTool['indirectAttain'] = parseFloat(req.body.indirectAttain);
+               //tempTool['indirectAttain'] = parseFloat(req.body.indirectAttain);
                // tool.push(tool1);
                // myobj.tool = tool;
 
@@ -391,11 +388,25 @@ if(req.body.method == "theory")
                 dbo.collection('CourseOutcome').find({"coID" : req.body.coID}).toArray(function(err , rows){
                       if (err) return console.log(err)
                       // console.log(rows.length);
-                      if(rows.length == 0)
+
+
+                    // when adding a tool for the first time, initialize directAttain to 0
+                    var check=1;
+                      dbo.collection('CourseOutcome').find({directAttain:{"$exists":true}}).toArray(function(err, row){
+                          check=0;
+                      });
+
+
+                      if(check == 1)
                           tempTool['directAttain'] = 0;
                       else
                           tempTool['directAttain'] = parseFloat(rows[0].directAttain);
-                      // console.log(tempTool['directAttain']);
+                       console.log(tempTool['directAttain']);
+
+
+                      
+console.log(check);
+                      tempTool['indirectAttain'] = parseFloat(rows[0].indirectAttain);
                       tempTool['directAttain'] = tempTool['directAttain'] + ( tempTool['weightage'] * tempTool['attainLevel'] );  
                       // console.log(tempTool['directAttain']);
                       tempTool['overallAttain'] = (0.8 * tempTool['directAttain']) + (0.2 * tempTool['indirectAttain']);
@@ -404,11 +415,11 @@ if(req.body.method == "theory")
                       { coID:myobj['coID'] },
                       {
                           $set: {
-                                    courseName : req.body.courseName,
-                                    coID : req.body.coID,
-                                    text : req.body.text,
+                                    //courseName : req.body.courseName,
+                                    //coID : req.body.coID,
+                                    //text : req.body.text,
                                     directAttain : tempTool['directAttain'],
-                                    indirectAttain : tempTool['indirectAttain'],
+                                    //indirectAttain : tempTool['indirectAttain'],
                                     overallAttain : tempTool['overallAttain']
                                 },
 
@@ -685,10 +696,59 @@ app.post('/virtualPage9',function(req,res){
 
 
 router.get('/coattain',function(req,res){
+
    dbo.collection('Course').find().toArray(function(err , rows){
   if (err) return console.log(err)
-  res.render('coattain', {obj:rows});
-        console.log("coattain doc read");
+        console.log("coattain hhhhdoc read");
+
+        dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
+        if (err) return console.log(err)
+         res.render('coattain', {obj2:COrows, obj1:rows});
+              console.log("coattain kkkkdoc read");
+          });
     });
+
+
 });
+
+
+
+
+
+
+// Course Outcome--------------------------------------------------------------
+
+app.post('/virtualPage9',function(req,res){
+  console.log(req.body);
+
+  var myobj={};
+   myobj['courseName'] = req.body.courseName;
+   myobj['coID'] = req.body.coID;
+   myobj['text'] = req.body.text;
+   myobj['indirectAttain'] = req.body.indirectAttain;
+   myobj['coID'] = req.body.coID;
+   dbo.collection('CourseOutcome').insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 course outcome doc inserted");
+   });
+
+
+   // dbo.collection('CourseOutcome').updateOne(
+   //  { },
+   //  {
+   //      $set: {
+   //                courseName : req.body.courseName,
+   //                coID : req.body.coID,
+   //                text : req.body.text,
+   //                //directAttain : tempTool['directAttain'],
+   //                indirectAttain : req.body.indirectAttain
+   //                //overallAttain : tempTool['overallAttain']
+   //            }    
+   //  }
+   //  { upsert : true }
+   //  );
+
+  res.redirect('/coattain');  //using POST REDIRECT GET
+});
+
 

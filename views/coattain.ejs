@@ -31,6 +31,7 @@
 
 
 
+
     <div class="well" style="margin-top: 5%;">
 
     <h3>Add Course</h3>
@@ -72,31 +73,81 @@
 
 
 
+
+<div class="well" style="margin-top: 5%;">
+
+    <h3>Add Course Outcome</h3>
+    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/virtualPage9">
+       
+
+        <div class="form-group">
+          <label for="sel1">Select Course</label>
+          <select class="form-control" id="sel1" name="courseName">
+           <% obj1.forEach(function(rows,index){%>
+            <option name="<%= rows.courseName %>"><%= rows.courseName %></option>
+          <% }); %>
+          </select>
+        </div>
+
+        <div class="form-group">
+           <br>
+           Course Outcome ID
+           <input type="text" class="form-control" name="coID" >
+        </div>
+
+        <div class="form-group">
+           <br>
+           Text
+           <input type="text" class="form-control" name="text" >
+        </div>
+
+        <div class="form-group">
+           <br>
+           Indirect Attain
+           <input type="text" class="form-control" name="indirectAttain" >
+        </div>
+        
+        <br>
+              <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+              <div id="msgSubmit" class="h3 text-center hidden"></div>
+              <div class="clearfix"></div>
+          </form>
+          </div>
+           <hr>
+           <br><br>
+
+
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <h3>CO Attainment</h3>
     <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/virtualPage7">
        
 
   <div class="form-group">
-  <label for="sel1">Select Course</label>
-  <select class="form-control" id="sel1" name="courseName">
-   <% obj.forEach(function(rows,index){%>
-    <option name="<%= rows.courseName %>"><%= rows.courseName %></option>
-  <% }); %>
-  </select>
-</div>
-   
-  
-  <div class="form-group">
-     <br>
-     Course Outcome ID
-     <input type="text" class="form-control" name="coID" >
+    <label for="sel1">Select Course Outcome</label>
+    <select class="form-control" id="sel1" name="coID">
+     <% obj2.forEach(function(COrows,index){%>
+      <option name="<%= COrows.coID %>"><%= COrows.coID %></option>
+    <% }); %>
+    </select>
   </div>
 
-  <div class="form-group">
-     <br>
-     Text
-     <input type="text" class="form-control" name="text" >
-  </div>
 
   <div class="form-group">
      <br>
@@ -165,11 +216,6 @@
      <input type="text" class="form-control" name="high" >
   </div>
 
-  <div class="form-group">
-      <br>
-      Indirect Attainment
-     <input type="text" class="form-control" name="indirectAttain" >
-  </div>
 	
 	<br>
         <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
@@ -188,40 +234,12 @@
      </div>
 
 
-<!--
 
-<div >
-  <h3>CO Attainment</h3>          
-  <table class="table table-striped table-hover table-bordered">
-    <thead>
-      <tr>
-        <th>Method</th>
-        <th>Weightage</th>
-        <th>Total marks</th>
-        <th>Minimum Marks</th>
-        <th>Number of Students</th>
-        <th>Attainment %</th>
-        <th>Attainment Level</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-    	<% obj.forEach(function(row,index){%>
+<% Object.keys(obj2).forEach(function(key){ %>
+   
+   <%- obj2 %>
+<%}); %>
 
-      <tr>
-        <td> <%= row.method %>     </td>
-        <td> <%= row.weightage %>     </td>
-        <td> <%= row.totalmarks %>	</td>
-	      <td> <%= row.minmarks %>         </td>
-	     <td> <%= row.numstu %> 	</td>
-	     <td> <%= row.attainper %>   </td>
-        <td> <%= row.attainlevel %>   </td>
-      </tr>
-      <% }); %>
-    </tbody>
-  </table>
 
-</div>
--->
 </body>
 </html>
