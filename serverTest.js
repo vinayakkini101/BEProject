@@ -665,6 +665,39 @@ if (myobj['po12'] == '' )
 // });
 
 
+//////testing overall attain
+
+
+///gives the output as snapshot wala
+/*dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1}).toArray(function(err , rows){
+console.log(rows);
+ });*/
+
+
+console.log(dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1}).toArray());
+
+
+
+
+///gives output
+/*dbo.collection('POAttainment').aggregate([
+   {
+     $lookup:
+       {
+         from: "CourseOutcome",
+         localField: myobj['coID'],
+         foreignField: "overallAttain" ,
+         as: "docs"
+       }
+  }
+]).toArray(function(err , rows){
+console.log(rows);
+ });*/
+
+
+
+
+
 /////////////////test block it is running 
 
 
