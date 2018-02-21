@@ -279,7 +279,7 @@ router.get('/mp',function(req,res){
 
 
 
-// CO Attainment---------------------------------------------------------------
+// CO Attainment Adding tools---------------------------------------------------------------
 
 app.post('/virtualPage7',function(req,res){
   console.log(req.body);
