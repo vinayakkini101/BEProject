@@ -211,7 +211,7 @@ var q = "SELECT * FROM planLab";
 
 app.post('/virtualPage5',function(req,res){
   console.log(req.body);
-  var query = "INSERT INTO assignment(question,subDate,givenDate) VALUES(";
+  /*var query = "INSERT INTO assignment(question,subDate,givenDate) VALUES(";
  query+= " '"+req.body.question+"',";
  query+= " '"+req.body.givenDate+"',";
  query+= " '"+req.body.subDate+"')";
@@ -221,8 +221,17 @@ app.post('/virtualPage5',function(req,res){
 	console.log('Error in the assignm insert query');
      }else{
 	console.log('Successful assignm insert query');
-      }
-});
+      }*/
+
+      var myobj={};
+   myobj['question'] = req.body.question;
+   myobj['givenDate'] = req.body.givenDate;
+   myobj['subDate'] = req.body.subDate;
+   dbo.collection("Assignments").insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 MP doc inserted");
+
+  });
 
   res.redirect('/ass');	//using POST REDIRECT GET
 
@@ -236,8 +245,6 @@ router.get('/ass',function(req,res){
         console.log("Ass doc read");
     });
 });
-
-
 
 
 // Mini Project---------------------------------------------------------------
@@ -490,7 +497,7 @@ console.log(check);
   // console.log("fnd is "+found);
   
 
-/*
+
 
 router.get('/coattain',function(req,res){
   //For the dropdown
@@ -507,13 +514,396 @@ router.get('/coattain',function(req,res){
 
 });
 
+// PO table---------------------------------------------------------------
+app.post('/virtualPage10',function(req,res){
+  console.log(req.body);
+
+console.log("1 po doc");
+  var myobj={};
+   myobj['poID'] = req.body.poID;
+   myobj['textpo'] = req.body.textpo;
+   dbo.collection('POAttainment').insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 po doc inserted");
+   });
+ 
+  res.redirect('/poattainment');  //using POST REDIRECT GET
+});
+
+
+
+
+
+// End of PO table---------------------------------------------------------------
+
+// PO Attainment---------------------------------------------------------------
+
+app.post('/virtualPage8',function(req,res){
+  console.log(req.body);
+
+  var myobj={};
+  myobj['coID'] = req.body.coID;
+   myobj['po1'] = req.body.po1;
+   myobj['po2'] = req.body.po2;
+    myobj['po3'] = req.body.po3;
+   myobj['po4'] = req.body.po4;
+    myobj['po5'] = req.body.po5;
+   myobj['po6'] = req.body.po6;
+    myobj['po7'] = req.body.po7;
+   myobj['po8'] = req.body.po8;
+    myobj['po9'] = req.body.po9;
+   myobj['po10'] = req.body.po10;
+    myobj['po11'] = req.body.po11;
+   myobj['po12'] = req.body.po12;
+
+    console.log(myobj['po12']);
+//// coonditions for 0
+if (myobj['po1'] == '' )
+{
+  myobj['po1'] = 0;
+}
+if (myobj['po2'] == '' )
+{
+  myobj['po2'] = 0;
+}
+if (myobj['po3'] == '' )
+{
+  myobj['po3'] = 0;
+}
+if (myobj['po4'] == '' )
+{
+  myobj['po4'] = 0;
+}
+if (myobj['po5'] == '' )
+{
+  myobj['po5'] = 0;
+}
+if (myobj['po6'] == '' )
+{
+  myobj['po6'] = 0;
+}
+if (myobj['po7'] == '' )
+{
+  myobj['po7'] = 0;
+}
+if (myobj['po8'] == '' )
+{
+  myobj['po8'] = 0;
+}
+if (myobj['po9'] == '' )
+{
+  myobj['po9'] = 0;
+}
+if (myobj['po10'] == '' )
+{
+  myobj['po10'] = 0;
+}
+if (myobj['po11'] == '' )
+{
+  myobj['po11'] = 0;
+}
+if (myobj['po12'] == '' )
+{
+  myobj['po12'] = 0;
+}
+
+
+
+/// insertion in the PO Table --- we hav to remove this block
+
+ // myobj['poID'] = req.body.poID;
+ //   myobj['text'] = req.body.text;
+ //   dbo.collection('POAttainment').insertOne(myobj, function(err, res) {
+ //      if (err) throw err;
+ //      console.log("1  PO Value doc inserted");
+ //   });
+
+///// End of INsertions
+
+//// end of conditions
+   myobj['test'] = parseFloat(myobj['po12']) + parseFloat(myobj['po1']);
+
+
+ myobj['total'] = parseFloat(myobj['po1']) + parseFloat(myobj['po2']) + parseFloat(myobj['po3']) + parseFloat(myobj['po4']) + parseFloat(myobj['po5']) + parseFloat(myobj['po6']) + parseFloat(myobj['po7']) + parseFloat(myobj['po8']) + parseFloat(myobj['po9']) + parseFloat(myobj['po10']) + parseFloat(myobj['po11']) + parseFloat(myobj['po12']);
+
+
+/// putting in co table
+ dbo.collection('CourseOutcome').find({"coID" : req.body.coID}).toArray(function(err , rows){
+                  dbo.collection('CourseOutcome').updateOne(
+                      { coID:myobj['coID'] },
+                      {
+                          
+
+                          $push: { 
+                                    "pos" : {
+                                                po1 : myobj['po1'],
+                                                po2 : myobj['po2'],
+                                                po3 : myobj['po3'],
+                                                po4 : myobj['po4'],
+                                                po5 : myobj['po5'],
+                                                po6 : myobj['po6'],
+                                                po7 : myobj['po7'],
+                                                po8 : myobj['po8'],
+                                                po9 : myobj['po9'],
+                                                po10 : myobj['po10'],
+                                                po11: myobj['po11'],
+                                                po12 : myobj['po12']
+
+
+
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+
+               });
+
+// this is the faulty part
+// dbo.collection('CourseOutcome').find( { "pos": { po1:0, coID: "CSC302.1" } } ).toArray(function(err , rows){
+// console.log(rows);
+// });
+
+
+/////////////////test block it is running 
+
+
+
+if(myobj['po1'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '1' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po1']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+
+if(myobj['po2'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '2' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po2']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po3'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '3' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po3']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po4'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '4' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po4']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po5'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '5' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po5']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po6'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '6' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po6']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po7'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '7' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po7']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po8'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '8' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po8']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po9'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '9' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po9']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po10'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '10' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po10']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po11'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '11' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po11']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po12'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '12' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po12']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+
+//////////////////
+
+/*
+var results = dbo.collection('CourseOutcome').aggregate([
+
+     // Un-wind the array's to access filtering 
+     
+     { "$unwind": "$CourseOutcome.pos" },
+     { "$unwind": "$CourseOutcome.pos.po1" },
+
+     // Group results to obtain the matched count per key
+     { "$group": {
+         "count": { "$sum": 1 }
+
+     }}
+    
+ ],function(err, result){ 
+    //some stuff
+   
+});
+
+
+console.log(results);
 */
 
 
 
+   
+   /*dbo.collection('POAttainment').insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 course doc inserted");
+   });
+*/ 
+  res.redirect('/poattainment');  //using POST REDIRECT GET
+});
+
+
+
+
+router.get('/poattainment',function(req,res){
+   
+   dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
+        if (err) return console.log(err)
+         res.render('poattainment', {obj1:COrows});
+
+        console.log("poattainment doc read");
+    });
+});
+
+
 // Course --------------------------------------------------------------
 
-app.post('/virtualPage8',function(req,res){
+app.post('/virtualPage9',function(req,res){
   console.log(req.body);
 
   var myobj={};
