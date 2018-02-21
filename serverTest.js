@@ -514,6 +514,27 @@ router.get('/coattain',function(req,res){
 
 });
 
+// PO table---------------------------------------------------------------
+app.post('/virtualPage10',function(req,res){
+  console.log(req.body);
+
+console.log("1 po doc");
+  var myobj={};
+   myobj['poID'] = req.body.poID;
+   myobj['textpo'] = req.body.textpo;
+   dbo.collection('POAttainment').insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 po doc inserted");
+   });
+ 
+  res.redirect('/poattainment');  //using POST REDIRECT GET
+});
+
+
+
+
+
+// End of PO table---------------------------------------------------------------
 
 // PO Attainment---------------------------------------------------------------
 
@@ -587,6 +608,18 @@ if (myobj['po12'] == '' )
 }
 
 
+
+/// insertion in the PO Table --- we hav to remove this block
+
+ // myobj['poID'] = req.body.poID;
+ //   myobj['text'] = req.body.text;
+ //   dbo.collection('POAttainment').insertOne(myobj, function(err, res) {
+ //      if (err) throw err;
+ //      console.log("1  PO Value doc inserted");
+ //   });
+
+///// End of INsertions
+
 //// end of conditions
    myobj['test'] = parseFloat(myobj['po12']) + parseFloat(myobj['po1']);
 
@@ -627,9 +660,199 @@ if (myobj['po12'] == '' )
                });
 
 // this is the faulty part
-dbo.collection('CourseOutcome').find( { "pos": { po1:0, coID: "CSC302.1" } } ).toArray(function(err , rows){
-console.log(rows);
-});
+// dbo.collection('CourseOutcome').find( { "pos": { po1:0, coID: "CSC302.1" } } ).toArray(function(err , rows){
+// console.log(rows);
+// });
+
+
+/////////////////test block it is running 
+
+
+
+if(myobj['po1'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '1' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po1']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+
+if(myobj['po2'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '2' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po2']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po3'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '3' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po3']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po4'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '4' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po4']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po5'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '5' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po5']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po6'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '6' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po6']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po7'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '7' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po7']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po8'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '8' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po8']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po9'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '9' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po9']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po10'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '10' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po10']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po11'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '11' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po11']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+if(myobj['po12'] > 0){
+dbo.collection('POAttainment').updateOne(
+                      { poID : '12' },
+                      {              $push: { 
+                                    "try1" : {
+                                                coID : req.body.coID,
+                                                  "insidetry2":{
+                                                    value : myobj['po12']
+                                                  }
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+}
+
+//////////////////
+
 /*
 var results = dbo.collection('CourseOutcome').aggregate([
 
