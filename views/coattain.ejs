@@ -83,7 +83,7 @@
         <div class="form-group">
           <label for="sel1">Select Course</label>
           <select class="form-control" id="sel1" name="courseName">
-           <% obj1.forEach(function(rows,index){%>
+           <% obj.forEach(function(rows,index){%>
             <option name="<%= rows.courseName %>"><%= rows.courseName %></option>
           <% }); %>
           </select>
@@ -142,7 +142,7 @@
   <div class="form-group">
     <label for="sel1">Select Course Outcome</label>
     <select class="form-control" id="sel1" name="coID">
-     <% obj2.forEach(function(COrows,index){%>
+     <% obj.forEach(function(COrows,index){%>
       <option name="<%= COrows.coID %>"><%= COrows.coID %></option>
     <% }); %>
     </select>
@@ -235,9 +235,9 @@
 
 
 
-<% Object.keys(obj2).forEach(function(key){ %>
+<% Object.keys(obj).forEach(function(key){ %>
    
-   <%- obj2 %>
+   <%- obj %>
 <%}); %>
 
 
