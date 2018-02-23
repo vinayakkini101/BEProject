@@ -737,6 +737,7 @@ dbo.collection('POAttainment').updateOne(
                       },
                       { upsert : true }
                       );
+//var total = 0,count=0;
 dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
 console.log('INside the if of PO1',rows['0'].try1['0'].insidetry2.value);
 console.log('before total');
@@ -746,16 +747,36 @@ console.log(rows['0'].try1.length);
 for (var i = 0, len = rows['0'].try1.length; i < len; i++) {
 
    total = total + parseFloat(rows['0'].try1[i].insidetry2.value);
-   console.log('this is total',total);
+   //console.log('this is total',total);
    count++;
-   console.log('this is counttt',count);
+   //console.log('this is counttt',count);
 }
+
+console.log('this is total',total);
+console.log('this is counttt',count);
+
+var copomatrix = total / count;
+
+
+dbo.collection('POAttainment').updateOne(
+                      { poID : '1' },
+                      {              $set: { 
+                                              "total" : total,
+                                              "count" : count,
+                                              "CoPoMatrix" : copomatrix
+                                }
+                      },
+                      { upsert : true }
+                      );
+
+
+
 
 console.log('after for');
  });
 //console.log('INside the if of PO1',arr1);
 
-
+//console.log('this is counttt check',count);
 ///counting
 /*dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
 
