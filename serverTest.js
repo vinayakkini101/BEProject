@@ -679,21 +679,22 @@ console.log(typeof(rows));
 console.log(overallAttainPO);
  });
 */
-function getOverallAttain() {
+/*function getOverallAttain() {
 dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1, _id : 0,courseName : 0,coID :0 }).toArray(function(err , rows){
 overallAttainPO = rows['0'].overallAttain;
 //return rows['0'].overallAttain;
 console.log(rows['0'].overallAttain);
 console.log(typeof(rows));
 
-console.log(overallAttainPO);
+console.log('overall shhitt',overallAttainPO);
  //return overallAttainPO;
  });
 // return 'did not work';
+console.log('overall shhitt 11111',overallAttainPO);
 } 
 
 var x1 = getOverallAttain();
-console.log('the outside function',x1);
+console.log('the outside function',x1);*/
 //console.log(typeof(dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1})));
 
 
@@ -721,7 +722,15 @@ console.log(rows);
 /////////////////test block it is running 
 
 //var arr1 = new Array();
+dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1, _id : 0,courseName : 0,coID :0 }).toArray(function(err , rows){
+overallAttainPO = rows['0'].overallAttain;
+//return rows['0'].overallAttain;
+console.log(rows['0'].overallAttain);
+console.log(typeof(rows));
 
+console.log('overall shhitt',overallAttainPO);
+ //return overallAttainPO;
+ 
 if(myobj['po1'] > 0 && myobj['po1'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '1' },
@@ -738,6 +747,9 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 //var total = 0,count=0;
+
+////////////////total,count,co-po
+
 dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
 console.log('INside the if of PO1',rows['0'].try1['0'].insidetry2.value);
 console.log('before total');
@@ -956,7 +968,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-
+});
 //////////////////
 
 /*
