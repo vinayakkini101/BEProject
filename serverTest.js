@@ -722,7 +722,7 @@ console.log(rows);
 
 //var arr1 = new Array();
 
-if(myobj['po1'] > 0){
+if(myobj['po1'] > 0 && myobj['po1'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '1' },
                       {              $push: { 
@@ -757,7 +757,7 @@ console.log('after for');
 
 
 
-if(myobj['po2'] > 0){
+if(myobj['po2'] > 0 && myobj['po2'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '2' },
                       {              $push: { 
@@ -772,7 +772,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po3'] > 0){
+if(myobj['po3'] > 0 && myobj['po3'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '3' },
                       {              $push: { 
@@ -787,7 +787,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po4'] > 0){
+if(myobj['po4'] > 0 && myobj['po4'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '4' },
                       {              $push: { 
@@ -802,7 +802,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po5'] > 0){
+if(myobj['po5'] > 0 && myobj['po5'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '5' },
                       {              $push: { 
@@ -817,7 +817,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po6'] > 0){
+if(myobj['po6'] > 0 && myobj['po6'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '6' },
                       {              $push: { 
@@ -832,7 +832,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po7'] > 0){
+if(myobj['po7'] > 0 && myobj['po7'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '7' },
                       {              $push: { 
@@ -847,7 +847,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po8'] > 0){
+if(myobj['po8'] > 0 && myobj['po8'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '8' },
                       {              $push: { 
@@ -862,7 +862,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po9'] > 0){
+if(myobj['po9'] > 0 && myobj['po9'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '9' },
                       {              $push: { 
@@ -877,7 +877,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po10'] > 0){
+if(myobj['po10'] > 0 && myobj['po10'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '10' },
                       {              $push: { 
@@ -892,7 +892,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po11'] > 0){
+if(myobj['po11'] > 0 && myobj['po11'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '11' },
                       {              $push: { 
@@ -907,7 +907,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po12'] > 0){
+if(myobj['po12'] > 0 && myobj['po12'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '12' },
                       {              $push: { 
