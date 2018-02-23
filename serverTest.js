@@ -740,18 +740,31 @@ dbo.collection('POAttainment').updateOne(
 dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
 console.log('INside the if of PO1',rows['0'].try1['0'].insidetry2.value);
 console.log('before total');
-var total = 0;
+var total = 0,count=0;
 console.log('before for');
 console.log(rows['0'].try1.length);
 for (var i = 0, len = rows['0'].try1.length; i < len; i++) {
 
    total = total + parseFloat(rows['0'].try1[i].insidetry2.value);
    console.log('this is total',total);
+   count++;
+   console.log('this is counttt',count);
 }
 
 console.log('after for');
  });
 //console.log('INside the if of PO1',arr1);
+
+
+///counting
+/*dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
+
+ console.log('count',rows['0'].try1['1'].insidetry2.value);
+ 
+
+ });*/
+
+
 
 }
 
