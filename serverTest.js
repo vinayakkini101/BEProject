@@ -19,7 +19,7 @@ var url = 'mongodb://vinayakkini101:beproject@ds225608.mlab.com:25608/beproject'
 var dbo;
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  dbo = db.db("beproject");			
+  dbo = db.db("beproject");     
   console.log("Connected to BEProject");
 }); 
 
@@ -136,13 +136,13 @@ app.post('/virtualPage3',function(req,res){
 
  connection.query(query, function(err,rows,fields){
     if(!!err){
-	console.log('Error in the lecture insert query');
+  console.log('Error in the lecture insert query');
      }else{
-	console.log('Successful lecture insert query');
+  console.log('Successful lecture insert query');
       }
 });
 
-  res.redirect('/lecture');	//using POST REDIRECT GET
+  res.redirect('/lecture'); //using POST REDIRECT GET
 
 });
 
@@ -153,9 +153,9 @@ router.get('/lecture',function(req,res){
 var q = "SELECT * FROM lectureSchedule";
   connection.query(q, function(err,rows){
       if(!!err){
-	  console.log('Error in the read query');
+    console.log('Error in the read query');
        }else{
-	  console.log('Successful read query');
+    console.log('Successful read query');
         }
 
     res.render('lecData',{obj:rows});
@@ -179,13 +179,13 @@ app.post('/virtualPage4',function(req,res){
 
  connection.query(query, function(err,rows,fields){
     if(!!err){
-	console.log('Error in the lab insert query');
+  console.log('Error in the lab insert query');
      }else{
-	console.log('Successful lab insert query');
+  console.log('Successful lab insert query');
       }
 });
 
-  res.redirect('/lab');	//using POST REDIRECT GET
+  res.redirect('/lab'); //using POST REDIRECT GET
 
 });
 
@@ -195,9 +195,9 @@ router.get('/lab',function(req,res){
 var q = "SELECT * FROM planLab";
   connection.query(q, function(err,rows){
       if(!!err){
-	  console.log('Error in the lab read query');
+    console.log('Error in the lab read query');
        }else{
-	  console.log('Successful lab read query');
+    console.log('Successful lab read query');
         }
 
     res.render('labData',{obj:rows});
@@ -218,9 +218,9 @@ app.post('/virtualPage5',function(req,res){
 
  connection.query(query, function(err,rows,fields){
     if(!!err){
-	console.log('Error in the assignm insert query');
+  console.log('Error in the assignm insert query');
      }else{
-	console.log('Successful assignm insert query');
+  console.log('Successful assignm insert query');
       }*/
 
       var myobj={};
@@ -233,15 +233,15 @@ app.post('/virtualPage5',function(req,res){
 
   });
 
-  res.redirect('/ass');	//using POST REDIRECT GET
+  res.redirect('/ass'); //using POST REDIRECT GET
 
 });
 
 
 router.get('/ass',function(req,res){
     dbo.collection('Assignments').find().toArray(function(err , rows){
-	if (err) return console.log(err)
-	res.render('assData', {obj:rows});
+  if (err) return console.log(err)
+  res.render('assData', {obj:rows});
         console.log("Ass doc read");
     });
 });
@@ -260,7 +260,7 @@ app.post('/virtualPage6',function(req,res){
       console.log("1 MP doc inserted");
    });
  
-  res.redirect('/mp');	//using POST REDIRECT GET
+  res.redirect('/mp');  //using POST REDIRECT GET
 
 });
 
@@ -268,9 +268,9 @@ app.post('/virtualPage6',function(req,res){
 router.get('/mp',function(req,res){
 
     dbo.collection('MiniProject').find().toArray(function(err , rows){
-	if (err) return console.log(err)
+  if (err) return console.log(err)
     // console.log(rows[0].mpDate);
-	res.render('mpData', {obj:rows});
+  res.render('mpData', {obj:rows});
         console.log("MP doc read");
     });
 });
@@ -289,27 +289,27 @@ console.log(req.body.method);
 var attainlevel;
 if(req.body.method == "test1")
  if(attainper>=50 && attainper<=60)
-	attainlevel = 1;
+  attainlevel = 1;
  else if(attainper>60 && attainper<=70)
-	attainlevel = 2;
+  attainlevel = 2;
  else if(attainper>70)
-	attainlevel = 3;
+  attainlevel = 3;
 
 if(req.body.method == "lab19" || req.body.method == "oral")
  if(attainper>=70 && attainper<=80)
-	attainlevel = 1;
+  attainlevel = 1;
  else if(attainper>80 && attainper<=90)
-	attainlevel = 2;
+  attainlevel = 2;
  else
-	attainlevel = 3;
+  attainlevel = 3;
 
 if(req.body.method == "theory")
  if(attainper>=60 && attainper<=70)
-	attainlevel = 1;
+  attainlevel = 1;
  else if(attainper>70 && attainper<=85)
-	attainlevel = 2;
+  attainlevel = 2;
  else
-	attainlevel = 3;
+  attainlevel = 3;
 
 
   var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
@@ -746,11 +746,13 @@ console.log(rows['0'].try1.length);
 for (var i = 0, len = rows['0'].try1.length; i < len; i++) {
 
    total = total + parseFloat(rows['0'].try1[i].insidetry2.value);
-   console.log('this is total',total);
+   ///console.log('this is total',total);
    count++;
-   console.log('this is counttt',count);
+   //console.log('this is counttt',count);
 }
 
+console.log('this is total',total);
+console.log('this is counttt',count);
 console.log('after for');
  });
 //console.log('INside the if of PO1',arr1);
