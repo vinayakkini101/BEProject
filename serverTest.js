@@ -6,6 +6,7 @@ var path = __dirname;
 app.use('/',router);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname+'/public'));
+const multer = require('multer');
 
 
 var bodyParser = require('body-parser');
@@ -283,236 +284,179 @@ router.get('/mp',function(req,res){
 
 app.post('/virtualPage7',function(req,res){
   console.log(req.body);
-/*
-var attainper = (req.body.numstu / 77) * 100 ;
-console.log(req.body.method);
-var attainlevel;
-if(req.body.method == "test1")
- if(attainper>=50 && attainper<=60)
-	attainlevel = 1;
- else if(attainper>60 && attainper<=70)
-	attainlevel = 2;
- else if(attainper>70)
-	attainlevel = 3;
-
-if(req.body.method == "lab19" || req.body.method == "oral")
- if(attainper>=70 && attainper<=80)
-	attainlevel = 1;
- else if(attainper>80 && attainper<=90)
-	attainlevel = 2;
- else
-	attainlevel = 3;
-
-if(req.body.method == "theory")
- if(attainper>=60 && attainper<=70)
-	attainlevel = 1;
- else if(attainper>70 && attainper<=85)
-	attainlevel = 2;
- else
-	attainlevel = 3;
-
-
-  var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
- query+= " '"+req.body.method+"',";
- query+= " '"+req.body.weightage+"',";
- query+= " '"+req.body.totalmarks+"',";
- query+= " '"+req.body.minmarks+"',";
- query+= " '"+req.body.numstu+"',";
- query+= " '"+attainper+"',";
- query+= " '"+attainlevel+"')";
-  //var a = req.body.weightage * req.body.totalmarks;
-*/
-
-  var myobj={};
-   //myobj['courseName'] = req.body.courseName;
-   myobj['coID'] = req.body.coID;
-   //myobj['text'] = req.body.text;
-
-  // var found = 0;
-  // if(dbo.collection('CourseOutcome').find({coID:myobj['coID']}).count(function(err, count) {
-        
-  //         if(count > 0)
-  //         {
-  //             console.log("Found"+myobj['coID']);
-              // dbo.collection('CourseOutcome').updateOne(
-              //   { coID:myobj['coID'] },
-              //   { 
-              //     $set: { 
-              //               courseName : req.body.courseName,
-              //               coID : req.body.coID,
-              //               text : req.body.text,
-              //               "tool.toolName" : req.body.toolName,
-              //               "tool.targetMark" : req.body.targetMark,
-              //               "tool.targetStud" : req.body.targetStud,
-              //               "tool.weightage" : req.body.weightage,
-              //               "tool.minMark" : req.body.minMark,
-              //               "tool.numStud" : req.body.numStud,
-              //               "tool.totalStud" : req.body.totalStud,
-              //               "tool.low" : req.body.low,
-              //               "tool.mod" : req.body.mod,
-              //               "tool.high" : req.body.high
-              //           } 
-              //   },
-              //   { upsert : true}
-              // );
-          // }
-          // else
-          // {
-
-               // var tool=[];
-               var tempTool={};
-               // tool1['toolName'] = req.body.tool;
-               // tool1['targetMark'] = parseFloat(req.body.targetMark);
-               // tool1['targetStud'] = parseFloat(req.body.targetStud);
-               tempTool['weightage'] = parseFloat(req.body.weightage);
-               // tool1['minMark'] = parseFloat(req.body.minMark);
-               tempTool['numStud'] = parseFloat(req.body.numStud);
-               tempTool['totalStud'] = parseFloat(req.body.totalStud);
-               tempTool['low'] = parseFloat(req.body.low);
-               tempTool['mod'] = parseFloat(req.body.mod);
-               tempTool['high'] = parseFloat(req.body.high);
-               //tempTool['indirectAttain'] = parseFloat(req.body.indirectAttain);
-               // tool.push(tool1);
-               // myobj.tool = tool;
-
-
-              //console.log(tool['targetMark']+tool['targetStud']);
-               tempTool['attainPercent'] = tempTool['numStud'] / tempTool['totalStud'] * 100;
-               if(tempTool['attainPercent'] >= tempTool['low'] && tempTool['attainPercent'] < tempTool['mod'])
-                  tempTool['attainLevel'] = 1;
-               else if(tempTool['attainPercent'] >= tempTool['mod'] && tempTool['attainPercent'] < tempTool['high'])
-                  tempTool['attainLevel'] = 2;
-               else 
-                  tempTool['attainLevel'] = 3;
-
-                dbo.collection('CourseOutcome').find({"coID" : req.body.coID}).toArray(function(err , rows){
-                      if (err) return console.log(err)
-                      // console.log(rows.length);
-
-
-                    // when adding a tool for the first time, initialize directAttain to 0
-                    var check=1;
-                      dbo.collection('CourseOutcome').find({directAttain:{"$exists":true}}).toArray(function(err, row){
-                          check=0;
-                      });
-
-
-                      if(check == 1)
-                          tempTool['directAttain'] = 0;
-                      else
-                          tempTool['directAttain'] = parseFloat(rows[0].directAttain);
-                       console.log(tempTool['directAttain']);
-
-
-                      
-console.log(check);
-                      tempTool['indirectAttain'] = parseFloat(rows[0].indirectAttain);
-                      tempTool['directAttain'] = tempTool['directAttain'] + ( tempTool['weightage'] * tempTool['attainLevel'] );  
-                      // console.log(tempTool['directAttain']);
-                      tempTool['overallAttain'] = (0.8 * tempTool['directAttain']) + (0.2 * tempTool['indirectAttain']);
-
-                      dbo.collection('CourseOutcome').updateOne(
-                      { coID:myobj['coID'] },
-                      {
-                          $set: {
-                                    //courseName : req.body.courseName,
-                                    //coID : req.body.coID,
-                                    //text : req.body.text,
-                                    directAttain : tempTool['directAttain'],
-                                    //indirectAttain : tempTool['indirectAttain'],
-                                    overallAttain : tempTool['overallAttain']
-                                },
-
-                          $push: { 
-                                    "tool" : {
-                                                toolName : req.body.tool,
-                                                targetMark : parseFloat(req.body.targetMark),
-                                                targetStud : parseFloat(req.body.targetStud),
-                                                weightage : parseFloat(req.body.weightage),
-                                                minMark : parseFloat(req.body.minMark),
-                                                numStud : parseFloat(req.body.numStud),
-                                                totalStud : parseFloat(req.body.totalStud),
-                                                low : parseFloat(req.body.low),
-                                                mod : parseFloat(req.body.mod),
-                                                high : parseFloat(req.body.high),
-                                                attainPercent : tempTool['attainPercent'],
-                                                attainLevel : tempTool['attainLevel']
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-
-                });
 
 
 
-              // dbo.collection('CourseOutcome').updateOne(
-              //   { coID:myobj['coID'] },
-              //   {
-              //       $set: {
-              //                 courseName : req.body.courseName,
-              //                 coID : req.body.coID,
-              //                 text : req.body.text,
-              //                 directAttain : tempTool['directAttain']
-              //             },
+upload(req, res, function(err) {
+         if (err) {
+             console.log("Something went wrong!");
+         }
+         else
+         {
+            console.log("File uploaded sucessfully!.");
+            console.log(req.file);
 
-              //       $push: { 
-              //                 "tool" : {
-              //                             toolName : req.body.tool,
-              //                             targetMark : parseFloat(req.body.targetMark),
-              //                             targetStud : parseFloat(req.body.targetStud),
-              //                             weightage : parseFloat(req.body.weightage),
-              //                             minMark : parseFloat(req.body.minMark),
-              //                             numStud : parseFloat(req.body.numStud),
-              //                             totalStud : parseFloat(req.body.totalStud),
-              //                             low : parseFloat(req.body.low),
-              //                             mod : parseFloat(req.body.mod),
-              //                             high : parseFloat(req.body.high),
-              //                             attainPercent : tempTool['attainPercent'],
-              //                             attainLevel : tempTool['attainLevel']
-              //                          }
-              //             }
-              //   },
-              //   { upsert : true }
+            if(typeof require !== 'undefined') XLSX = require('xlsx');
+            var workbook = XLSX.readFile('uploads/'+req.file.originalname);
+            var sheet_name = workbook.SheetNames[req.body.sheetNumber];
+            /* Get worksheet */
+            var worksheet = workbook.Sheets[sheet_name];
 
-              //   );
+            // Calculating range
+            //Note:  0 == XLSX.utils.decode_col("A")
+             // var range = XLSX.utils.decode_range(workbook.Sheets[sheet_name]["!ref"]);
+            // range.s.r = parseInt(req.body.cellRow)-1;             
+            // range.e.r =  range.s.r + 200;                       
+            // range.s.c = XLSX.utils.decode_col(req.body.cellColumn);
+            // range.e.c = XLSX.utils.decode_col(req.body.cellColumn);
+            // var new_range = XLSX.utils.encode_range(range);
+            // //console.log(new_range);         
+            // var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true, range:new_range});
+            //console.log(sh);          // sh is an array of array of the column of the specified range
 
-               
+            var range = XLSX.utils.decode_range(workbook.Sheets[sheet_name]["!ref"]);
+            var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
+            var flag=0;
+            for(var k=0; k<=range.e.r; k++)
+            {
+              for(var g=0; g<=range.e.c; g++)
+              {
+                  if(sh[k][g] == req.body.columnName)
+                    {
+                       flag=1;
+                       break;
+                    }
+              }
+                if(flag==1)
+                  break;
+            }
+
+             var totalStud=0, numStud=0;
+             k++;       //to start below the cell containing column name
+            for(var p=k; p<=range.e.r; p++)
+            {
+                if( (sh[p][g]==undefined)  || typeof sh[p][g]=="string")
+                  break; 
+                if(sh[p][g] >= req.body.minMark){
+                  numStud++;
+
+                }
+                totalStud++;
+            }
+
+            console.log("Successful Students = "+numStud);
+            console.log("Total are = "+totalStud);
 
 
-                // dbo.collection("CourseOutcome").insertOne(myobj, function(err, res) {
-                //   if (err) throw err;
-                //   console.log("1 CO doc inserted");
-                // });
-          // }
+            // var total=0, successCount=0;
+            // for(var i=0; i<range.e.r; i++) 
+            // {
+            //   if( (sh[i][0]==undefined)  || typeof sh[i][0]=="string")
+            //     break; 
+            //   if(sh[i][0] >= 7.1)
+            //     successCount++;
+            //   total++;
+            //   // console.log(sh[i][0]);
+            // }
+            // console.log("Successful Students = "+successCount);
+            // console.log("Total are = "+total);
+         }
+
+
+
+
+
+
+         var myobj={};
+         myobj['coID'] = req.body.coID;
+
+           var tempTool={};
+           tempTool['weightage'] = parseFloat(req.body.weightage);
+           // tempTool['numStud'] = parseFloat(req.body.numStud);
+           // tempTool['totalStud'] = parseFloat(req.body.totalStud);
+           tempTool['low'] = parseFloat(req.body.low);
+           tempTool['mod'] = parseFloat(req.body.mod);
+           tempTool['high'] = parseFloat(req.body.high);
+
+
+           tempTool['attainPercent'] = numStud / totalStud * 100;
+           if(tempTool['attainPercent'] >= tempTool['low'] && tempTool['attainPercent'] < tempTool['mod'])
+              tempTool['attainLevel'] = 1;
+           else if(tempTool['attainPercent'] >= tempTool['mod'] && tempTool['attainPercent'] < tempTool['high'])
+              tempTool['attainLevel'] = 2;
+           else 
+              tempTool['attainLevel'] = 3;
+
+            dbo.collection('CourseOutcome').find({"coID" : req.body.coID}).toArray(function(err , rows){
+                  if (err) return console.log(err)
+                  // console.log(rows.length);
+
+
+                // when adding a tool for the first time, initialize directAttain to 0
+                var check=1;
+                  dbo.collection('CourseOutcome').find({directAttain:{"$exists":true}}).toArray(function(err, row){
+                      check=0;
+                  });
+                console.log("Check "+check);
+
+                  if(check == 1)
+                      tempTool['directAttain'] = 0;
+                  else
+                      tempTool['directAttain'] = parseFloat(rows[0].directAttain);
+                   console.log("Direct attain is "+tempTool['directAttain']);
+
+
+                  
+                // console.log(check);
+                  tempTool['indirectAttain'] = parseFloat(rows[0].indirectAttain);
+                  tempTool['directAttain'] = tempTool['directAttain'] + ( tempTool['weightage'] * tempTool['attainLevel'] );  
+                  // console.log(tempTool['directAttain']);
+                  tempTool['overallAttain'] = (0.8 * tempTool['directAttain']) + (0.2 * tempTool['indirectAttain']);
+
+                  dbo.collection('CourseOutcome').updateOne(
+                  { coID:myobj['coID'] },
+                  {
+                      $set: {
+                                directAttain : tempTool['directAttain'],
+                                overallAttain : tempTool['overallAttain']
+                            },
+
+                      $push: { 
+                                "tool" : {
+                                            toolName : req.body.tool,
+                                            targetMark : parseFloat(req.body.targetMark),
+                                            targetStud : parseFloat(req.body.targetStud),
+                                            weightage : parseFloat(req.body.weightage),
+                                            minMark : parseFloat(req.body.minMark),
+                                            numStud : parseFloat(numStud),
+                                            totalStud : parseFloat(totalStud),
+                                            low : parseFloat(req.body.low),
+                                            mod : parseFloat(req.body.mod),
+                                            high : parseFloat(req.body.high),
+                                            attainPercent : tempTool['attainPercent'],
+                                            attainLevel : tempTool['attainLevel']
+                                         }
+                            }
+                  },
+                  { upsert : true }
+                  );
+
+            });
+
+
+       res.redirect('/coattain');  //using POST REDIRECT GET
+
            
+     });     
 
-           res.redirect('/coattain');  //using POST REDIRECT GET
-
-    // }));
+  
 });
 
 
-  // console.log("fnd is "+found);
+
   
 
 
-
-router.get('/coattain',function(req,res){
-  //For the dropdown
-   dbo.collection('Course').find().toArray(function(err , rows){
-  if (err) return console.log(err)
-       res.render('coattain', {obj:rows});
-        console.log("CO doc read");
-    });
-
-  //  dbo.collection('Course').find().toArray(function(err , rows){
-  // if (err) return console.log(err)
-  //   });
-
-
-});
 
 // PO table---------------------------------------------------------------
 app.post('/virtualPage10',function(req,res){
@@ -1134,9 +1078,11 @@ router.get('/poattainment',function(req,res){
 });
 
 
+
+
 // Course --------------------------------------------------------------
 
-app.post('/virtualPage9',function(req,res){
+app.post('/virtualPage999',function(req,res){
   console.log(req.body);
 
   var myobj={};
@@ -1149,6 +1095,9 @@ app.post('/virtualPage9',function(req,res){
  
   res.redirect('/coattain');  //using POST REDIRECT GET
 });
+
+
+
 
 
 router.get('/coattain',function(req,res){
@@ -1170,8 +1119,6 @@ router.get('/coattain',function(req,res){
 
 
 
-
-
 // Course Outcome--------------------------------------------------------------
 
 app.post('/virtualPage9',function(req,res){
@@ -1189,22 +1136,131 @@ app.post('/virtualPage9',function(req,res){
    });
 
 
-   // dbo.collection('CourseOutcome').updateOne(
-   //  { },
-   //  {
-   //      $set: {
-   //                courseName : req.body.courseName,
-   //                coID : req.body.coID,
-   //                text : req.body.text,
-   //                //directAttain : tempTool['directAttain'],
-   //                indirectAttain : req.body.indirectAttain
-   //                //overallAttain : tempTool['overallAttain']
-   //            }    
-   //  }
-   //  { upsert : true }
-   //  );
-
   res.redirect('/coattain');  //using POST REDIRECT GET
 });
 
 
+
+
+
+
+
+
+
+
+
+// Test Excel upload--------------------------------------------------------------
+
+router.get('/calculateCO',function(req,res){
+        res.render('calculateCO');
+        console.log("calculateCO doc read");
+
+});
+
+
+
+app.post('/UploadExcel', function(req,res){
+
+     upload(req, res, function(err) {
+         if (err) {
+             console.log("Something went wrong!");
+         }
+         else
+         {
+            console.log("File uploaded sucessfully!.");
+            console.log(req.file);
+
+            if(typeof require !== 'undefined') XLSX = require('xlsx');
+            var workbook = XLSX.readFile('uploads/'+req.file.originalname);
+            var sheet_name = workbook.SheetNames[req.body.sheetNumber];
+            /* Get worksheet */
+            var worksheet = workbook.Sheets[sheet_name];
+
+            // Calculating range
+            //Note:  0 == XLSX.utils.decode_col("A")
+             // var range = XLSX.utils.decode_range(workbook.Sheets[sheet_name]["!ref"]);
+            // range.s.r = parseInt(req.body.cellRow)-1;             
+            // range.e.r =  range.s.r + 200;                       
+            // range.s.c = XLSX.utils.decode_col(req.body.cellColumn);
+            // range.e.c = XLSX.utils.decode_col(req.body.cellColumn);
+            // var new_range = XLSX.utils.encode_range(range);
+            // //console.log(new_range);         
+            // var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true, range:new_range});
+            //console.log(sh);          // sh is an array of array of the column of the specified range
+
+            var range = XLSX.utils.decode_range(workbook.Sheets[sheet_name]["!ref"]);
+            var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
+            var flag=0;
+            for(var k=0; k<=range.e.r; k++)
+            {
+              for(var g=0; g<=range.e.c; g++)
+              {
+                  if(sh[k][g] == req.body.columnName)
+                    {
+                       flag=1;
+                       break;
+                    }
+              }
+                if(flag==1)
+                  break;
+            }
+
+             var total=0, successCount=0;
+             k++;       //to start below the cell containing column name
+            for(var p=k; p<=range.e.r; p++)
+            {
+                if( (sh[p][g]==undefined)  || typeof sh[p][g]=="string")
+                  break; 
+                if(sh[p][g] > 7)
+                  successCount++;
+                total++;
+            }
+
+            console.log("Successful Students = "+successCount);
+            console.log("Total are = "+total);
+
+
+            // var total=0, successCount=0;
+            // for(var i=0; i<range.e.r; i++) 
+            // {
+            //   if( (sh[i][0]==undefined)  || typeof sh[i][0]=="string")
+            //     break; 
+            //   if(sh[i][0] >= 7.1)
+            //     successCount++;
+            //   total++;
+            //   // console.log(sh[i][0]);
+            // }
+            // console.log("Successful Students = "+successCount);
+            // console.log("Total are = "+total);
+         }
+           
+     });
+     
+
+  res.redirect('/calculateCO');  //using POST REDIRECT GET
+});
+
+
+
+
+
+//  create a storage which says where and how the files/images should be saved.
+ var Storage = multer.diskStorage({
+
+     destination: function(req, file, callback) {
+         callback(null, "./uploads");
+     },
+
+     filename: function(req, file, callback) {
+         callback(null, file.originalname);
+     } 
+ });
+
+
+
+//  create a multer object as follows
+  var upload = multer({
+     storage: Storage
+ }).single("excelUploader"); //Field name and max count
+
+// console.log(upload);
