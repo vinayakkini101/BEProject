@@ -481,7 +481,7 @@ console.log("1 po doc");
 // End of PO table---------------------------------------------------------------
 
 // PO Attainment---------------------------------------------------------------
-
+var overallAttainPO;
 app.post('/virtualPage8',function(req,res){
   console.log(req.body);
 
@@ -499,6 +499,8 @@ app.post('/virtualPage8',function(req,res){
    myobj['po10'] = req.body.po10;
     myobj['po11'] = req.body.po11;
    myobj['po12'] = req.body.po12;
+
+
 
     console.log(myobj['po12']);
 //// coonditions for 0
@@ -609,27 +611,143 @@ if (myobj['po12'] == '' )
 // });
 
 
+//////testing overall attain
+
+
+///gives the output as snapshot wala
+/*dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1, _id : 0,courseName : 0,coID :0 }).toArray(function(err , rows){
+overallAttainPO = rows['0'].overallAttain;
+console.log(rows['0'].overallAttain);
+console.log(typeof(rows));
+
+console.log(overallAttainPO);
+ });
+*/
+/*function getOverallAttain() {
+dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1, _id : 0,courseName : 0,coID :0 }).toArray(function(err , rows){
+overallAttainPO = rows['0'].overallAttain;
+//return rows['0'].overallAttain;
+console.log(rows['0'].overallAttain);
+console.log(typeof(rows));
+
+console.log('overall shhitt',overallAttainPO);
+ //return overallAttainPO;
+ });
+// return 'did not work';
+console.log('overall shhitt 11111',overallAttainPO);
+} 
+
+var x1 = getOverallAttain();
+console.log('the outside function',x1);*/
+//console.log(typeof(dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1})));
+
+
+
+
+///gives output
+/*dbo.collection('POAttainment').aggregate([
+   {
+     $lookup:
+       {
+         from: "CourseOutcome",
+         localField: myobj['coID'],
+         foreignField: "overallAttain" ,
+         as: "docs"
+       }
+  }
+]).toArray(function(err , rows){
+console.log(rows);
+ });*/
+
+
+
+
+
 /////////////////test block it is running 
 
+//var arr1 = new Array();
+dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1, _id : 0,courseName : 0,coID :0 }).toArray(function(err , rows){
+overallAttainPO = rows['0'].overallAttain;
+//return rows['0'].overallAttain;
+console.log(rows['0'].overallAttain);
+console.log(typeof(rows));
 
-
-if(myobj['po1'] > 0){
+console.log('overall shhitt',overallAttainPO);
+ //return overallAttainPO;
+ 
+if(myobj['po1'] > 0 && myobj['po1'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '1' },
                       {              $push: { 
                                     "try1" : {
                                                 coID : req.body.coID,
                                                   "insidetry2":{
-                                                    value : myobj['po1']
+                                                    value : myobj['po1'],
+                                                    overallAttain : overallAttainPO
                                                   }
                                              }
                                 }
                       },
                       { upsert : true }
                       );
+//var total = 0,count=0;
+
+////////////////total,count,co-po
+
+dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
+console.log('INside the if of PO1',rows['0'].try1['0'].insidetry2.value);
+console.log('before total');
+var total = 0,count=0;
+console.log('before for');
+console.log(rows['0'].try1.length);
+for (var i = 0, len = rows['0'].try1.length; i < len; i++) {
+
+   total = total + parseFloat(rows['0'].try1[i].insidetry2.value);
+   //console.log('this is total',total);
+   count++;
+   //console.log('this is counttt',count);
 }
 
-if(myobj['po2'] > 0){
+console.log('this is total',total);
+console.log('this is counttt',count);
+
+var copomatrix = total / count;
+
+
+dbo.collection('POAttainment').updateOne(
+                      { poID : '1' },
+                      {              $set: { 
+                                              "total" : total,
+                                              "count" : count,
+                                              "CoPoMatrix" : copomatrix
+                                }
+                      },
+                      { upsert : true }
+                      );
+
+
+
+
+console.log('after for');
+ });
+//console.log('INside the if of PO1',arr1);
+
+//console.log('this is counttt check',count);
+///counting
+/*dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
+
+ console.log('count',rows['0'].try1['1'].insidetry2.value);
+ 
+
+ });*/
+
+
+
+}
+
+
+
+if(myobj['po2'] > 0 && myobj['po2'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '2' },
                       {              $push: { 
@@ -644,7 +762,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po3'] > 0){
+if(myobj['po3'] > 0 && myobj['po3'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '3' },
                       {              $push: { 
@@ -659,7 +777,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po4'] > 0){
+if(myobj['po4'] > 0 && myobj['po4'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '4' },
                       {              $push: { 
@@ -674,7 +792,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po5'] > 0){
+if(myobj['po5'] > 0 && myobj['po5'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '5' },
                       {              $push: { 
@@ -689,7 +807,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po6'] > 0){
+if(myobj['po6'] > 0 && myobj['po6'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '6' },
                       {              $push: { 
@@ -704,7 +822,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po7'] > 0){
+if(myobj['po7'] > 0 && myobj['po7'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '7' },
                       {              $push: { 
@@ -719,7 +837,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po8'] > 0){
+if(myobj['po8'] > 0 && myobj['po8'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '8' },
                       {              $push: { 
@@ -734,7 +852,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po9'] > 0){
+if(myobj['po9'] > 0 && myobj['po9'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '9' },
                       {              $push: { 
@@ -749,7 +867,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po10'] > 0){
+if(myobj['po10'] > 0 && myobj['po10'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '10' },
                       {              $push: { 
@@ -764,7 +882,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po11'] > 0){
+if(myobj['po11'] > 0 && myobj['po11'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '11' },
                       {              $push: { 
@@ -779,7 +897,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-if(myobj['po12'] > 0){
+if(myobj['po12'] > 0 && myobj['po12'] <= 3){
 dbo.collection('POAttainment').updateOne(
                       { poID : '12' },
                       {              $push: { 
@@ -794,7 +912,7 @@ dbo.collection('POAttainment').updateOne(
                       { upsert : true }
                       );
 }
-
+});
 //////////////////
 
 /*
