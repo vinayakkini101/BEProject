@@ -4,7 +4,7 @@
   "description": "",
   "main": "serverTest.js",
   "scripts": {
-    "start" : "node serverTest.js"
+    "start": "node serverTest.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,8 @@
     "jquery.easing": "^1.4.1",
     "mongodb": "^3.0.2",
     "mysql": "^2.15.0",
-    "popper.js": "1.12.3"
+    "popper.js": "1.12.3",
+    "xlsx": "^0.12.2"
   },
   "devDependencies": {
     "browser-sync": "2.18.13",

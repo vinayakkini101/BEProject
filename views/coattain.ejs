@@ -35,7 +35,7 @@
     <div class="well" style="margin-top: 5%;">
 
     <h3>Add Course</h3>
-    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/virtualPage8">
+    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/virtualPage999">
        
 
           <div class="form-group">
@@ -83,7 +83,7 @@
         <div class="form-group">
           <label for="sel1">Select Course</label>
           <select class="form-control" id="sel1" name="courseName">
-           <% obj.forEach(function(rows,index){%>
+           <% obj1.forEach(function(rows,index){%>
             <option name="<%= rows.courseName %>"><%= rows.courseName %></option>
           <% }); %>
           </select>
@@ -136,17 +136,45 @@
 
 
     <h3>CO Attainment</h3>
-    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post" action="/virtualPage7">
+    <h6>Note : Ensure that there are no blank cells in the column but ONE at the end of the column </h6>
+    <br>
+    <form role="form" id="contactForm123" data-toggle="validator" class="shake" method="post"  enctype="multipart/form-data"   action="/virtualPage7">
        
 
   <div class="form-group">
     <label for="sel1">Select Course Outcome</label>
     <select class="form-control" id="sel1" name="coID">
-     <% obj.forEach(function(COrows,index){%>
+     <% obj2.forEach(function(COrows,index){%>
       <option name="<%= COrows.coID %>"><%= COrows.coID %></option>
     <% }); %>
     </select>
   </div>
+
+
+
+  <div class="form-group">
+       <br>
+       Upload Excel
+        <div class="form-group">
+            <div class='input-group' id='datetimepicker5'>
+                <input type='file'  class="form-control"  name="excelUploader" multiple />
+            </div>
+        </div>
+        <div class="help-block with-errors"></div>
+    </div>
+
+     <div class="form-group">
+       <br>
+       Excel Sheet Number (0-index)
+       <input type="text" class="form-control" name="sheetNumber" placeholder="Excel Sheet Number">
+    </div>
+
+    <div class="form-group">
+       <br>
+       Column name
+       <input type="text" class="form-control" name="columnName" placeholder="Column Name">
+  </div>
+
 
 
   <div class="form-group">
@@ -185,6 +213,7 @@
 	   <input type="text" class="form-control" name="minMark" >
 	</div>
 
+<!--
 	<div class="form-group">
 	    <br>
 	    Number of Successful Students
@@ -197,6 +226,7 @@
      <input type="text" class="form-control" name="totalStud" >
   </div>
   <br><br>
+-->
 
   <h4>Target Level Percentage</h4>
   <div class="form-group">
@@ -235,10 +265,7 @@
 
 
 
-<% Object.keys(obj).forEach(function(key){ %>
-   
-   <%- obj %>
-<%}); %>
+
 
 
 </body>
