@@ -127,41 +127,40 @@ router.get('/syllabusScheme',function(req,res){
 // Lecture Schedule--------------------------------------------------------
 
 app.post('/virtualPage3',function(req,res){
-  console.log(req.body);
-  var query = "INSERT INTO lectureSchedule(portion,eg,plannedDate,actualDate,delivery) VALUES(";
- query+= " '"+req.body.portion+"',";
- query+= " '"+req.body.example+"',";
- query+= " '"+req.body.pdate+"',";
- query+= " '"+req.body.adate+"',";
- query+= " '"+req.body.delivery+"')";
+console.log(req.body);
+  var yourobj={};
+   yourobj['num'] = req.body.num;
+   yourobj['portion'] = req.body.portion;
+   yourobj['planned'] = req.body.planned;
+   yourobj['actual'] = req.body.actual;
+   yourobj['method'] = req.body.method;
+   
 
- connection.query(query, function(err,rows,fields){
-    if(!!err){
-  console.log('Error in the lecture insert query');
-     }else{
-  console.log('Successful lecture insert query');
-      }
-});
+   console.log('num',yourobj['num']);
+   console.log('portion',yourobj['portion']);
+   console.log('planned',yourobj['planned']);
+   console.log('actual',yourobj['actual']);
+   console.log('method',yourobj['method']);
+
+   
+   dbo.collection("Lecture").insertOne(yourobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 Lecture doc inserted");
+
+  });
 
   res.redirect('/lecture'); //using POST REDIRECT GET
 
 });
 
 
-
-
 router.get('/lecture',function(req,res){
-var q = "SELECT * FROM lectureSchedule";
-  connection.query(q, function(err,rows){
-      if(!!err){
-    console.log('Error in the read query');
-       }else{
-    console.log('Successful read query');
-        }
-
-    res.render('lecData',{obj:rows});
-  });
-});
+    dbo.collection('Lecture').find().toArray(function(err , rows){
+  if (err) return console.log(err)
+  res.render('lecture', {obj:rows});
+        console.log("Lecture doc read");
+    });
+ });
 
 
 
