@@ -213,17 +213,6 @@ router.get('/lab',function(req,res){
 
 app.post('/virtualPage5',function(req,res){
   console.log(req.body);
-  /*var query = "INSERT INTO assignment(question,subDate,givenDate) VALUES(";
- query+= " '"+req.body.question+"',";
- query+= " '"+req.body.givenDate+"',";
- query+= " '"+req.body.subDate+"')";
-
- connection.query(query, function(err,rows,fields){
-    if(!!err){
-  console.log('Error in the assignm insert query');
-     }else{
-  console.log('Successful assignm insert query');
-      }*/
 
       var myobj={};
    myobj['question'] = req.body.question;
@@ -311,87 +300,6 @@ router.get('/mp',function(req,res){
 app.post('/virtualPage7',function(req,res){
   console.log(req.body);
 
-/*
-var attainper = (req.body.numstu / 77) * 100 ;
-console.log(req.body.method);
-var attainlevel;
-if(req.body.method == "test1")
- if(attainper>=50 && attainper<=60)
-  attainlevel = 1;
- else if(attainper>60 && attainper<=70)
-  attainlevel = 2;
- else if(attainper>70)
-  attainlevel = 3;
-
-if(req.body.method == "lab19" || req.body.method == "oral")
- if(attainper>=70 && attainper<=80)
-  attainlevel = 1;
- else if(attainper>80 && attainper<=90)
-  attainlevel = 2;
- else
-  attainlevel = 3;
-
-if(req.body.method == "theory")
- if(attainper>=60 && attainper<=70)
-  attainlevel = 1;
- else if(attainper>70 && attainper<=85)
-  attainlevel = 2;
- else
-  attainlevel = 3;
-
-
-  var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
- query+= " '"+req.body.method+"',";
- query+= " '"+req.body.weightage+"',";
- query+= " '"+req.body.totalmarks+"',";
- query+= " '"+req.body.minmarks+"',";
- query+= " '"+req.body.numstu+"',";
- query+= " '"+attainper+"',";
- query+= " '"+attainlevel+"')";
-  //var a = req.body.weightage * req.body.totalmarks;
-*/
-
-/*
-var attainper = (req.body.numstu / 77) * 100 ;
-console.log(req.body.method);
-var attainlevel;
-if(req.body.method == "test1")
- if(attainper>=50 && attainper<=60)
-	attainlevel = 1;
- else if(attainper>60 && attainper<=70)
-	attainlevel = 2;
- else if(attainper>70)
-	attainlevel = 3;
-
-if(req.body.method == "lab19" || req.body.method == "oral")
- if(attainper>=70 && attainper<=80)
-	attainlevel = 1;
- else if(attainper>80 && attainper<=90)
-	attainlevel = 2;
- else
-	attainlevel = 3;
-
-if(req.body.method == "theory")
- if(attainper>=60 && attainper<=70)
-	attainlevel = 1;
- else if(attainper>70 && attainper<=85)
-	attainlevel = 2;
- else
-	attainlevel = 3;
-
-
-  var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
- query+= " '"+req.body.method+"',";
- query+= " '"+req.body.weightage+"',";
- query+= " '"+req.body.totalmarks+"',";
- query+= " '"+req.body.minmarks+"',";
- query+= " '"+req.body.numstu+"',";
- query+= " '"+attainper+"',";
- query+= " '"+attainlevel+"')";
-  //var a = req.body.weightage * req.body.totalmarks;
-*/
-
-
 upload(req, res, function(err) {
          if (err) {
              console.log("Something went wrong!");
@@ -442,33 +350,14 @@ upload(req, res, function(err) {
             {
                 if( (sh[p][g]==undefined)  || typeof sh[p][g]=="string")
                   break; 
-                if(sh[p][g] >= req.body.minMark){
+                if(sh[p][g] >= req.body.minMark)
                   numStud++;
-
-                }
                 totalStud++;
             }
 
             console.log("Successful Students = "+numStud);
             console.log("Total are = "+totalStud);
-
-
-            // var total=0, successCount=0;
-            // for(var i=0; i<range.e.r; i++) 
-            // {
-            //   if( (sh[i][0]==undefined)  || typeof sh[i][0]=="string")
-            //     break; 
-            //   if(sh[i][0] >= 7.1)
-            //     successCount++;
-            //   total++;
-            //   // console.log(sh[i][0]);
-            // }
-            // console.log("Successful Students = "+successCount);
-            // console.log("Total are = "+total);
          }
-
-
-
 
 
 
@@ -560,6 +449,31 @@ upload(req, res, function(err) {
 
 
   
+
+
+
+//  create a storage which says where and how the files/images should be saved.
+ var Storage = multer.diskStorage({
+
+     destination: function(req, file, callback) {
+         callback(null, "./uploads");
+     },
+
+     filename: function(req, file, callback) {
+         callback(null, file.originalname);
+     } 
+ });
+
+
+
+//  create a multer object as follows
+  var upload = multer({
+     storage: Storage
+ }).single("excelUploader"); //Field name and max count
+
+
+
+
 
 
 
@@ -1141,39 +1055,9 @@ dbo.collection('POAttainment').updateOne(
                       );
 }
 });
-//////////////////
-
-/*
-var results = dbo.collection('CourseOutcome').aggregate([
-
-     // Un-wind the array's to access filtering 
-     
-     { "$unwind": "$CourseOutcome.pos" },
-     { "$unwind": "$CourseOutcome.pos.po1" },
-
-     // Group results to obtain the matched count per key
-     { "$group": {
-         "count": { "$sum": 1 }
-
-     }}
-    
- ],function(err, result){ 
-    //some stuff
-   
-});
-
-
-console.log(results);
-*/
 
 
 
-   
-   /*dbo.collection('POAttainment').insertOne(myobj, function(err, res) {
-      if (err) throw err;
-      console.log("1 course doc inserted");
-   });
-*/ 
   res.redirect('/poattainment');  //using POST REDIRECT GET
 });
 
@@ -1254,126 +1138,3 @@ app.post('/virtualPage9',function(req,res){
 
 
 
-
-
-
-
-
-
-
-
-// Test Excel upload--------------------------------------------------------------
-
-router.get('/calculateCO',function(req,res){
-        res.render('calculateCO');
-        console.log("calculateCO doc read");
-
-});
-
-
-
-app.post('/UploadExcel', function(req,res){
-
-     upload(req, res, function(err) {
-         if (err) {
-             console.log("Something went wrong!");
-         }
-         else
-         {
-            console.log("File uploaded sucessfully!.");
-            console.log(req.file);
-
-            if(typeof require !== 'undefined') XLSX = require('xlsx');
-            var workbook = XLSX.readFile('uploads/'+req.file.originalname);
-            var sheet_name = workbook.SheetNames[req.body.sheetNumber];
-            /* Get worksheet */
-            var worksheet = workbook.Sheets[sheet_name];
-
-            // Calculating range
-            //Note:  0 == XLSX.utils.decode_col("A")
-             // var range = XLSX.utils.decode_range(workbook.Sheets[sheet_name]["!ref"]);
-            // range.s.r = parseInt(req.body.cellRow)-1;             
-            // range.e.r =  range.s.r + 200;                       
-            // range.s.c = XLSX.utils.decode_col(req.body.cellColumn);
-            // range.e.c = XLSX.utils.decode_col(req.body.cellColumn);
-            // var new_range = XLSX.utils.encode_range(range);
-            // //console.log(new_range);         
-            // var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true, range:new_range});
-            //console.log(sh);          // sh is an array of array of the column of the specified range
-
-            var range = XLSX.utils.decode_range(workbook.Sheets[sheet_name]["!ref"]);
-            var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
-            var flag=0;
-            for(var k=0; k<=range.e.r; k++)
-            {
-              for(var g=0; g<=range.e.c; g++)
-              {
-                  if(sh[k][g] == req.body.columnName)
-                    {
-                       flag=1;
-                       break;
-                    }
-              }
-                if(flag==1)
-                  break;
-            }
-
-             var total=0, successCount=0;
-             k++;       //to start below the cell containing column name
-            for(var p=k; p<=range.e.r; p++)
-            {
-                if( (sh[p][g]==undefined)  || typeof sh[p][g]=="string")
-                  break; 
-                if(sh[p][g] > 7)
-                  successCount++;
-                total++;
-            }
-
-            console.log("Successful Students = "+successCount);
-            console.log("Total are = "+total);
-
-
-            // var total=0, successCount=0;
-            // for(var i=0; i<range.e.r; i++) 
-            // {
-            //   if( (sh[i][0]==undefined)  || typeof sh[i][0]=="string")
-            //     break; 
-            //   if(sh[i][0] >= 7.1)
-            //     successCount++;
-            //   total++;
-            //   // console.log(sh[i][0]);
-            // }
-            // console.log("Successful Students = "+successCount);
-            // console.log("Total are = "+total);
-         }
-           
-     });
-     
-
-  res.redirect('/calculateCO');  //using POST REDIRECT GET
-});
-
-
-
-
-
-//  create a storage which says where and how the files/images should be saved.
- var Storage = multer.diskStorage({
-
-     destination: function(req, file, callback) {
-         callback(null, "./uploads");
-     },
-
-     filename: function(req, file, callback) {
-         callback(null, file.originalname);
-     } 
- });
-
-
-
-//  create a multer object as follows
-  var upload = multer({
-     storage: Storage
- }).single("excelUploader"); //Field name and max count
-
-// console.log(upload);
