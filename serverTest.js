@@ -169,41 +169,43 @@ var q = "SELECT * FROM lectureSchedule";
 
 app.post('/virtualPage4',function(req,res){
   console.log(req.body);
-  var query = "INSERT INTO planLab(Expt,DateA,DateB,DateC,DateD,Concept,Aim) VALUES(";
- query+= " '"+req.body.expt+"',";
- query+= " '"+req.body.dateA+"',";
- query+= " '"+req.body.dateB+"',";
- query+= " '"+req.body.dateC+"',";
- query+= " '"+req.body.dateD+"',";
- query+= " '"+req.body.concept+"',";
- query+= " '"+req.body.aim+"')";
+  var yourobj={};
+   yourobj['expnum'] = req.body.expnum;
+   yourobj['dateA'] = req.body.dateA;
+   yourobj['dateB'] = req.body.dateB;
+   yourobj['dateC'] = req.body.dateC;
+   yourobj['dateD'] = req.body.dateD;
+   yourobj['concept'] = req.body.concept;
+   yourobj['titleaim'] = req.body.titleaim;
+   
 
- connection.query(query, function(err,rows,fields){
-    if(!!err){
-  console.log('Error in the lab insert query');
-     }else{
-  console.log('Successful lab insert query');
-      }
-});
+   console.log('expnum',yourobj['expnum']);
+   console.log('dateA',yourobj['dateA']);
+   console.log('dateB',yourobj['dateB']);
+   console.log('dateC',yourobj['dateC']);
+   console.log('dateD',yourobj['dateD']);
+   console.log('concept',yourobj['concept']);
+   console.log('titleaim',yourobj['titleaim']);
+
+   
+   dbo.collection("Lab").insertOne(yourobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 Lab doc inserted");
+
+  });
 
   res.redirect('/lab'); //using POST REDIRECT GET
 
 });
 
 
-
 router.get('/lab',function(req,res){
-var q = "SELECT * FROM planLab";
-  connection.query(q, function(err,rows){
-      if(!!err){
-    console.log('Error in the lab read query');
-       }else{
-    console.log('Successful lab read query');
-        }
-
-    res.render('labData',{obj:rows});
-  });
-});
+    dbo.collection('Lab').find().toArray(function(err , rows){
+  if (err) return console.log(err)
+  res.render('lab', {obj:rows});
+        console.log("Lab doc read");
+    });
+ });
 
 
 
@@ -246,6 +248,31 @@ router.get('/ass',function(req,res){
         console.log("Ass doc read");
     });
 });
+
+
+
+// Lab---------------------------------------------------------------
+
+app.post('/virtualPage11',function(req,res){
+  console.log(req.body);
+  /*var query = "INSERT INTO assignment(question,subDate,givenDate) VALUES(";
+ query+= " '"+req.body.question+"',";
+ query+= " '"+req.body.givenDate+"',";
+ query+= " '"+req.body.subDate+"')";
+
+ connection.query(query, function(err,rows,fields){
+    if(!!err){
+  console.log('Error in the assignm insert query');
+     }else{
+  console.log('Successful assignm insert query');
+      }*/
+
+     
+});
+
+
+
+
 
 
 // Mini Project---------------------------------------------------------------

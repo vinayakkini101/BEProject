@@ -1,0 +1,158 @@
+<% include headerAndSide.ejs %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact form using Bootstrap 3.3.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin.css">
+</head>
+<body style="background-color: #7e7e7e">
+	<div class="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">Dashboard</a>
+          </li>
+	  <li class="breadcrumb-item">
+            <a href="/plans">Plans</a>
+          </li>
+          <li class="breadcrumb-item active">Lab</li>
+        </ol>
+
+
+     <div class="well" style="margin-top: 5%;">
+     <h3>Lab</h3>
+     <form role="form" id="contactForm" data-toggle="validator" class="shake" method="post" action="/virtualPage4">
+             
+
+
+     <div class="form-group">
+           <br>
+           Exp Number
+            <input type="number" id="expnum" class="form-control"  name="expnum" required ></input>
+            <div class="help-block with-errors"></div>
+        </div> 
+
+
+    
+<div class="container">
+Date
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+
+
+
+
+          <th>Batch A</th>
+          <th>Batch B</th>
+          <th>Batch C</th>
+          <th>Batch D</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          
+
+          <td>
+            <input type="date" class="form-control" size="16" name="dateA" value="">
+          </td>
+          <td>
+            <input type="date" class="form-control" size="16" name="dateB" value="">
+          </td>
+          <td>
+            <input type="date" class="form-control" size="16" name="dateC" value="">
+          </td>
+          <td>
+            <input type="date" class="form-control" size="16" name="dateD" value="">
+          </td>
+
+
+
+
+          
+
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+        
+
+
+        <div class="form-group">
+           <br>
+           Concept
+            <textarea id="concept" class="form-control" rows="4" placeholder="Enter Concept" name="concept" required ></textarea>
+            <div class="help-block with-errors"></div>
+        </div> 
+
+
+         <div class="form-group">
+           <br>
+           Title/Aim
+            <textarea id="titleaim" class="form-control" rows="4" placeholder="Enter the Title/Aim" name="titleaim" required ></textarea>
+            <div class="help-block with-errors"></div>
+        </div> 
+
+        <br>
+        <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+        <div id="msgSubmit" class="h3 text-center hidden"></div>
+        <div class="clearfix"></div>
+    </form>
+    <hr>
+    <br><br>
+
+<div >
+  <h3>Lab</h3>        
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+	<th>EXP Number </th>
+	<th>Batch A</th>
+  <th>Batch B</th>
+  <th>Batch C</th>
+  <th>Batch D </th>
+  <th>Concept</th>
+        <th>Title/Aim</th>
+      </tr>
+    </thead> 
+    <tbody>
+    	<% obj.forEach(function(row,index){%>
+      <tr>
+	<td><%= row.expnum %> </td>
+	<td><%= row.dateA %> </td>
+	<td><%= row.dateB %> </td>
+  <td><%= row.dateC %> </td>
+  <td><%= row.dateD %> </td>
+  <td><%= row.concept %> </td>
+  <td><%= row.titleaim %> </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+
+</div>
+</div>
+</div>
+
+
+
+</body>
+</html>
+
+
+
