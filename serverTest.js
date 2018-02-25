@@ -20,7 +20,7 @@ var url = 'mongodb://vinayakkini101:beproject@ds225608.mlab.com:25608/beproject'
 var dbo;
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  dbo = db.db("beproject");			
+  dbo = db.db("beproject");     
   console.log("Connected to BEProject");
 }); 
 
@@ -137,13 +137,13 @@ app.post('/virtualPage3',function(req,res){
 
  connection.query(query, function(err,rows,fields){
     if(!!err){
-	console.log('Error in the lecture insert query');
+  console.log('Error in the lecture insert query');
      }else{
-	console.log('Successful lecture insert query');
+  console.log('Successful lecture insert query');
       }
 });
 
-  res.redirect('/lecture');	//using POST REDIRECT GET
+  res.redirect('/lecture'); //using POST REDIRECT GET
 
 });
 
@@ -154,9 +154,9 @@ router.get('/lecture',function(req,res){
 var q = "SELECT * FROM lectureSchedule";
   connection.query(q, function(err,rows){
       if(!!err){
-	  console.log('Error in the read query');
+    console.log('Error in the read query');
        }else{
-	  console.log('Successful read query');
+    console.log('Successful read query');
         }
 
     res.render('lecData',{obj:rows});
@@ -169,41 +169,43 @@ var q = "SELECT * FROM lectureSchedule";
 
 app.post('/virtualPage4',function(req,res){
   console.log(req.body);
-  var query = "INSERT INTO planLab(Expt,DateA,DateB,DateC,DateD,Concept,Aim) VALUES(";
- query+= " '"+req.body.expt+"',";
- query+= " '"+req.body.dateA+"',";
- query+= " '"+req.body.dateB+"',";
- query+= " '"+req.body.dateC+"',";
- query+= " '"+req.body.dateD+"',";
- query+= " '"+req.body.concept+"',";
- query+= " '"+req.body.aim+"')";
+  var yourobj={};
+   yourobj['expnum'] = req.body.expnum;
+   yourobj['dateA'] = req.body.dateA;
+   yourobj['dateB'] = req.body.dateB;
+   yourobj['dateC'] = req.body.dateC;
+   yourobj['dateD'] = req.body.dateD;
+   yourobj['concept'] = req.body.concept;
+   yourobj['titleaim'] = req.body.titleaim;
+   
 
- connection.query(query, function(err,rows,fields){
-    if(!!err){
-	console.log('Error in the lab insert query');
-     }else{
-	console.log('Successful lab insert query');
-      }
+   console.log('expnum',yourobj['expnum']);
+   console.log('dateA',yourobj['dateA']);
+   console.log('dateB',yourobj['dateB']);
+   console.log('dateC',yourobj['dateC']);
+   console.log('dateD',yourobj['dateD']);
+   console.log('concept',yourobj['concept']);
+   console.log('titleaim',yourobj['titleaim']);
+
+   
+   dbo.collection("Lab").insertOne(yourobj, function(err, res) {
+      if (err) throw err;
+      console.log("1 Lab doc inserted");
+
+  });
+
+  res.redirect('/lab'); //using POST REDIRECT GET
+
 });
-
-  res.redirect('/lab');	//using POST REDIRECT GET
-
-});
-
 
 
 router.get('/lab',function(req,res){
-var q = "SELECT * FROM planLab";
-  connection.query(q, function(err,rows){
-      if(!!err){
-	  console.log('Error in the lab read query');
-       }else{
-	  console.log('Successful lab read query');
-        }
-
-    res.render('labData',{obj:rows});
-  });
-});
+    dbo.collection('Lab').find().toArray(function(err , rows){
+  if (err) return console.log(err)
+  res.render('lab', {obj:rows});
+        console.log("Lab doc read");
+    });
+ });
 
 
 
@@ -219,9 +221,9 @@ app.post('/virtualPage5',function(req,res){
 
  connection.query(query, function(err,rows,fields){
     if(!!err){
-	console.log('Error in the assignm insert query');
+  console.log('Error in the assignm insert query');
      }else{
-	console.log('Successful assignm insert query');
+  console.log('Successful assignm insert query');
       }*/
 
       var myobj={};
@@ -234,18 +236,43 @@ app.post('/virtualPage5',function(req,res){
 
   });
 
-  res.redirect('/ass');	//using POST REDIRECT GET
+  res.redirect('/ass'); //using POST REDIRECT GET
 
 });
 
 
 router.get('/ass',function(req,res){
     dbo.collection('Assignments').find().toArray(function(err , rows){
-	if (err) return console.log(err)
-	res.render('assData', {obj:rows});
+  if (err) return console.log(err)
+  res.render('assData', {obj:rows});
         console.log("Ass doc read");
     });
 });
+
+
+
+// Lab---------------------------------------------------------------
+
+app.post('/virtualPage11',function(req,res){
+  console.log(req.body);
+  /*var query = "INSERT INTO assignment(question,subDate,givenDate) VALUES(";
+ query+= " '"+req.body.question+"',";
+ query+= " '"+req.body.givenDate+"',";
+ query+= " '"+req.body.subDate+"')";
+
+ connection.query(query, function(err,rows,fields){
+    if(!!err){
+  console.log('Error in the assignm insert query');
+     }else{
+  console.log('Successful assignm insert query');
+      }*/
+
+     
+});
+
+
+
+
 
 
 // Mini Project---------------------------------------------------------------
@@ -261,7 +288,7 @@ app.post('/virtualPage6',function(req,res){
       console.log("1 MP doc inserted");
    });
  
-  res.redirect('/mp');	//using POST REDIRECT GET
+  res.redirect('/mp');  //using POST REDIRECT GET
 
 });
 
@@ -269,9 +296,9 @@ app.post('/virtualPage6',function(req,res){
 router.get('/mp',function(req,res){
 
     dbo.collection('MiniProject').find().toArray(function(err , rows){
-	if (err) return console.log(err)
+  if (err) return console.log(err)
     // console.log(rows[0].mpDate);
-	res.render('mpData', {obj:rows});
+  res.render('mpData', {obj:rows});
         console.log("MP doc read");
     });
 });
@@ -285,6 +312,85 @@ router.get('/mp',function(req,res){
 app.post('/virtualPage7',function(req,res){
   console.log(req.body);
 
+/*
+var attainper = (req.body.numstu / 77) * 100 ;
+console.log(req.body.method);
+var attainlevel;
+if(req.body.method == "test1")
+ if(attainper>=50 && attainper<=60)
+  attainlevel = 1;
+ else if(attainper>60 && attainper<=70)
+  attainlevel = 2;
+ else if(attainper>70)
+  attainlevel = 3;
+
+if(req.body.method == "lab19" || req.body.method == "oral")
+ if(attainper>=70 && attainper<=80)
+  attainlevel = 1;
+ else if(attainper>80 && attainper<=90)
+  attainlevel = 2;
+ else
+  attainlevel = 3;
+
+if(req.body.method == "theory")
+ if(attainper>=60 && attainper<=70)
+  attainlevel = 1;
+ else if(attainper>70 && attainper<=85)
+  attainlevel = 2;
+ else
+  attainlevel = 3;
+
+
+  var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
+ query+= " '"+req.body.method+"',";
+ query+= " '"+req.body.weightage+"',";
+ query+= " '"+req.body.totalmarks+"',";
+ query+= " '"+req.body.minmarks+"',";
+ query+= " '"+req.body.numstu+"',";
+ query+= " '"+attainper+"',";
+ query+= " '"+attainlevel+"')";
+  //var a = req.body.weightage * req.body.totalmarks;
+*/
+
+/*
+var attainper = (req.body.numstu / 77) * 100 ;
+console.log(req.body.method);
+var attainlevel;
+if(req.body.method == "test1")
+ if(attainper>=50 && attainper<=60)
+	attainlevel = 1;
+ else if(attainper>60 && attainper<=70)
+	attainlevel = 2;
+ else if(attainper>70)
+	attainlevel = 3;
+
+if(req.body.method == "lab19" || req.body.method == "oral")
+ if(attainper>=70 && attainper<=80)
+	attainlevel = 1;
+ else if(attainper>80 && attainper<=90)
+	attainlevel = 2;
+ else
+	attainlevel = 3;
+
+if(req.body.method == "theory")
+ if(attainper>=60 && attainper<=70)
+	attainlevel = 1;
+ else if(attainper>70 && attainper<=85)
+	attainlevel = 2;
+ else
+	attainlevel = 3;
+
+
+  var query = "INSERT INTO coattain(method,weightage,totalmarks,minmarks,numstu,attainper,attainlevel) VALUES(";
+ query+= " '"+req.body.method+"',";
+ query+= " '"+req.body.weightage+"',";
+ query+= " '"+req.body.totalmarks+"',";
+ query+= " '"+req.body.minmarks+"',";
+ query+= " '"+req.body.numstu+"',";
+ query+= " '"+attainper+"',";
+ query+= " '"+attainlevel+"')";
+  //var a = req.body.weightage * req.body.totalmarks;
+*/
 
 
 upload(req, res, function(err) {
@@ -703,8 +809,13 @@ console.log(rows['0'].try1.length);
 for (var i = 0, len = rows['0'].try1.length; i < len; i++) {
 
    total = total + parseFloat(rows['0'].try1[i].insidetry2.value);
+
+   ///console.log('this is total',total);
+   console.log('this is total',total);
    //console.log('this is total',total);
    count++;
+   //console.log('this is counttt',count);
+   console.log('this is counttt',count);
    //console.log('this is counttt',count);
 }
 
@@ -777,6 +888,7 @@ if(flag2==2){
  average2 = sum2/count2;
  valavg2 = 2 * average2;
 console.log('value 2',valavg2);
+
 }
 if(flag3==3){
   console.log('inside flag three');
@@ -842,6 +954,8 @@ dbo.collection('POAttainment').updateOne(
 
 
 
+console.log('this is total',total);
+console.log('this is counttt',count);
 console.log('after for');
 });
  });
