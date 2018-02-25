@@ -60,13 +60,27 @@ app.post('/virtualPage',function(req,res){
   var myobj={};
    myobj['courseID'] = req.body.courseID;
    myobj['moduleName'] = req.body.moduleName;
-   myobj['hours'] = req.body.hours;
+   myobj['hours'] = parseInt(req.body.hours);
    myobj['content'] = req.body.content;
-   dbo.collection("SyllabusModules").insertOne(myobj, function(err, res) {
-      if (err) throw err;
-      console.log("1 modules doc inserted");
-   });
  
+   dbo.collection('Course').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
+                  dbo.collection('Course').updateOne(
+                      { courseID:myobj['courseID'] },
+                      {
+                          $set: { 
+                                    "module" : {
+                                                name : myobj['moduleName'],
+                                                hours : myobj['hours'],
+                                                content : myobj['content']
+                                             }
+                                }
+                      },
+                      { upsert : true }
+                      );
+
+      });
+
+
   res.redirect('/syllabusModules');  //using POST REDIRECT GET
 
 });
@@ -93,18 +107,36 @@ app.post('/virtualPage2',function(req,res){
   var myobj={};
    myobj['courseID'] = req.body.courseID;
    myobj['courseName'] = req.body.courseName;
-   myobj['iatest1'] = req.body.iatest1;
-   myobj['iatest2'] = req.body.iatest2;
-   myobj['iatestavg'] = req.body.iatestavg;
-   myobj['endsem'] = req.body.endsem;
-   myobj['duration'] = req.body.duration;
-   myobj['tw'] = req.body.tw;
-   myobj['or'] = req.body.or;
-   myobj['total'] = req.body.total;
-   dbo.collection('SyllabusScheme').insertOne(myobj, function(err, res) {
-      if (err) throw err;
-      console.log("1 scheme doc inserted");
-   });
+   myobj['iatest1'] = parseInt(req.body.iatest1);
+   myobj['iatest2'] = parseInt(req.body.iatest2);
+   myobj['iatestavg'] = parseInt(req.body.iatestavg);
+   myobj['endsem'] = parseInt(req.body.endsem);
+   myobj['duration'] = parseInt(req.body.duration);
+   myobj['tw'] = parseInt(req.body.tw);
+   myobj['oral'] = parseInt(req.body.or);
+   myobj['total'] = parseInt(req.body.total);
+   
+   dbo.collection('Course').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
+                  dbo.collection('Course').updateOne(
+                      { courseID:myobj['courseID'] },
+                      {
+                          $set: { 
+                                    courseName : myobj['courseName'],
+                                    InternalAssessmentTest_1 : myobj['iatest1'],
+                                    InternalAssessmentTest_2 : myobj['iatest2'],
+                                    InternalAssessmentTest_Avg : myobj['iatestavg'],
+                                    EndSemesterExam : myobj['endsem'],
+                                    duration : myobj['duration'],
+                                    termWork : myobj['tw'],
+                                    oral : myobj['oral'],
+                                    total : myobj['total']
+                                }
+                      },
+                      { upsert : true }
+                      );
+
+      });
+
  
   res.redirect('/syllabusScheme');  //using POST REDIRECT GET
 
