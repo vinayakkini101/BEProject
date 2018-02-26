@@ -93,7 +93,7 @@
                       <div class="form-group">
                          <br>
                          Course Outcome ID
-                         <input type="text" class="form-control" name="coID" >
+                         <input type="text" class="form-control" name="courseID" >
                       </div>
 
                       <div class="form-group">
@@ -127,9 +127,9 @@
 
                     <div class="form-group">
                       <label for="sel1">Select Course Outcome</label>
-                      <select class="form-control" id="sel1" name="coID">
+                      <select class="form-control" id="sel1" name="courseID">
                        <% obj2.forEach(function(COrows,index){%>
-                        <option name="<%= COrows.coID %>"><%= COrows.coID %></option>
+                        <option name="<%= COrows.courseID %>"><%= COrows.courseID %></option>
                       <% }); %>
                       </select>
                     </div>

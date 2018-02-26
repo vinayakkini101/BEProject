@@ -394,7 +394,7 @@ upload(req, res, function(err) {
 
 
          var myobj={};
-         myobj['coID'] = req.body.coID;
+         myobj['courseID'] = req.body.courseID;
 
            var tempTool={};
            tempTool['weightage'] = parseFloat(req.body.weightage);
@@ -413,7 +413,7 @@ upload(req, res, function(err) {
            else 
               tempTool['attainLevel'] = 3;
 
-            dbo.collection('CourseOutcome').find({"coID" : req.body.coID}).toArray(function(err , rows){
+            dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
                   if (err) return console.log(err)
                   // console.log(rows.length);
 
@@ -440,7 +440,7 @@ upload(req, res, function(err) {
                   tempTool['overallAttain'] = (0.8 * tempTool['directAttain']) + (0.2 * tempTool['indirectAttain']);
 
                   dbo.collection('CourseOutcome').updateOne(
-                  { coID:myobj['coID'] },
+                  { courseID:myobj['courseID'] },
                   {
                       $set: {
                                 directAttain : tempTool['directAttain'],
@@ -537,7 +537,7 @@ app.post('/virtualPage8',function(req,res){
   console.log(req.body);
 
   var myobj={};
-  myobj['coID'] = req.body.coID;
+  myobj['courseID'] = req.body.courseID;
    myobj['po1'] = req.body.po1;
    myobj['po2'] = req.body.po2;
     myobj['po3'] = req.body.po3;
@@ -625,9 +625,9 @@ if (myobj['po12'] == '' )
 
 
 /// putting in co table
- dbo.collection('CourseOutcome').find({"coID" : req.body.coID}).toArray(function(err , rows){
+ dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
                   dbo.collection('CourseOutcome').updateOne(
-                      { coID:myobj['coID'] },
+                      { courseID:myobj['courseID'] },
                       {
                           
 
@@ -657,7 +657,7 @@ if (myobj['po12'] == '' )
                });
 
 // this is the faulty part
-// dbo.collection('CourseOutcome').find( { "pos": { po1:0, coID: "CSC302.1" } } ).toArray(function(err , rows){
+// dbo.collection('CourseOutcome').find( { "pos": { po1:0, courseID: "CSC302.1" } } ).toArray(function(err , rows){
 // console.log(rows);
 // });
 
@@ -666,7 +666,7 @@ if (myobj['po12'] == '' )
 
 
 ///gives the output as snapshot wala
-/*dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1, _id : 0,courseName : 0,coID :0 }).toArray(function(err , rows){
+/*dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{overallAttain : 1, _id : 0,courseName : 0,courseID :0 }).toArray(function(err , rows){
 overallAttainPO = rows['0'].overallAttain;
 console.log(rows['0'].overallAttain);
 console.log(typeof(rows));
@@ -675,7 +675,7 @@ console.log(overallAttainPO);
  });
 */
 /*function getOverallAttain() {
-dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1, _id : 0,courseName : 0,coID :0 }).toArray(function(err , rows){
+dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{overallAttain : 1, _id : 0,courseName : 0,courseID :0 }).toArray(function(err , rows){
 overallAttainPO = rows['0'].overallAttain;
 //return rows['0'].overallAttain;
 console.log(rows['0'].overallAttain);
@@ -690,7 +690,7 @@ console.log('overall shhitt 11111',overallAttainPO);
 
 var x1 = getOverallAttain();
 console.log('the outside function',x1);*/
-//console.log(typeof(dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1})));
+//console.log(typeof(dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{overallAttain : 1})));
 
 
 
@@ -701,7 +701,7 @@ console.log('the outside function',x1);*/
      $lookup:
        {
          from: "CourseOutcome",
-         localField: myobj['coID'],
+         localField: myobj['courseID'],
          foreignField: "overallAttain" ,
          as: "docs"
        }
@@ -717,7 +717,7 @@ console.log(rows);
 /////////////////test block it is running 
 
 //var arr1 = new Array();
-dbo.collection('CourseOutcome').find({ coID:myobj['coID']},{overallAttain : 1, _id : 0,courseName : 0,coID :0 }).toArray(function(err , rows){
+dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{overallAttain : 1, _id : 0,courseName : 0,courseID :0 }).toArray(function(err , rows){
 overallAttainPO = rows['0'].overallAttain;
 //return rows['0'].overallAttain;
 console.log(rows['0'].overallAttain);
@@ -731,7 +731,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '1' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po1'],
                                                     overallAttain : overallAttainPO
@@ -783,7 +783,7 @@ dbo.collection('POAttainment').find(
             ]
   }).toArray(function(eerr , rows1){
  // console.log('match',rows1);
-  //console.log('inside match',rows1['0'].try1['0'].coID);
+  //console.log('inside match',rows1['0'].try1['0'].courseID);
   var sum1=0,count1=0,sum2=0,count2=0,sum3=0,count3=0;
   var flag1=0,flag2=0,flag3=0;
 for(var i = 0, len = rows['0'].try1.length; i < len; i++){
@@ -926,7 +926,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '2' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po2']
                                                   }
@@ -941,7 +941,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '3' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po3']
                                                   }
@@ -956,7 +956,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '4' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po4']
                                                   }
@@ -971,7 +971,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '5' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po5']
                                                   }
@@ -986,7 +986,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '6' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po6']
                                                   }
@@ -1001,7 +1001,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '7' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po7']
                                                   }
@@ -1016,7 +1016,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '8' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po8']
                                                   }
@@ -1031,7 +1031,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '9' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po9']
                                                   }
@@ -1046,7 +1046,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '10' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po10']
                                                   }
@@ -1061,7 +1061,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '11' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po11']
                                                   }
@@ -1076,7 +1076,7 @@ dbo.collection('POAttainment').updateOne(
                       { poID : '12' },
                       {              $push: { 
                                     "try1" : {
-                                                coID : req.body.coID,
+                                                courseID : req.body.courseID,
                                                   "insidetry2":{
                                                     value : myobj['po12']
                                                   }
@@ -1164,7 +1164,7 @@ app.post('/virtualPage9',function(req,res){
 
   var myobj={};
    myobj['courseName'] = req.body.courseName;
-   myobj['courseID'] = req.body.coID;
+   myobj['courseID'] = req.body.courseID;
    myobj['text'] = req.body.text;
    myobj['indirectAttain'] = parseFloat(req.body.indirectAttain);
 
