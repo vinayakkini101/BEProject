@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node serverTest.js"
   },
+  "engines": {
+    "node": "6.13.0",
+    "npm": "3.10.10"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vinayakkini101/BEProject.git"
