@@ -1117,10 +1117,20 @@ app.post('/virtualPage999',function(req,res){
   var myobj={};
    myobj['courseID'] = req.body.courseID;
    myobj['courseName'] = req.body.courseName;
-   dbo.collection('Course').insertOne(myobj, function(err, res) {
-      if (err) throw err;
-      console.log("1 course doc inserted");
-   });
+
+   dbo.collection('Course').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
+                  dbo.collection('Course').updateOne(
+                      { courseID:myobj['courseID'] },
+                      {
+                          $set: { 
+                                    courseID : myobj['courseID'],
+                                    courseName : myobj['courseName']     
+                                }
+                      },
+                      { upsert : true }
+                      );
+
+      });
  
   res.redirect('/coattain');  //using POST REDIRECT GET
 });
@@ -1142,7 +1152,6 @@ router.get('/coattain',function(req,res){
           });
     });
 
-
 });
 
 
@@ -1155,14 +1164,25 @@ app.post('/virtualPage9',function(req,res){
 
   var myobj={};
    myobj['courseName'] = req.body.courseName;
-   myobj['coID'] = req.body.coID;
+   myobj['courseID'] = req.body.coID;
    myobj['text'] = req.body.text;
-   myobj['indirectAttain'] = req.body.indirectAttain;
-   myobj['coID'] = req.body.coID;
-   dbo.collection('CourseOutcome').insertOne(myobj, function(err, res) {
-      if (err) throw err;
-      console.log("1 course outcome doc inserted");
-   });
+   myobj['indirectAttain'] = parseFloat(req.body.indirectAttain);
+
+   dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
+                  dbo.collection('CourseOutcome').updateOne(
+                      { courseID:myobj['courseID'] },
+                      {
+                          $set: { 
+                                    courseID : myobj['courseID'],
+                                    courseName : myobj['courseName'],
+                                    text : myobj['text'],
+                                    indirectAttain : myobj['indirectAttain']    
+                                }
+                      },
+                      { upsert : true }
+                      );
+
+      });
 
 
   res.redirect('/coattain');  //using POST REDIRECT GET
