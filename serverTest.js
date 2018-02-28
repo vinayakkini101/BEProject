@@ -309,18 +309,107 @@ app.post('/virtualPage6',function(req,res){
    });
  
   res.redirect('/mp');  //using POST REDIRECT GET
+console.log(" report 1");
 
+///// report generation
+
+//   var PDFDocument = require('pdfkit');
+//   var fs = require('fs');
+
+// doc = new PDFDocument;    
+// console.log(" report 2");
+
+// doc.pipe(fs.createWriteStream('reports/output.pdf'));    
+// console.log(" report generation");
+// //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+
+// doc.font('Times-Roman')
+//     .fontSize(48)
+//     .text(myobj['mpDate'],100,100);
+
+// console.log(" report text added");
+
+// doc.end();
+
+///// end report generation
 });
-
 
 router.get('/mp',function(req,res){
 
-    dbo.collection('MiniProject').find().toArray(function(err , rows){
+    
+    var mongo = require('mongodb').MongoClient;
+    var assert = require('assert');
+    var resultArray = [];
+
+   // mongo.connect(url, function(err, db) {
+    //assert.equal(null, err);
+    var cursor = dbo.collection('MiniProject').find();
+
+         var PDFDocument = require('pdfkit');
+          var fs = require('fs');
+
+      var pdfdoc = new PDFDocument;    
+      console.log(" new pdf doc variable");
+
+      //var pdfFile = path.join('reports/', 'out.pdf');
+      var pdfStream = fs.createWriteStream('reports/out.pdf');
+
+
+      // doc.pipe(fs.createWriteStream('reports/output.pdf'));    
+      //console.log(" report generation");
+      //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+
+
+      cursor.forEach(function(doc, err) {
+      console.log(" isnde foreach");
+        
+      assert.equal(null, err);
+      resultArray.push(doc);
+
+        console.log("this s tj e doocccc",doc);
+         
+        // doc.font('Times-Roman')
+        //     .fontSize(48)
+        //     .text(resultArray,100,100);
+
+        //doc.text(resultArray,100,100);
+        console.log("this is result Array = ",resultArray);
+        console.log(" report text added");
+
+//doc.end();
+
+
+    }, function() {
+      //dbo.close();
+      //res.render('/mp');
+      dbo.collection('MiniProject').find().toArray(function(err , rows){
   if (err) return console.log(err)
     // console.log(rows[0].mpDate);
   res.render('mpData', {obj:rows});
         console.log("MP doc read");
     });
+
+
+
+//pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
+console.log('fs createWriteStream');
+pdfdoc.text("any crap", 100,100); 
+//pdfdoc.text(resultArray['0'],100,100);
+pdfdoc.end();
+
+    });
+
+      pdfStream.addListener('finish', function() {
+    // HERE PDF FILE IS DONE
+    res.download('reports/out.pdf');
+ });
+
+// pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
+// console.log('fs createWriteStream'); 
+// pdfdoc.text(resultArray,100,100);
+ // });
+
+
 });
 
 
