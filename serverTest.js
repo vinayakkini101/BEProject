@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+
 var MongoClient = require('mongodb').MongoClient;
 // Connection URL
 var url = 'mongodb://vinayakkini101:beproject@ds225608.mlab.com:25608/beproject';  
@@ -85,6 +86,10 @@ app.post('/virtualPage',function(req,res){
 
 });
 
+// testing module code
+
+// var dbo = require('./modules/db.js');
+// app.use('/', require('.-/modules/virtualPage'));   
 
 router.get('/syllabusModules',function(req,res){
   dbo.collection('SyllabusModules').find().toArray(function(err , rows){
@@ -561,9 +566,10 @@ upload(req, res, function(err) {
 
             if(typeof require !== 'undefined') XLSX = require('xlsx');
             var workbook = XLSX.readFile('uploads/'+req.file.originalname);
-            var sheet_name = workbook.SheetNames[req.body.sheetNumber];
+      console.log(workbook.SheetNames);
+            // var sheet_name = workbook.SheetNames[req.body.sheetNumber];
             /* Get worksheet */
-            var worksheet = workbook.Sheets[sheet_name];
+            // var worksheet = workbook.Sheets[sheet_name];
 
             // Calculating range
             //Note:  0 == XLSX.utils.decode_col("A")
@@ -577,23 +583,32 @@ upload(req, res, function(err) {
             // var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true, range:new_range});
             //console.log(sh);          // sh is an array of array of the column of the specified range
 
-            var range = XLSX.utils.decode_range(workbook.Sheets[sheet_name]["!ref"]);
-            var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
-            var flag=0;
-            for(var k=0; k<=range.e.r; k++)
+            // Looping through all the sheets
+            for(var sheet_number=0 ; sheet_number < workbook.SheetNames.length ; sheet_number++ )
             {
-              for(var g=0; g<=range.e.c; g++)
-              {
-                  if(sh[k][g] == req.body.columnName)
+                    var worksheet = workbook.Sheets[workbook.SheetNames[sheet_number]];
+                    var range = XLSX.utils.decode_range(workbook.Sheets[workbook.SheetNames[sheet_number]]["!ref"]);
+                    var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
+                    var flag=0;
+                    for(var k=0; k<=range.e.r; k++)
                     {
-                       flag=1;
-                       break;
+                      for(var g=0; g<=range.e.c; g++)
+                      {
+                          if(sh[k][g] == req.body.columnName)
+                            {
+                               flag=1;
+                               break;
+                            }
+                      }
+                        if(flag==1)
+                          break;
                     }
-              }
                 if(flag==1)
                   break;
             }
 
+
+            console.log("Working on the sheet - "+workbook.SheetNames[sheet_number]);
              var totalStud=0, numStud=0;
              k++;       //to start below the cell containing column name
             for(var p=k; p<=range.e.r; p++)
@@ -609,7 +624,7 @@ upload(req, res, function(err) {
             console.log("Total are = "+totalStud);
          }
 
-
+         // Now we have "numStud" and "totalStud" , we will calculate directAttain and overallAtain
 
          var myobj={};
          myobj['courseID'] = req.body.courseID;
@@ -1360,76 +1375,76 @@ app.post('/virtualPage999',function(req,res){
 router.get('/coattain',function(req,res){
 
 
-var mongo = require('mongodb').MongoClient;
-    var assert = require('assert');
-    var resultArray = [];
+// var mongo = require('mongodb').MongoClient;
+//     var assert = require('assert');
+//     var resultArray = [];
 
-   // mongo.connect(url, function(err, db) {
-    //assert.equal(null, err);
-    var cursor = dbo.collection('CourseOutcome').find();
+//    // mongo.connect(url, function(err, db) {
+//     //assert.equal(null, err);
+//     var cursor = dbo.collection('CourseOutcome').find();
 
-         var PDFDocument = require('pdfkit');
-          var fs = require('fs');
+//          var PDFDocument = require('pdfkit');
+//           var fs = require('fs');
 
-      var pdfdoc = new PDFDocument;    
-      console.log(" new pdf doc variable");
+//       var pdfdoc = new PDFDocument;    
+//       console.log(" new pdf doc variable");
 
-      //var pdfFile = path.join('reports/', 'out.pdf');
-      //var pdfStream = fs.createWriteStream('reports/out.pdf');
-
-
-      pdfdoc.pipe(fs.createWriteStream('reports/cosummary.pdf'));    
-      //console.log(" report generation");
-      //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+//       //var pdfFile = path.join('reports/', 'out.pdf');
+//       //var pdfStream = fs.createWriteStream('reports/out.pdf');
 
 
-      cursor.forEach(function(doc, err) {
-      console.log(" isnde foreach");
+//       pdfdoc.pipe(fs.createWriteStream('reports/cosummary.pdf'));    
+//       //console.log(" report generation");
+//       //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+
+
+//       cursor.forEach(function(doc, err) {
+//       console.log(" isnde foreach");
         
-      assert.equal(null, err);
-      resultArray.push(doc);
+//       assert.equal(null, err);
+//       resultArray.push(doc);
 
-        console.log("this s tj e doocccc",doc);
+//         console.log("this s tj e doocccc",doc);
          
-        // doc.font('Times-Roman')
-        //     .fontSize(48)
-        //     .text(resultArray,100,100);
+//         // doc.font('Times-Roman')
+//         //     .fontSize(48)
+//         //     .text(resultArray,100,100);
 
-        //doc.text(resultArray,100,100);
-        console.log("this is result Array = ",resultArray);
-        console.log(" report text added");
+//         //doc.text(resultArray,100,100);
+//         console.log("this is result Array = ",resultArray);
+//         console.log(" report text added");
 
-//doc.end();
-
-
-    }, function() {
-      //dbo.close();
-      //res.render('/mp');
-console.log(" inside the second function  = ",resultArray);
+// //doc.end();
 
 
-
-pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
-pdfdoc.moveDown();
-pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
-pdfdoc.moveDown();
-pdfdoc.text('Department of Computer Engineering', 155,44);
+//     }, function() {
+//       //dbo.close();
+//       //res.render('/mp');
+// console.log(" inside the second function  = ",resultArray);
 
 
-//pdfdoc.text('Date',100,85);
-//pdfdoc.text('Activity',225,85);
+
+// pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
+// pdfdoc.moveDown();
+// pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
+// pdfdoc.moveDown();
+// pdfdoc.text('Department of Computer Engineering', 155,44);
 
 
-for(var i = 0, len = resultArray['0'].length; i < len; i++){
-//pdfdoc.text(resultArray['0'].tool[i].toolName,100,100+(i*50));
+// //pdfdoc.text('Date',100,85);
+// //pdfdoc.text('Activity',225,85);
 
-  for(var j = 0, len = resultArray['0'].tool.length; j < len; j++){
-    pdfdoc.text(resultArray['0'].tool[j].toolName,100,100+(i*50));
-pdfdoc.text('target marks' + resultArray['0'].tool[j].targetMark + 'target students' + resultArray['0'].tool[j].targetStud,225,100+(i*50));
 
-pdfdoc.moveDown();
-}
-  }    
+// for(var i = 0, len = resultArray['0'].length; i < len; i++){
+// //pdfdoc.text(resultArray['0'].tool[i].toolName,100,100+(i*50));
+
+//   for(var j = 0, len = resultArray['0'].tool.length; j < len; j++){
+//     pdfdoc.text(resultArray['0'].tool[j].toolName,100,100+(i*50));
+// pdfdoc.text('target marks' + resultArray['0'].tool[j].targetMark + 'target students' + resultArray['0'].tool[j].targetStud,225,100+(i*50));
+
+// pdfdoc.moveDown();
+// }
+//   }    
 
 dbo.collection('Course').find().toArray(function(err , rows){
   if (err) return console.log(err)
@@ -1445,21 +1460,21 @@ dbo.collection('Course').find().toArray(function(err , rows){
 
 
 
-//pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
-console.log('fs createWriteStream');
-//pdfdoc.text("any crap", 100,100); 
+// //pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
+// console.log('fs createWriteStream');
+// //pdfdoc.text("any crap", 100,100); 
 
 
-// pdfStream.addListener('finish', function() {
-//     // HERE PDF FILE IS DONE
+// // pdfStream.addListener('finish', function() {
+// //     // HERE PDF FILE IS DONE
 
-//       console.log(" pdfStream ");
-//     res.download('reports/out.pdf');
-//  });
-//pdfdoc.text(resultArray['0'],100,100);
-pdfdoc.end();
+// //       console.log(" pdfStream ");
+// //     res.download('reports/out.pdf');
+// //  });
+// //pdfdoc.text(resultArray['0'],100,100);
+// pdfdoc.end();
 
-    });
+//     });
 
 
 });
