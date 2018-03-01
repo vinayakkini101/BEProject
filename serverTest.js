@@ -262,11 +262,108 @@ app.post('/virtualPage5',function(req,res){
 
 
 router.get('/ass',function(req,res){
-    dbo.collection('Assignments').find().toArray(function(err , rows){
+
+
+
+
+
+
+var mongo = require('mongodb').MongoClient;
+    var assert = require('assert');
+    var resultArray = [];
+
+   // mongo.connect(url, function(err, db) {
+    //assert.equal(null, err);
+    var cursor = dbo.collection('Assignments').find();
+
+         var PDFDocument = require('pdfkit');
+          var fs = require('fs');
+
+      var pdfdoc = new PDFDocument;    
+      console.log(" new pdf doc variable");
+
+      //var pdfFile = path.join('reports/', 'out.pdf');
+      //var pdfStream = fs.createWriteStream('reports/out.pdf');
+
+
+      pdfdoc.pipe(fs.createWriteStream('reports/assignment.pdf'));    
+      //console.log(" report generation");
+      //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+
+
+      cursor.forEach(function(doc, err) {
+      console.log(" isnde foreach");
+        
+      assert.equal(null, err);
+      resultArray.push(doc);
+
+        console.log("this s tj e doocccc",doc);
+         
+        // doc.font('Times-Roman')
+        //     .fontSize(48)
+        //     .text(resultArray,100,100);
+
+        //doc.text(resultArray,100,100);
+        console.log("this is result Array = ",resultArray);
+        console.log(" report text added");
+
+//doc.end();
+
+
+    }, function() {
+      //dbo.close();
+      //res.render('/mp');
+console.log(" inside the second function  = ",resultArray);
+
+
+
+pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
+pdfdoc.moveDown();
+pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
+pdfdoc.moveDown();
+pdfdoc.text('Department of Computer Engineering', 155,44);
+
+
+
+for(var i = 0, len = resultArray.length; i < len; i++){
+pdfdoc.text(i+1,90,100+(i*75));
+pdfdoc.text(resultArray[i].question,100,100+(i*75));
+pdfdoc.text('Date of Assignment given:',100,135+(i*75));
+pdfdoc.text(resultArray[i].givenDate,300,135+(i*75));
+pdfdoc.text('Date of Assignment submission:',100,150+(i*75));
+pdfdoc.text(resultArray[i].subDate,300,150+(i*75));
+pdfdoc.moveDown();
+}
+      
+
+dbo.collection('Assignments').find().toArray(function(err , rows){
   if (err) return console.log(err)
   res.render('assData', {obj:rows});
         console.log("Ass doc read");
     });
+
+
+
+
+
+//pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
+console.log('fs createWriteStream');
+//pdfdoc.text("any crap", 100,100); 
+
+
+// pdfStream.addListener('finish', function() {
+//     // HERE PDF FILE IS DONE
+
+//       console.log(" pdfStream ");
+//     res.download('reports/out.pdf');
+//  });
+//pdfdoc.text(resultArray['0'],100,100);
+pdfdoc.end();
+
+    });
+
+
+    
 });
 
 
@@ -352,10 +449,10 @@ router.get('/mp',function(req,res){
       console.log(" new pdf doc variable");
 
       //var pdfFile = path.join('reports/', 'out.pdf');
-      var pdfStream = fs.createWriteStream('reports/out.pdf');
+      //var pdfStream = fs.createWriteStream('reports/out.pdf');
 
 
-      // doc.pipe(fs.createWriteStream('reports/output.pdf'));    
+      pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));    
       //console.log(" report generation");
       //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
 
@@ -382,6 +479,27 @@ router.get('/mp',function(req,res){
     }, function() {
       //dbo.close();
       //res.render('/mp');
+console.log(" inside the second function  = ",resultArray);
+
+
+
+pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
+pdfdoc.moveDown();
+pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
+pdfdoc.moveDown();
+pdfdoc.text('Department of Computer Engineering', 155,44);
+
+
+pdfdoc.text('Date',100,85);
+pdfdoc.text('Activity',225,85);
+
+
+for(var i = 0, len = resultArray.length; i < len; i++){
+pdfdoc.text(resultArray[i].mpDate,100,100+(i*50));
+pdfdoc.text(resultArray[i].activity,225,100+(i*50));
+
+pdfdoc.moveDown();
+}
       dbo.collection('MiniProject').find().toArray(function(err , rows){
   if (err) return console.log(err)
     // console.log(rows[0].mpDate);
@@ -391,19 +509,30 @@ router.get('/mp',function(req,res){
 
 
 
+
+
 //pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
 console.log('fs createWriteStream');
-pdfdoc.text("any crap", 100,100); 
+//pdfdoc.text("any crap", 100,100); 
+
+
+// pdfStream.addListener('finish', function() {
+//     // HERE PDF FILE IS DONE
+
+//       console.log(" pdfStream ");
+//     res.download('reports/out.pdf');
+//  });
 //pdfdoc.text(resultArray['0'],100,100);
 pdfdoc.end();
 
     });
 
-      pdfStream.addListener('finish', function() {
-    // HERE PDF FILE IS DONE
-    res.download('reports/out.pdf');
- });
+      
 
+      
+
+//console.log(" result outside the  = ",resultArray);
+//console.log("test to see flow final");
 // pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
 // console.log('fs createWriteStream'); 
 // pdfdoc.text(resultArray,100,100);
@@ -1230,7 +1359,79 @@ app.post('/virtualPage999',function(req,res){
 
 router.get('/coattain',function(req,res){
 
-   dbo.collection('Course').find().toArray(function(err , rows){
+
+var mongo = require('mongodb').MongoClient;
+    var assert = require('assert');
+    var resultArray = [];
+
+   // mongo.connect(url, function(err, db) {
+    //assert.equal(null, err);
+    var cursor = dbo.collection('CourseOutcome').find();
+
+         var PDFDocument = require('pdfkit');
+          var fs = require('fs');
+
+      var pdfdoc = new PDFDocument;    
+      console.log(" new pdf doc variable");
+
+      //var pdfFile = path.join('reports/', 'out.pdf');
+      //var pdfStream = fs.createWriteStream('reports/out.pdf');
+
+
+      pdfdoc.pipe(fs.createWriteStream('reports/cosummary.pdf'));    
+      //console.log(" report generation");
+      //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+
+
+      cursor.forEach(function(doc, err) {
+      console.log(" isnde foreach");
+        
+      assert.equal(null, err);
+      resultArray.push(doc);
+
+        console.log("this s tj e doocccc",doc);
+         
+        // doc.font('Times-Roman')
+        //     .fontSize(48)
+        //     .text(resultArray,100,100);
+
+        //doc.text(resultArray,100,100);
+        console.log("this is result Array = ",resultArray);
+        console.log(" report text added");
+
+//doc.end();
+
+
+    }, function() {
+      //dbo.close();
+      //res.render('/mp');
+console.log(" inside the second function  = ",resultArray);
+
+
+
+pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
+pdfdoc.moveDown();
+pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
+pdfdoc.moveDown();
+pdfdoc.text('Department of Computer Engineering', 155,44);
+
+
+//pdfdoc.text('Date',100,85);
+//pdfdoc.text('Activity',225,85);
+
+
+for(var i = 0, len = resultArray['0'].length; i < len; i++){
+//pdfdoc.text(resultArray['0'].tool[i].toolName,100,100+(i*50));
+
+  for(var j = 0, len = resultArray['0'].tool.length; j < len; j++){
+    pdfdoc.text(resultArray['0'].tool[j].toolName,100,100+(i*50));
+pdfdoc.text('target marks' + resultArray['0'].tool[j].targetMark + 'target students' + resultArray['0'].tool[j].targetStud,225,100+(i*50));
+
+pdfdoc.moveDown();
+}
+  }    
+
+dbo.collection('Course').find().toArray(function(err , rows){
   if (err) return console.log(err)
         console.log("coattain hhhhdoc read");
 
@@ -1240,6 +1441,26 @@ router.get('/coattain',function(req,res){
               console.log("coattain kkkkdoc read");
           });
     });
+
+
+
+
+//pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
+console.log('fs createWriteStream');
+//pdfdoc.text("any crap", 100,100); 
+
+
+// pdfStream.addListener('finish', function() {
+//     // HERE PDF FILE IS DONE
+
+//       console.log(" pdfStream ");
+//     res.download('reports/out.pdf');
+//  });
+//pdfdoc.text(resultArray['0'],100,100);
+pdfdoc.end();
+
+    });
+
 
 });
 
