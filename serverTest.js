@@ -1427,18 +1427,24 @@ console.log('shiit',resultArray['2'].tool.length);
 for(var i = 0, len = resultArray.length; i < len; i++){
 
 
-  pdfdoc.text(resultArray[i].courseID,20,100+(i*125));
-  pdfdoc.text(resultArray[i].text,120,100+(i*125));
+  pdfdoc.text(resultArray[i].courseID,20,100+(i*180));
+  pdfdoc.text(resultArray[i].text,120,100+(i*180));
 
 
 console.log('i value',i);
 console.log('length',resultArray[i].tool.length);
 
   for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++){
-    pdfdoc.text(resultArray[i].tool[j].toolName,20+(j+1)*100,150+(i*50));
+    pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*100,150+(i*170));
     //pdfdoc.text('Target:',20,10+(150*(i+1))+(j*75));
-pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,20+(j+1)*100,165+(i*50));
-pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,20+(j+1)*100,180+(i*50));
+pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,(j+1)*100,165+(i*170));
+pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,(j+1)*100,180+(i*170));
+pdfdoc.text('total students=' + resultArray[i].tool[j].totalStud,(j+1)*100,195+(i*170));
+pdfdoc.text('min marks=' + resultArray[i].tool[j].minMark,(j+1)*100,210+(i*170));
+pdfdoc.text('students secured=' + resultArray[i].tool[j].numStud,(j+1)*100,225+(i*170));
+pdfdoc.text('attainment %=' + resultArray[i].tool[j].attainPercent,(j+1)*100,240+(i*170));
+pdfdoc.text('attainment level=' + resultArray[i].tool[j].attainLevel,(j+1)*100,255+(i*170));
+
 pdfdoc.moveDown();
 }
   }    
