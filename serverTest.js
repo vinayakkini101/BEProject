@@ -1396,7 +1396,7 @@ var mongo = require('mongodb').MongoClient;
         //     .text(resultArray,100,100);
 
         //doc.text(resultArray,100,100);
-        console.log("this is result Array = ",resultArray);
+        console.log("this is resultttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt Array = ",resultArray);
         console.log(" report text added");
 
 //doc.end();
@@ -1405,8 +1405,11 @@ var mongo = require('mongodb').MongoClient;
     }, function() {
       //dbo.close();
       //res.render('/mp');
-console.log(" inside the second function  = ",resultArray);
+//console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function  = ",resultArray);
 
+console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function");
+console.log('testttinnnggggg result 0',resultArray['0']);
+console.log('testttinnnggggg result 1',resultArray['1']);
 
 
 pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
@@ -1418,15 +1421,24 @@ pdfdoc.text('Department of Computer Engineering', 155,44);
 
 //pdfdoc.text('Date',100,85);
 //pdfdoc.text('Activity',225,85);
+console.log('length ra',resultArray.length);
+console.log('shiit',resultArray['2'].tool.length);
+
+for(var i = 0, len = resultArray.length; i < len; i++){
 
 
-for(var i = 0, len = resultArray['0'].length; i < len; i++){
-//pdfdoc.text(resultArray['0'].tool[i].toolName,100,100+(i*50));
+  pdfdoc.text(resultArray[i].courseID,20,100+(i*125));
+  pdfdoc.text(resultArray[i].text,120,100+(i*125));
 
-  for(var j = 0, len = resultArray['0'].tool.length; j < len; j++){
-    pdfdoc.text(resultArray['0'].tool[j].toolName,100,100+(i*50));
-pdfdoc.text('target marks' + resultArray['0'].tool[j].targetMark + 'target students' + resultArray['0'].tool[j].targetStud,225,100+(i*50));
 
+console.log('i value',i);
+console.log('length',resultArray[i].tool.length);
+
+  for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++){
+    pdfdoc.text(resultArray[i].tool[j].toolName,20+(j+1)*100,150+(i*50));
+    //pdfdoc.text('Target:',20,10+(150*(i+1))+(j*75));
+pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,20+(j+1)*100,165+(i*50));
+pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,20+(j+1)*100,180+(i*50));
 pdfdoc.moveDown();
 }
   }    
