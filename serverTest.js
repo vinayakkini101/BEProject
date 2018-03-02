@@ -1375,79 +1375,65 @@ app.post('/virtualPage999',function(req,res){
 router.get('/coattain',function(req,res){
 
 
-// var mongo = require('mongodb').MongoClient;
-//     var assert = require('assert');
-//     var resultArray = [];
+var mongo = require('mongodb').MongoClient;
+    var assert = require('assert');
+    var resultArray = [];
 
-//    // mongo.connect(url, function(err, db) {
-//     //assert.equal(null, err);
-//     var cursor = dbo.collection('CourseOutcome').find();
+   // mongo.connect(url, function(err, db) {
+    //assert.equal(null, err);
+    var cursor = dbo.collection('CourseOutcome').find();
 
-//          var PDFDocument = require('pdfkit');
-//           var fs = require('fs');
+         var PDFDocument = require('pdfkit');
+          var fs = require('fs');
 
-//       var pdfdoc = new PDFDocument;    
-//       console.log(" new pdf doc variable");
+      var pdfdoc = new PDFDocument;    
+      console.log(" new pdf doc variable");
 
-//       //var pdfFile = path.join('reports/', 'out.pdf');
-//       //var pdfStream = fs.createWriteStream('reports/out.pdf');
-
-
-//       pdfdoc.pipe(fs.createWriteStream('reports/cosummary.pdf'));    
-//       //console.log(" report generation");
-//       //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+      //var pdfFile = path.join('reports/', 'out.pdf');
+      //var pdfStream = fs.createWriteStream('reports/out.pdf');
 
 
-//       cursor.forEach(function(doc, err) {
-//       console.log(" isnde foreach");
+      pdfdoc.pipe(fs.createWriteStream('reports/cosummary.pdf'));    
+      //console.log(" report generation");
+      //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+
+
+      cursor.forEach(function(doc, err) {
+      console.log(" isnde foreach");
         
-//       assert.equal(null, err);
-//       resultArray.push(doc);
+      assert.equal(null, err);
+      resultArray.push(doc);
 
-//         console.log("this s tj e doocccc",doc);
+        console.log("this s tj e doocccc",doc);
          
-//         // doc.font('Times-Roman')
-//         //     .fontSize(48)
-//         //     .text(resultArray,100,100);
+        // doc.font('Times-Roman')
+        //     .fontSize(48)
+        //     .text(resultArray,100,100);
 
-<<<<<<< HEAD
         //doc.text(resultArray,100,100);
         console.log("this is resultttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt Array = ",resultArray);
         console.log(" report text added");
-=======
-//         //doc.text(resultArray,100,100);
-//         console.log("this is result Array = ",resultArray);
-//         console.log(" report text added");
->>>>>>> 3d9eca1067465e74a22b4a796dc3f04213f33270
 
-// //doc.end();
+//doc.end();
 
 
-<<<<<<< HEAD
     }, function() {
       //dbo.close();
       //res.render('/mp');
 //console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function  = ",resultArray);
-=======
-//     }, function() {
-//       //dbo.close();
-//       //res.render('/mp');
-// console.log(" inside the second function  = ",resultArray);
->>>>>>> 3d9eca1067465e74a22b4a796dc3f04213f33270
 
 console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function");
 console.log('testttinnnggggg result 0',resultArray['0']);
 console.log('testttinnnggggg result 1',resultArray['1']);
 
 
-// pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
-// pdfdoc.moveDown();
-// pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
-// pdfdoc.moveDown();
-// pdfdoc.text('Department of Computer Engineering', 155,44);
+pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
+pdfdoc.moveDown();
+pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
+pdfdoc.moveDown();
+pdfdoc.text('Department of Computer Engineering', 155,44);
 
 
-<<<<<<< HEAD
 //pdfdoc.text('Date',100,85);
 //pdfdoc.text('Activity',225,85);
 console.log('length ra',resultArray.length);
@@ -1473,22 +1459,10 @@ pdfdoc.text('min marks=' + resultArray[i].tool[j].minMark,(j+1)*100,210+(i*170))
 pdfdoc.text('students secured=' + resultArray[i].tool[j].numStud,(j+1)*100,225+(i*170));
 pdfdoc.text('attainment %=' + resultArray[i].tool[j].attainPercent,(j+1)*100,240+(i*170));
 pdfdoc.text('attainment level=' + resultArray[i].tool[j].attainLevel,(j+1)*100,255+(i*170));
-=======
-// //pdfdoc.text('Date',100,85);
-// //pdfdoc.text('Activity',225,85);
 
-
-// for(var i = 0, len = resultArray['0'].length; i < len; i++){
-// //pdfdoc.text(resultArray['0'].tool[i].toolName,100,100+(i*50));
-
-//   for(var j = 0, len = resultArray['0'].tool.length; j < len; j++){
-//     pdfdoc.text(resultArray['0'].tool[j].toolName,100,100+(i*50));
-// pdfdoc.text('target marks' + resultArray['0'].tool[j].targetMark + 'target students' + resultArray['0'].tool[j].targetStud,225,100+(i*50));
->>>>>>> 3d9eca1067465e74a22b4a796dc3f04213f33270
-
-// pdfdoc.moveDown();
-// }
-//   }    
+pdfdoc.moveDown();
+}
+  }    
 
 dbo.collection('Course').find().toArray(function(err , rows){
   if (err) return console.log(err)
@@ -1504,24 +1478,25 @@ dbo.collection('Course').find().toArray(function(err , rows){
 
 
 
-// //pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
-// console.log('fs createWriteStream');
-// //pdfdoc.text("any crap", 100,100); 
+//pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
+console.log('fs createWriteStream');
+//pdfdoc.text("any crap", 100,100); 
 
 
-// // pdfStream.addListener('finish', function() {
-// //     // HERE PDF FILE IS DONE
+// pdfStream.addListener('finish', function() {
+//     // HERE PDF FILE IS DONE
 
-// //       console.log(" pdfStream ");
-// //     res.download('reports/out.pdf');
-// //  });
-// //pdfdoc.text(resultArray['0'],100,100);
-// pdfdoc.end();
+//       console.log(" pdfStream ");
+//     res.download('reports/out.pdf');
+//  });
+//pdfdoc.text(resultArray['0'],100,100);
+pdfdoc.end();
 
-//     });
+    });
 
 
 });
+
 
 
 
