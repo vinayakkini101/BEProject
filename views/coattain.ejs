@@ -114,6 +114,36 @@
                             <div class="clearfix"></div>
                   </form>
                    <hr>
+
+                   <br><br>
+
+  <div>
+  <h3>Course Outcomes</h3>        
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+  <th>Course</th>
+  <th>CoID</th>
+  <th>Text</th>
+  
+  
+      </tr>
+    </thead> 
+    <tbody>
+      <% obj2.forEach(function(row,index){%>
+      <tr>
+  <td><%= row.courseName %> </td>
+  <td><%= row.courseID %> </td>
+  <td><%= row.text %> </td>
+ 
+ 
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+
+</div>
               </div>
 
 
