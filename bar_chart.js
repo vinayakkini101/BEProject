@@ -14,13 +14,13 @@ var barChart = module.exports = function() {
   //     'count': 43
   //   }, ...
   // ];
-
+// 
 
   // default values for configurable input parameters
   var width = 400;
   var height = 300;
   var margin = {
-    top: 10,
+    top: 20,
     right: 10,
     bottom: 40,
     left: 40
@@ -60,7 +60,7 @@ var barChart = module.exports = function() {
 
       xScale = d3.scale.ordinal()
         .domain(data.map(function(d) {
-          return d.name;
+          return d.year;
         }))
         .rangeRoundBands([0, width - axisLabelMargin - margin.left - margin.right], 0.25);
 
@@ -86,14 +86,12 @@ var barChart = module.exports = function() {
     function setupYAxis() {
 
       yScale = d3.scale.linear()
-        .domain([0, d3.max(data, function(d) {
-          return d.count;
-        })])
+        .domain([0, 3])
         .range([height - axisLabelMargin - margin.top - margin.bottom, 0]);
 
       yAxis = d3.svg.axis()
         .ticks(5)
-        .tickFormat(d3.format('s'))
+        .tickFormat(d3.format(",.ff"))
         .innerTickSize(-width + axisLabelMargin + margin.left + margin.right)
         .outerTickSize(0)
         .scale(yScale)
@@ -113,7 +111,10 @@ var barChart = module.exports = function() {
         .attr('width', width)
         .attr('height', height)
         .append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        .attr('transform', 'translate( 45' + ',' + margin.top + ')')
+        // .style("stroke", "black") 
+        // .style("fill", "none") 
+        // .style("stroke-width", "0.9px");
 
     }
 
@@ -163,12 +164,13 @@ var barChart = module.exports = function() {
       g.append('rect')
         .attr('class', 'background')
         .attr('fill', 'white')
-         .attr('border-style', 'solid')
-         .attr('border-color', 'black')
         .attr('x', axisLabelMargin)
         .attr('y', -axisLabelMargin)
         .attr('width', width - axisLabelMargin - margin.left - margin.right)
-        .attr('height', height - margin.top - margin.bottom);
+        .attr('height', height - margin.top - margin.bottom)
+        .style("stroke-opacity", .8) // set the stroke opacity 
+        .style("stroke", "black") // set the line colour 
+        .style("fill", "none"); // set the fill colour
 
     }
 
@@ -185,14 +187,14 @@ var barChart = module.exports = function() {
         .attr('class', 'bar')
         .attr('fill', '#1a75ff')
         .attr('x', function(d) {
-          return xScale(d.name) + axisLabelMargin;
+          return xScale(d.year) + axisLabelMargin;
         })
         .attr('y', function(d) {
-          return yScale(d.count);
+          return yScale(d.overallAttain);
         })
         .attr('width', xScale.rangeBand())
         .attr('height', function(d) {
-          return height - margin.top - margin.bottom - yScale(d.count) - axisLabelMargin;
+          return height - margin.top - margin.bottom - yScale(d.overallAttain) - axisLabelMargin;
         });
 
 

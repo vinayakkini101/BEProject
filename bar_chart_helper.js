@@ -1,7 +1,7 @@
-// var d3 = require('d3');
-// var jsdom = require('jsdom');
-// var doc = jsdom.jsdom();
-// var barChart = require('./bar_chart');
+var d3 = require('d3');
+var jsdom = require('jsdom');
+var doc = jsdom.jsdom();
+var barChart = require('./bar_chart');
 
 
 var getBarChart = function (params) {
@@ -33,6 +33,7 @@ module.exports = {
 // [
 // {
 //     "courseID": "CSC302.3",
+//      "year": 2014,
 //     "courseName": "OOPM",
 //     "text": "Students will exhibit communication between 2 objects using sequence diagram",
 //     "indirectAttain": 0,
@@ -42,6 +43,7 @@ module.exports = {
 // },
 // {
 //     "courseID": "CSC302.3",
+//      "year": 2015,
 //     "courseName": "OOPM",
 //     "text": "Students will exhibit communication between 2 objects using sequence diagram",
 //     "indirectAttain": 0,
@@ -51,6 +53,7 @@ module.exports = {
 // },
 // {
 //     "courseID": "CSC302.3",
+//      "year": 2016,
 //     "courseName": "OOPM",
 //     "text": "Students will exhibit communication between 2 objects using sequence diagram",
 //     "indirectAttain": 0,

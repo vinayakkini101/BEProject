@@ -1,50 +1,32 @@
 [
-    {
-        "name": "1",
-        "count": 36
-    },
-    {
-        "name": "2",
-        "count": 43
-    },
-    {
-        "name": "3",
-        "count": 50
-    },
-    {
-        "name": "4",
-        "count": 41
-    },
-    {
-        "name": "5",
-        "count": 34
-    },
-    {
-        "name": "6",
-        "count": 44
-    },
-    {
-        "name": "7",
-        "count": 67
-    },
-    {
-        "name": "8",
-        "count": 63
-    },
-    {
-        "name": "9",
-        "count": 51
-    },
-    {
-        "name": "10",
-        "count": 53
-    },
-    {
-        "name": "11",
-        "count": 52
-    },
-    {
-        "name": "12",
-        "count": 60
-    }
+{
+    "courseID": "CSC302.3",
+     "year": 2014,
+    "courseName": "OOPM",
+    "text": "Students will exhibit communication between 2 objects using sequence diagram",
+    "attainPercent": 96.01,
+    "indirectAttain": 2,
+    "directAttain": 1.9,
+    "overallAttain": 1.92
+},
+{
+    "courseID": "CSC302.3",
+     "year": 2015,
+    "courseName": "OOPM",
+    "text": "Students will exhibit communication between 2 objects using sequence diagram",
+    "attainPercent": 49.3,
+    "indirectAttain": 1,
+    "directAttain": 2.2,
+    "overallAttain": 1.96
+},
+{
+    "courseID": "CSC302.3",
+     "year": 2016,
+    "courseName": "OOPM",
+    "text": "Students will exhibit communication between 2 objects using sequence diagram",
+    "attainPercent": 72.72,
+    "indirectAttain": 0,
+    "directAttain": 1.4,
+    "overallAttain": 1.12
+}
 ]
