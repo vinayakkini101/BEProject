@@ -570,6 +570,7 @@ app.post('/virtualPage7',function(req,res){
 
 upload(req, res, function(err) {
          if (err) {
+              console.log(err);
              console.log("Something went wrong!");
          }
          else
@@ -705,7 +706,7 @@ upload(req, res, function(err) {
                                             low : parseFloat(req.body.low),
                                             mod : parseFloat(req.body.mod),
                                             high : parseFloat(req.body.high),
-                                            attainPercent : tempTool['attainPercent'],
+                                            attainPercent : tempTool['attainPercent'].toFixed(3),
                                             attainLevel : tempTool['attainLevel']
                                          }
                             }
@@ -1416,15 +1417,19 @@ var mongo = require('mongodb').MongoClient;
         
       assert.equal(null, err);
       resultArray.push(doc);
-
-        console.log("this s tj e doocccc",doc);
+/////////// keep this is doc for later
+        //console.log("this s tj e doocccc",doc);
          
         // doc.font('Times-Roman')
         //     .fontSize(48)
         //     .text(resultArray,100,100);
 
         //doc.text(resultArray,100,100);
-        console.log("this is resultttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt Array = ",resultArray);
+
+
+//////////this is result keep it later
+
+        //console.log("this is resultttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt Array = ",resultArray);
         console.log(" report text added");
 
 //doc.end();
@@ -1436,8 +1441,9 @@ var mongo = require('mongodb').MongoClient;
 //console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function  = ",resultArray);
 
 console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function");
-console.log('testttinnnggggg result 0',resultArray['0']);
-console.log('testttinnnggggg result 1',resultArray['1']);
+//////////////keep the next two lines for later
+//console.log('testttinnnggggg result 0',resultArray['0']);
+//console.log('testttinnnggggg result 1',resultArray['1']);
 
 
 pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
@@ -1463,15 +1469,15 @@ console.log('i value',i);
 console.log('length',resultArray[i].tool.length);
 
   for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++){
-    pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*100,150+(i*170));
+    pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*120,150+(i*170));
     //pdfdoc.text('Target:',20,10+(150*(i+1))+(j*75));
-pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,(j+1)*100,165+(i*170));
-pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,(j+1)*100,180+(i*170));
-pdfdoc.text('total students=' + resultArray[i].tool[j].totalStud,(j+1)*100,195+(i*170));
-pdfdoc.text('min marks=' + resultArray[i].tool[j].minMark,(j+1)*100,210+(i*170));
-pdfdoc.text('students secured=' + resultArray[i].tool[j].numStud,(j+1)*100,225+(i*170));
-pdfdoc.text('attainment %=' + resultArray[i].tool[j].attainPercent,(j+1)*100,240+(i*170));
-pdfdoc.text('attainment level=' + resultArray[i].tool[j].attainLevel,(j+1)*100,255+(i*170));
+pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,(j+1)*120,165+(i*170));
+pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,(j+1)*120,180+(i*170));
+pdfdoc.text('total students=' + resultArray[i].tool[j].totalStud,(j+1)*120,195+(i*170));
+pdfdoc.text('min marks=' + resultArray[i].tool[j].minMark,(j+1)*120,210+(i*170));
+pdfdoc.text('students secured=' + resultArray[i].tool[j].numStud,(j+1)*120,225+(i*170));
+pdfdoc.text('attainment %=' + resultArray[i].tool[j].attainPercent,(j+1)*120,240+(i*170));
+pdfdoc.text('attainment level=' + resultArray[i].tool[j].attainLevel,(j+1)*120,255+(i*170));
 
 pdfdoc.moveDown();
 }
