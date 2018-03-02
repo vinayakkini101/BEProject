@@ -1,7 +1,7 @@
-var d3 = require('d3');
-var jsdom = require('jsdom');
-var doc = jsdom.jsdom();
-var barChart = require('./bar_chart');
+// var d3 = require('d3');
+// var jsdom = require('jsdom');
+// var doc = jsdom.jsdom();
+// var barChart = require('./bar_chart');
 
 
 var getBarChart = function (params) {
@@ -28,3 +28,34 @@ var getBarChart = function (params) {
 module.exports = {
   getBarChart: getBarChart
 };
+
+
+// [
+// {
+//     "courseID": "CSC302.3",
+//     "courseName": "OOPM",
+//     "text": "Students will exhibit communication between 2 objects using sequence diagram",
+//     "indirectAttain": 0,
+//     "directAttain": 0.30000000000000004,
+//     "overallAttain": 0.24000000000000005,
+//     "val" : 40
+// },
+// {
+//     "courseID": "CSC302.3",
+//     "courseName": "OOPM",
+//     "text": "Students will exhibit communication between 2 objects using sequence diagram",
+//     "indirectAttain": 0,
+//     "directAttain": 0.30000000000000004,
+//     "overallAttain": 0.24000000000000005,
+//     "val" : 30
+// },
+// {
+//     "courseID": "CSC302.3",
+//     "courseName": "OOPM",
+//     "text": "Students will exhibit communication between 2 objects using sequence diagram",
+//     "indirectAttain": 0,
+//     "directAttain": 0.30000000000000004,
+//     "overallAttain": 0.24000000000000005,
+//     "val" : 20
+// }
+// ]
