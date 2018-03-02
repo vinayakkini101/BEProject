@@ -88,18 +88,31 @@ app.post('/virtualPage',function(req,res){
 
 // testing module code
 
-// var dbo = require('./modules/db.js');
-// app.use('/', require('.-/modules/virtualPage'));   
+// var database = require('./modules/db.js');
+
+// app.use('/virtualPage', require('./modules/virtualPage'));   
+
+// database.connectToServer( function( err ) {
+
+//         router.get('/syllabusModules',function(req,res){
+//           database.SyllabusModules(req,res);
+//         //   dbo.collection('SyllabusModules').find().toArray(function(err , rows){
+//         //     if (err) return console.log(err)
+//         //     res.render('moduleData', {obj:rows});
+//         //           console.log("Module doc read");
+//         //     });
+//         });
+// });
+
 
 router.get('/syllabusModules',function(req,res){
-  dbo.collection('SyllabusModules').find().toArray(function(err , rows){
-    if (err) return console.log(err)
-    res.render('moduleData', {obj:rows});
-          console.log("Module doc read");
-    });
-});
-
-
+          // database.SyllabusModules(req,res);
+          dbo.collection('SyllabusModules').find().toArray(function(err , rows){
+            if (err) return console.log(err)
+            res.render('moduleData', {obj:rows});
+                  console.log("Module doc read");
+            });
+        });
 
 
 
