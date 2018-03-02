@@ -54,14 +54,14 @@ router.get('/course',function(req,res){
 
 
 
-// var fixtureData = require('./fixture_data.json');
-// app.locals.barChartHelper = require('./bar_chart_helper');
+var fixtureData = require('./fixture_data.json');
+app.locals.barChartHelper = require('./bar_chart_helper');
 
 
 
-// router.get('/charts',function(req,res){
-//   res.render('charts', { fixtureData: fixtureData });
-// });
+router.get('/charts',function(req,res){
+  res.render('charts', { fixtureData: fixtureData });
+});
 
 
 
@@ -711,6 +711,7 @@ upload(req, res, function(err) {
                       $push: { 
                                 "tool" : {
                                             toolName : req.body.tool,
+                                            year : parseFloat(req.body.year),
                                             targetMark : parseFloat(req.body.targetMark),
                                             targetStud : parseFloat(req.body.targetStud),
                                             weightage : parseFloat(req.body.weightage),
@@ -1472,14 +1473,14 @@ pdfdoc.text('Department of Computer Engineering', 155,44);
 console.log('length ra',resultArray.length);
 console.log('shiit',resultArray['2'].tool.length);
 
-    for(var i = 0, len = resultArray.length; i < len; i++){
+for(var i = 0, len = resultArray.length; i < len; i++){
 
-
-        pdfdoc.text(resultArray[i].courseID,20,100+(i*180));
-        pdfdoc.text(resultArray[i].text,120,100+(i*180));
+          pdfdoc.text(resultArray[i].courseID,20,100+(i*180));
+          pdfdoc.text(resultArray[i].text,120,100+(i*180));
 
 
         console.log('i value',i);
+
 console.log('lengthhhhhhhhh',resultArray[i]);
         if(resultArray[i].hasOwnProperty('tool')){
         console.log('if ke unnnaddddddddaaarrrrrrrrrrrr');
@@ -1488,6 +1489,15 @@ console.log('lengthhhhhhhhh',resultArray[i]);
                 console.log('for ke undarrr');
               pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*120,150+(i*170));
     //pdfdoc.text('Target:',20,10+(150*(i+1))+(j*75));
+
+        // console.log('length',resultArray[i].tool.length);
+        if(resultArray[i].hasOwnProperty('tool')){
+
+          for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++)
+          {
+                  pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*120,150+(i*170));
+                  //pdfdoc.text('Target:',20,10+(150*(i+1))+(j*75));
+
               pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,(j+1)*120,165+(i*170));
               pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,(j+1)*120,180+(i*170));
               pdfdoc.text('total students=' + resultArray[i].tool[j].totalStud,(j+1)*120,195+(i*170));
@@ -1497,23 +1507,29 @@ console.log('lengthhhhhhhhh',resultArray[i]);
               pdfdoc.text('attainment level=' + resultArray[i].tool[j].attainLevel,(j+1)*120,255+(i*170));
  console.log('inside for=',j);
               pdfdoc.moveDown();
+
               }
               }  
               console.log('outside for =',i);    
     }    
 
 
+          }
+        } 
 
-        dbo.collection('Course').find().toArray(function(err , rows){
-        if (err) return console.log(err)
-        console.log("coattain hhhhdoc read");
+
+}   
+
+dbo.collection('Course').find().toArray(function(err , rows){
+      if (err) return console.log(err)
+        console.log("coattain Course read");
 
         dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
         if (err) return console.log(err)
          res.render('coattain', {obj2:COrows, obj1:rows});
-              console.log("coattain kkkkdoc read");
+              console.log("coattain CourseOutcome read");
           });
-        });
+    });
 
 
 

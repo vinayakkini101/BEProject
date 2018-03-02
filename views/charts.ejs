@@ -38,6 +38,16 @@
                   })
                 %>
                 <hr>
+                <%-
+                  barChartHelper.getBarChart({
+                    data: fixtureData,
+                    width: 400,
+                    height: 300,
+                    xAxisLabel: 'Year',
+                    yAxisLabel: 'Views',
+                    containerId: 'bar-chart-small'
+                  })
+                %>
 
           </div>
 
