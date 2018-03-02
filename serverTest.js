@@ -1403,133 +1403,111 @@ app.post('/virtualPage999',function(req,res){
 router.get('/coattain',function(req,res){
 
 
-var mongo = require('mongodb').MongoClient;
-    var assert = require('assert');
-    var resultArray = [];
+            var mongo = require('mongodb').MongoClient;
+            var assert = require('assert');
+            var resultArray = [];
 
-   // mongo.connect(url, function(err, db) {
-    //assert.equal(null, err);
-    var cursor = dbo.collection('CourseOutcome').find();
+            // mongo.connect(url, function(err, db) {
+            //assert.equal(null, err);
+            var cursor = dbo.collection('CourseOutcome').find();
 
-         var PDFDocument = require('pdfkit');
-          var fs = require('fs');
+            var PDFDocument = require('pdfkit');
+            var fs = require('fs');
 
-      var pdfdoc = new PDFDocument;    
-      console.log(" new pdf doc variable");
+            var pdfdoc = new PDFDocument;    
+            console.log(" new pdf doc variable");
 
-      //var pdfFile = path.join('reports/', 'out.pdf');
-      //var pdfStream = fs.createWriteStream('reports/out.pdf');
-
-
-      pdfdoc.pipe(fs.createWriteStream('reports/cosummary.pdf'));    
-      //console.log(" report generation");
-      //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
+            //var pdfFile = path.join('reports/', 'out.pdf');
+            //var pdfStream = fs.createWriteStream('reports/out.pdf');
 
 
-      cursor.forEach(function(doc, err) {
-      console.log(" isnde foreach");
-        
-      assert.equal(null, err);
-      resultArray.push(doc);
-/////////// keep this is doc for later
-        //console.log("this s tj e doocccc",doc);
-         
-        // doc.font('Times-Roman')
-        //     .fontSize(48)
-        //     .text(resultArray,100,100);
-
-        //doc.text(resultArray,100,100);
+            pdfdoc.pipe(fs.createWriteStream('reports/cosummary.pdf'));    
+            //console.log(" report generation");
+            //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
 
 
-//////////this is result keep it later
+            cursor.forEach(function(doc, err) {
+              console.log(" isnde foreach");
+              assert.equal(null, err);
+              resultArray.push(doc);
+              console.log(" report text added");
+            }, function() {
 
-        //console.log("this is resultttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt Array = ",resultArray);
-        console.log(" report text added");
-
-//doc.end();
-
-
-    }, function() {
-      //dbo.close();
-      //res.render('/mp');
-//console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function  = ",resultArray);
-
-console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function");
-//////////////keep the next two lines for later
-//console.log('testttinnnggggg result 0',resultArray['0']);
-//console.log('testttinnnggggg result 1',resultArray['1']);
-
-
-pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
-pdfdoc.moveDown();
-pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
-pdfdoc.moveDown();
-pdfdoc.text('Department of Computer Engineering', 155,44);
-
-
-//pdfdoc.text('Date',100,85);
-//pdfdoc.text('Activity',225,85);
-console.log('length ra',resultArray.length);
-console.log('shiit',resultArray['2'].tool.length);
-
-    for(var i = 0, len = resultArray.length; i < len; i++){
-
-
-        pdfdoc.text(resultArray[i].courseID,20,100+(i*180));
-        pdfdoc.text(resultArray[i].text,120,100+(i*180));
-
-
-        console.log('i value',i);
-//console.log('length',resultArray[i].tool.length);
-        if(resultArray[i].hasOwnProperty('tool')){
-        
-              for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++){
-              pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*120,150+(i*170));
-    //pdfdoc.text('Target:',20,10+(150*(i+1))+(j*75));
-              pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,(j+1)*120,165+(i*170));
-              pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,(j+1)*120,180+(i*170));
-              pdfdoc.text('total students=' + resultArray[i].tool[j].totalStud,(j+1)*120,195+(i*170));
-              pdfdoc.text('min marks=' + resultArray[i].tool[j].minMark,(j+1)*120,210+(i*170));
-              pdfdoc.text('students secured=' + resultArray[i].tool[j].numStud,(j+1)*120,225+(i*170));
-              pdfdoc.text('attainment %=' + resultArray[i].tool[j].attainPercent,(j+1)*120,240+(i*170));
-              pdfdoc.text('attainment level=' + resultArray[i].tool[j].attainLevel,(j+1)*120,255+(i*170));
-
+              console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function");
+              pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
               pdfdoc.moveDown();
-              }
-              }      
-    }    
+              pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
+              pdfdoc.moveDown();
+              pdfdoc.text('Department of Computer Engineering', 155,44);
+
+              console.log('length ra',resultArray.length);
+              console.log('shiit',resultArray['2'].tool.length);
+
+              for(var i = 0, len = resultArray.length; i < len; i++)
+              {
+                        pdfdoc.fontSize(12);
+                        pdfdoc.text(resultArray[i].courseID,20,100+(i*180));
+                        pdfdoc.text(resultArray[i].text,120,100+(i*180));
+                        console.log('i value',i);
+
+                        console.log('lengthhhhhhhhh',resultArray[i]);
+                        if(resultArray[i].hasOwnProperty('tool'))
+                        {
+                            console.log('if ke unnnaddddddddaaarrrrrrrrrrrr');
+                            console.log('len1=',resultArray[i].tool.length);
+                            for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++)
+                            {
+                                 console.log('for ke undarrr');
+                                 pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*90,150+(i*170));
+
+                                  if(resultArray[i].hasOwnProperty('tool'))
+                                  {
+
+                                      for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++)
+                                      {       pdfdoc.fontSize(10);
+                                              pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*90,150+(i*170));
+                                              //pdfdoc.text('Target:',20,10+(150*(i+1))+(j*75));
+
+                                          pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,(j+1)*90,165+(i*170));
+                                          pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,(j+1)*90,180+(i*170));
+                                          pdfdoc.text('total students=' + resultArray[i].tool[j].totalStud,(j+1)*90,195+(i*170));
+                                          pdfdoc.text('min marks=' + resultArray[i].tool[j].minMark,(j+1)*90,210+(i*170));
+                                          pdfdoc.text('students secured=' + resultArray[i].tool[j].numStud,(j+1)*90,225+(i*170));
+                                          pdfdoc.text('attainment %=' + resultArray[i].tool[j].attainPercent,(j+1)*90,240+(i*170));
+                                          pdfdoc.text('attainment level=' + resultArray[i].tool[j].attainLevel,(j+1)*90,255+(i*170));
+                                          console.log('inside for=',j);
+                                          pdfdoc.moveDown();
+
+                                      }
+                                  }  
+
+                              console.log('outside for =',i);    
+                            }    
 
 
-
-        dbo.collection('Course').find().toArray(function(err , rows){
-        if (err) return console.log(err)
-        console.log("coattain hhhhdoc read");
-
-        dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
-        if (err) return console.log(err)
-         res.render('coattain', {obj2:COrows, obj1:rows});
-              console.log("coattain kkkkdoc read");
-          });
-        });
+                        }
+                } 
 
 
+         
+
+                dbo.collection('Course').find().toArray(function(err , rows){
+                      if (err) return console.log(err)
+                        console.log("coattain Course read");
+
+                        dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
+                        if (err) return console.log(err)
+                         res.render('coattain', {obj2:COrows, obj1:rows});
+                              console.log("coattain CourseOutcome read");
+                          });
+                });
 
 
-//pdfdoc.pipe(fs.createWriteStream('reports/output.pdf'));   
-console.log('fs createWriteStream');
-//pdfdoc.text("any crap", 100,100); 
+                console.log('fs createWriteStream');
 
+                pdfdoc.end();
 
-// pdfStream.addListener('finish', function() {
-//     // HERE PDF FILE IS DONE
-
-//       console.log(" pdfStream ");
-//     res.download('reports/out.pdf');
-//  });
-//pdfdoc.text(resultArray['0'],100,100);
-pdfdoc.end();
-
-    });
+          });      // end bracket of cursor.forEach
 
 
 });
