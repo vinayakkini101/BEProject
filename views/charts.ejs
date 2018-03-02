@@ -1,0 +1,49 @@
+<% include headerAndSide.ejs %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact form using Bootstrap 3.3.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin.css">
+</head>
+<body style="background-color: #7e7e7e">
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="/plans">Plans</a>
+            </li>
+            <li class="breadcrumb-item active">Charts</li>
+          </ol>
+
+
+          <div>
+              <%-
+                  barChartHelper.getBarChart({
+                    data: fixtureData,
+                    width: 400,
+                    height: 300,
+                    xAxisLabel: 'Year',
+                    yAxisLabel: 'Views',
+                    containerId: 'bar-chart-small'
+                  })
+                %>
+                <hr>
+
+          </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>
