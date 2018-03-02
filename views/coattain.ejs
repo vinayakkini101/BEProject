@@ -125,13 +125,25 @@
                     <form role="form" data-toggle="validator" class="shake" method="post"  enctype="multipart/form-data"   action="/virtualPage7">
                        <h6>Note : Ensure that there are no blank cells in the column but ONE at the end of the column </h6>
 
-                    <div class="form-group">
-                      <label for="sel1">Select Course Outcome</label>
-                      <select class="form-control" id="sel1" name="courseID">
-                       <% obj2.forEach(function(COrows,index){%>
-                        <option name="<%= COrows.courseID %>"><%= COrows.courseID %></option>
-                      <% }); %>
-                      </select>
+                    <div class="row">
+                          <div class="form-group col-sm-3">
+                            <label for="sel1">Select Course Outcome</label>
+                            <select class="form-control" id="sel1" name="courseID">
+                               <% obj2.forEach(function(COrows,index){%>
+                                <option name="<%= COrows.courseID %>"><%= COrows.courseID %></option>
+                              <% }); %>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-sm-3">
+                              <label for="sel1">Select Course Outcome</label>
+                              <select class="form-control" id="sel1" name="courseID">
+                                 <% obj2.forEach(function(COrows,index){%>
+                                  <option name="<%= COrows.courseID %>"><%= COrows.courseID %></option>
+                                <% }); %>
+                              </select>
+                          </div>
+
                     </div>
 
                     <div class="form-group">

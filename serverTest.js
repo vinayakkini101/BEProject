@@ -54,14 +54,14 @@ router.get('/course',function(req,res){
 
 
 
-// var fixtureData = require('./fixture_data.json');
-// app.locals.barChartHelper = require('./bar_chart_helper');
+var fixtureData = require('./fixture_data.json');
+app.locals.barChartHelper = require('./bar_chart_helper');
 
 
 
-// router.get('/charts',function(req,res){
-//   res.render('charts', { fixtureData: fixtureData });
-// });
+router.get('/charts',function(req,res){
+  res.render('charts', { fixtureData: fixtureData });
+});
 
 
 
