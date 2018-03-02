@@ -54,14 +54,14 @@ router.get('/course',function(req,res){
 
 
 
-// var fixtureData = require('./fixture_data.json');
-// app.locals.barChartHelper = require('./bar_chart_helper');
+var fixtureData = require('./fixture_data.json');
+app.locals.barChartHelper = require('./bar_chart_helper');
 
 
 
-// router.get('/charts',function(req,res){
-//   res.render('charts', { fixtureData: fixtureData });
-// });
+router.get('/charts',function(req,res){
+  res.render('charts', { fixtureData: fixtureData });
+});
 
 
 
@@ -711,6 +711,7 @@ upload(req, res, function(err) {
                       $push: { 
                                 "tool" : {
                                             toolName : req.body.tool,
+                                            year : parseFloat(req.body.year),
                                             targetMark : parseFloat(req.body.targetMark),
                                             targetStud : parseFloat(req.body.targetStud),
                                             weightage : parseFloat(req.body.weightage),
@@ -1425,7 +1426,6 @@ router.get('/coattain',function(req,res){
             //console.log(" report generation");
             //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
 
-
             cursor.forEach(function(doc, err) {
               console.log(" isnde foreach");
               assert.equal(null, err);
@@ -1486,7 +1486,8 @@ router.get('/coattain',function(req,res){
 
 
                         }
-                } 
+                  }  
+
 
 
          
