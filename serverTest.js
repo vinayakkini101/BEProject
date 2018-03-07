@@ -16,6 +16,8 @@ var mongo = require('./modules/db.js');
 var page1 = require('./modules/syllabusModulesVP.js');
 var page2 = require('./modules/COAttain.js');
 var page3 = require('./modules/COAttainToolVP.js');
+var page4 = require('./modules/CourseOutcome.js');
+var page5 = require('./modules/Course.js');
 
 
 // Start listening 
@@ -1117,29 +1119,7 @@ router.get('/poattainment',function(req,res){
 
 // Course --------------------------------------------------------------
 
-app.post('/virtualPage999',function(req,res){
-  console.log(req.body);
-
-  var myobj={};
-   myobj['courseID'] = req.body.courseID;
-   myobj['courseName'] = req.body.courseName;
-
-   dbo.collection('Course').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
-                  dbo.collection('Course').updateOne(
-                      { courseID:myobj['courseID'] },
-                      {
-                          $set: { 
-                                    courseID : myobj['courseID'],
-                                    courseName : myobj['courseName']     
-                                }
-                      },
-                      { upsert : true }
-                      );
-
-      });
- 
-  res.redirect('/coattain');  //using POST REDIRECT GET
-});
+app.use('/Course', page5.Course);
 
 
 
@@ -1152,34 +1132,6 @@ app.use('/coattain', page2.COAttain);
 
 // Course Outcome--------------------------------------------------------------
 
-app.post('/virtualPage9',function(req,res){
-  console.log(req.body);
-
-  var myobj={};
-   myobj['courseName'] = req.body.courseName;
-   myobj['courseID'] = req.body.courseID;
-   myobj['text'] = req.body.text;
-   myobj['indirectAttain'] = parseFloat(req.body.indirectAttain);
-
-   dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
-                  dbo.collection('CourseOutcome').updateOne(
-                      { courseID:myobj['courseID'] },
-                      {
-                          $set: { 
-                                    courseID : myobj['courseID'],
-                                    courseName : myobj['courseName'],
-                                    text : myobj['text'],
-                                    indirectAttain : myobj['indirectAttain']    
-                                }
-                      },
-                      { upsert : true }
-                      );
-
-      });
-
-
-  res.redirect('/coattain');  //using POST REDIRECT GET
-});
-
+app.use('/CourseOutcome', page4.CourseOutcome);
 
 
