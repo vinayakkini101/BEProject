@@ -7,32 +7,23 @@ app.use('/',router);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname+'/public'));
 const multer = require('multer');
-
-
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
-var MongoClient = require('mongodb').MongoClient;
-// Connection URL
-var url = 'mongodb://vinayakkini101:beproject@ds225608.mlab.com:25608/beproject';  
-
-var dbo;
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  dbo = db.db("beproject");     
-  console.log("Connected to BEProject");
-}); 
+// Required files
+var mongo = require('./modules/db.js');
+var page1 = require('./modules/syllabusModulesVP.js');
+var page2 = require('./modules/COAttain.js');
+var page3 = require('./modules/COAttainToolVP.js');
 
 
-
-
-
+// Start listening 
 var port_number = app.listen(process.env.PORT || 7000);
 app.listen(port_number,function(){
   console.log('Server running at Port 7000');
 });
+
 
 
 router.get('/',function(req,res){
@@ -54,85 +45,23 @@ router.get('/course',function(req,res){
 
 
 
-var fixtureData = require('./fixture_data.json');
-app.locals.barChartHelper = require('./bar_chart_helper');
-
-
-
-router.get('/charts',function(req,res){
-  res.render('charts', { fixtureData: fixtureData });
-});
-
-
-
-
-
-
 // Syllabus Modules---------------------------------------------------
-
-app.post('/virtualPage',function(req,res){
-  console.log(req.body);
-  var myobj={};
-   myobj['courseID'] = req.body.courseID;
-   myobj['moduleName'] = req.body.moduleName;
-   myobj['hours'] = parseInt(req.body.hours);
-   myobj['content'] = req.body.content;
- 
-   dbo.collection('Course').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
-                  dbo.collection('Course').updateOne(
-                      { courseID:myobj['courseID'] },
-                      {
-                          $set: { 
-                                    "module" : {
-                                                name : myobj['moduleName'],
-                                                hours : myobj['hours'],
-                                                content : myobj['content']
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-
-      });
-
-
-  res.redirect('/syllabusModules');  //using POST REDIRECT GET
-
-});
-
-// testing module code
-
-// var database = require('./modules/db.js');
-
-// app.use('/virtualPage', require('./modules/virtualPage'));   
-
-// database.connectToServer( function( err ) {
-
-//         router.get('/syllabusModules',function(req,res){
-//           database.SyllabusModules(req,res);
-//         //   dbo.collection('SyllabusModules').find().toArray(function(err , rows){
-//         //     if (err) return console.log(err)
-//         //     res.render('moduleData', {obj:rows});
-//         //           console.log("Module doc read");
-//         //     });
-//         });
-// });
-
+app.use('/syllabusModulesVP', page1.syllabusModulesVP);   
 
 router.get('/syllabusModules',function(req,res){
-          // database.SyllabusModules(req,res);
-          dbo.collection('SyllabusModules').find().toArray(function(err , rows){
-            if (err) return console.log(err)
-            res.render('moduleData', {obj:rows});
-                  console.log("Module doc read");
-            });
+  mongo.connect(function( err ) {
+      if(err) throw err;
+      mongo.dbo.collection('SyllabusModules').find().toArray(function(err , rows){
+        if (err) return console.log(err)
+        res.render('moduleData', {obj:rows});
+              console.log("Module doc read");
         });
-
+    });
+});
 
 
 
 // Syllabus Examination Scheme-----------------------------------------------
-
 app.post('/virtualPage2',function(req,res){
   console.log(req.body);
 
@@ -579,195 +508,10 @@ pdfdoc.end();
 
 // CO Attainment Adding tools---------------------------------------------------------------
 
-app.post('/virtualPage7',function(req,res){
-  console.log(req.body);
-
-upload(req, res, function(err) {
-         if (err) {
-              console.log(err);
-             console.log("Something went wrong!");
-         }
-         else
-         {
-            console.log("File uploaded sucessfully!.");
-            console.log(req.file);
-
-            if(typeof require !== 'undefined') XLSX = require('xlsx');
-            var workbook = XLSX.readFile('uploads/'+req.file.originalname);
-      console.log(workbook.SheetNames);
-            // var sheet_name = workbook.SheetNames[req.body.sheetNumber];
-            /* Get worksheet */
-            // var worksheet = workbook.Sheets[sheet_name];
-
-            // Calculating range
-            //Note:  0 == XLSX.utils.decode_col("A")
-             // var range = XLSX.utils.decode_range(workbook.Sheets[sheet_name]["!ref"]);
-            // range.s.r = parseInt(req.body.cellRow)-1;             
-            // range.e.r =  range.s.r + 200;                       
-            // range.s.c = XLSX.utils.decode_col(req.body.cellColumn);
-            // range.e.c = XLSX.utils.decode_col(req.body.cellColumn);
-            // var new_range = XLSX.utils.encode_range(range);
-            // //console.log(new_range);         
-            // var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true, range:new_range});
-            //console.log(sh);          // sh is an array of array of the column of the specified range
-
-            // Looping through all the sheets
-            for(var sheet_number=0 ; sheet_number < workbook.SheetNames.length ; sheet_number++ )
-            {
-                    var worksheet = workbook.Sheets[workbook.SheetNames[sheet_number]];
-                    var range = XLSX.utils.decode_range(workbook.Sheets[workbook.SheetNames[sheet_number]]["!ref"]);
-                    var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
-                    var flag=0;
-                    for(var k=0; k<=range.e.r; k++)
-                    {
-                      for(var g=0; g<=range.e.c; g++)
-                      {
-                          if(sh[k][g] == req.body.columnName)
-                            {
-                               flag=1;
-                               break;
-                            }
-                      }
-                        if(flag==1)
-                          break;
-                    }
-                if(flag==1)
-                  break;
-            }
-
-
-            console.log("Working on the sheet - "+workbook.SheetNames[sheet_number]);
-             var totalStud=0, numStud=0;
-             k++;       //to start below the cell containing column name
-            for(var p=k; p<=range.e.r; p++)
-            {
-                if( (sh[p][g]==undefined)  || typeof sh[p][g]=="string")
-                  break; 
-                if(sh[p][g] >= req.body.minMark)
-                  numStud++;
-                totalStud++;
-            }
-
-            console.log("Successful Students = "+numStud);
-            console.log("Total are = "+totalStud);
-         }
-
-         // Now we have "numStud" and "totalStud" , we will calculate directAttain and overallAtain
-
-         var myobj={};
-         myobj['courseID'] = req.body.courseID;
-
-           var tempTool={};
-           tempTool['weightage'] = parseFloat(req.body.weightage);
-           // tempTool['numStud'] = parseFloat(req.body.numStud);
-           // tempTool['totalStud'] = parseFloat(req.body.totalStud);
-           tempTool['low'] = parseFloat(req.body.low);
-           tempTool['mod'] = parseFloat(req.body.mod);
-           tempTool['high'] = parseFloat(req.body.high);
-
-
-           tempTool['attainPercent'] = numStud / totalStud * 100;
-           if(tempTool['attainPercent'] >= tempTool['low'] && tempTool['attainPercent'] < tempTool['mod'])
-              tempTool['attainLevel'] = 1;
-           else if(tempTool['attainPercent'] >= tempTool['mod'] && tempTool['attainPercent'] < tempTool['high'])
-              tempTool['attainLevel'] = 2;
-           else 
-              tempTool['attainLevel'] = 3;
-
-            dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
-                  if (err) return console.log(err)
-                  // console.log(rows.length);
-
-
-                // when adding a tool for the first time, initialize directAttain to 0
-                var check=1;
-                  dbo.collection('CourseOutcome').find({directAttain:{"$exists":true}}).toArray(function(err, row){
-                      check=0;
-                  });
-                console.log("Check "+check);
-
-                  if(check == 1)
-                      tempTool['directAttain'] = 0;
-                  else
-                      tempTool['directAttain'] = parseFloat(rows[0].directAttain);
-                   console.log("Direct attain is "+tempTool['directAttain']);
-
-
-                  
-                // console.log(check);
-                  tempTool['indirectAttain'] = parseFloat(rows[0].indirectAttain);
-                  tempTool['directAttain'] = tempTool['directAttain'] + ( tempTool['weightage'] * tempTool['attainLevel'] );  
-                  // console.log(tempTool['directAttain']);
-                  tempTool['overallAttain'] = (0.8 * tempTool['directAttain']) + (0.2 * tempTool['indirectAttain']);
-
-                  dbo.collection('CourseOutcome').updateOne(
-                  { courseID:myobj['courseID'] },
-                  {
-                      $set: {
-                                directAttain : tempTool['directAttain'],
-                                overallAttain : tempTool['overallAttain']
-                            },
-
-                      $push: { 
-                                "tool" : {
-                                            toolName : req.body.tool,
-                                            year : parseFloat(req.body.year),
-                                            targetMark : parseFloat(req.body.targetMark),
-                                            targetStud : parseFloat(req.body.targetStud),
-                                            weightage : parseFloat(req.body.weightage),
-                                            minMark : parseFloat(req.body.minMark),
-                                            numStud : parseFloat(numStud),
-                                            totalStud : parseFloat(totalStud),
-                                            low : parseFloat(req.body.low),
-                                            mod : parseFloat(req.body.mod),
-                                            high : parseFloat(req.body.high),
-                                            attainPercent : tempTool['attainPercent'].toFixed(3),
-                                            attainLevel : tempTool['attainLevel']
-                                         }
-                            }
-                  },
-                  { upsert : true }
-                  );
-
-            });
-
-
-       res.redirect('/coattain');  //using POST REDIRECT GET
-
-           
-     });     
-
-  
-});
-
+app.use('/COAttainToolVP', page3.COAttainToolVP);
 
 
   
-
-
-
-//  create a storage which says where and how the files/images should be saved.
- var Storage = multer.diskStorage({
-
-     destination: function(req, file, callback) {
-         callback(null, "./uploads");
-     },
-
-     filename: function(req, file, callback) {
-         callback(null, file.originalname);
-     } 
- });
-
-
-
-//  create a multer object as follows
-  var upload = multer({
-     storage: Storage
- }).single("excelUploader"); //Field name and max count
-
-
-
-
 
 
 
@@ -1400,119 +1144,9 @@ app.post('/virtualPage999',function(req,res){
 
 
 
+// coattain------------------------------------
 
-router.get('/coattain',function(req,res){
-
-
-            var mongo = require('mongodb').MongoClient;
-            var assert = require('assert');
-            var resultArray = [];
-
-            // mongo.connect(url, function(err, db) {
-            //assert.equal(null, err);
-            var cursor = dbo.collection('CourseOutcome').find();
-
-            var PDFDocument = require('pdfkit');
-            var fs = require('fs');
-
-            var pdfdoc = new PDFDocument;    
-            console.log(" new pdf doc variable");
-
-            //var pdfFile = path.join('reports/', 'out.pdf');
-            //var pdfStream = fs.createWriteStream('reports/out.pdf');
-
-
-            pdfdoc.pipe(fs.createWriteStream('reports/cosummary.pdf'));    
-            //console.log(" report generation");
-            //doc.font('fonts/PalatinoBold.ttf').fontSize(25).text(100, 100);
-
-            cursor.forEach(function(doc, err) {
-              console.log(" isnde foreach");
-              assert.equal(null, err);
-              resultArray.push(doc);
-              console.log(" report text added");
-            }, function() {
-
-              console.log(" inside the ssssssssssssssssssssssssssssssssssssssssssssssssssss function");
-              pdfdoc.text('FR. Conceicao Rodrigues College Of Engineering', 145,20);
-              pdfdoc.moveDown();
-              pdfdoc.text('Father Agnel Ashram, Bandstand, Bandra-west, Mumbai-50', 125,32);
-              pdfdoc.moveDown();
-              pdfdoc.text('Department of Computer Engineering', 155,44);
-
-              console.log('length ra',resultArray.length);
-              console.log('shiit',resultArray['2'].tool.length);
-
-              for(var i = 0, len = resultArray.length; i < len; i++)
-              {
-                        pdfdoc.fontSize(12);
-                        pdfdoc.text(resultArray[i].courseID,20,100+(i*180));
-                        pdfdoc.text(resultArray[i].text,120,100+(i*180));
-                        console.log('i value',i);
-
-                        console.log('lengthhhhhhhhh',resultArray[i]);
-                        if(resultArray[i].hasOwnProperty('tool'))
-                        {
-                            console.log('if ke unnnaddddddddaaarrrrrrrrrrrr');
-                            console.log('len1=',resultArray[i].tool.length);
-                            for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++)
-                            {
-                                 console.log('for ke undarrr');
-                                 pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*90,150+(i*170));
-
-                                  if(resultArray[i].hasOwnProperty('tool'))
-                                  {
-
-                                      for(var j = 0, len1 = resultArray[i].tool.length; j < len1; j++)
-                                      {       pdfdoc.fontSize(10);
-                                              pdfdoc.text(resultArray[i].tool[j].toolName,(j+1)*90,150+(i*170));
-                                              //pdfdoc.text('Target:',20,10+(150*(i+1))+(j*75));
-
-                                          pdfdoc.text('target marks=' + resultArray[i].tool[j].targetMark,(j+1)*90,165+(i*170));
-                                          pdfdoc.text('target students=' + resultArray[i].tool[j].targetStud,(j+1)*90,180+(i*170));
-                                          pdfdoc.text('total students=' + resultArray[i].tool[j].totalStud,(j+1)*90,195+(i*170));
-                                          pdfdoc.text('min marks=' + resultArray[i].tool[j].minMark,(j+1)*90,210+(i*170));
-                                          pdfdoc.text('students secured=' + resultArray[i].tool[j].numStud,(j+1)*90,225+(i*170));
-                                          pdfdoc.text('attainment %=' + resultArray[i].tool[j].attainPercent,(j+1)*90,240+(i*170));
-                                          pdfdoc.text('attainment level=' + resultArray[i].tool[j].attainLevel,(j+1)*90,255+(i*170));
-                                          console.log('inside for=',j);
-                                          pdfdoc.moveDown();
-
-                                      }
-                                  }  
-
-                              console.log('outside for =',i);    
-                            }    
-
-
-                        }
-                  }  
-
-
-
-         
-
-                dbo.collection('Course').find().toArray(function(err , rows){
-                      if (err) return console.log(err)
-                        console.log("coattain Course read");
-
-                        dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
-                        if (err) return console.log(err)
-                         res.render('coattain', {obj2:COrows, obj1:rows});
-                              console.log("coattain CourseOutcome read");
-                          });
-                });
-
-
-                console.log('fs createWriteStream');
-
-                pdfdoc.end();
-
-          });      // end bracket of cursor.forEach
-
-
-});
-
+app.use('/coattain', page2.COAttain);
 
 
 
