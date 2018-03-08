@@ -46,6 +46,14 @@ router.get('/course',function(req,res){
 
 
 
+//create folder uploads if it does not exist......if it exists, it does nothing
+    var mkdirp = require('mkdirp');  console.log(__dirname);
+    mkdirp.sync(__dirname+'/uploads', function (err) {
+        if (err) console.error(err)
+        else console.log('Uploads folder created!')
+    });
+
+
 
 // Syllabus Modules---------------------------------------------------
 app.use('/syllabusModulesVP', page1.syllabusModulesVP);   
