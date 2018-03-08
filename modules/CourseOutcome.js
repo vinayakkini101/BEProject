@@ -10,6 +10,7 @@ module.exports.CourseOutcome = function (req, res, next){
    myobj['courseName'] = req.body.courseName;
    myobj['courseID'] = req.body.courseID;
    myobj['text'] = req.body.text;
+   myobj['year'] = parseFloat(req.body.year);
    myobj['indirectAttain'] = parseFloat(req.body.indirectAttain);
 
    mongo.connect(function (err){
@@ -19,9 +20,18 @@ module.exports.CourseOutcome = function (req, res, next){
 	                      {
 	                          $set: { 
 	                                    courseID : myobj['courseID'],
-	                                    courseName : myobj['courseName'],
-	                                    text : myobj['text'],
-	                                    indirectAttain : myobj['indirectAttain']    
+	                                    courseName : myobj['courseName']
+
+	                                },
+	                          $push:{
+
+	                          			"valuestry": {
+	                                    		year : myobj['year'],
+	                                    		text : myobj['text'],
+	                                    	    indirectAttain : myobj['indirectAttain'],
+	                                    	    directAttain : 0,
+	                                    	    overallAttain : 0
+	                                    		}  
 	                                }
 	                      },
 	                      { upsert : true }

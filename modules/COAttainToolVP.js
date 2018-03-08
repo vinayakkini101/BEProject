@@ -106,6 +106,7 @@ module.exports.COAttainToolVP = function(req,res,next){
 
          var myobj={};
          myobj['courseID'] = req.body.courseID;
+         myobj['year'] = parseFloat(req.body.year);
 
            var tempTool={};
            tempTool['weightage'] = parseFloat(req.body.weightage);
@@ -126,60 +127,87 @@ module.exports.COAttainToolVP = function(req,res,next){
 
 
             mongo.connect( function( err ) {
-                mongo.dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
+                mongo.dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID , "valuestry.year" : myobj['year']}).toArray(function(err , rows){
                       if (err) return console.log(err)
-                      // console.log(rows.length);
-
+                      
                         // when adding a tool for the first time, initialize directAttain to 0
                         var check=1;
-                           mongo.dbo.collection('CourseOutcome').find({directAttain:{"$exists":true}}).toArray(function(err, row){
-                              check=0;
-                          });
-                    
-                        console.log("Check "+check);
+                        
+                           mongo.dbo.collection('CourseOutcome').find({"valuestry.year" : myobj['year'],"valuestry.directAttain":{"$exists":true}}).toArray(function(err, row){
+                            var flag=4,len;
+                            for(var i=0,len = row['0'].valuestry.length;i<len;i++){
+                                  if(row['0'].valuestry[i].year == myobj['year'])
+                                    {
+                                      flag=2;
+                                      break;
+                                    }
+                               }//for loop
+                              console.log("eye is ",i);
 
-                          if(check == 1)
-                              tempTool['directAttain'] = 0;
-                          else
-                              tempTool['directAttain'] = parseFloat(rows[0].directAttain);
-                           console.log("Direct attain is "+tempTool['directAttain']);
+                              //check=0;
+                              console.log("Check "+check);
+                                
 
-                        // console.log(check);
-                          tempTool['indirectAttain'] = parseFloat(rows[0].indirectAttain);
-                          tempTool['directAttain'] = tempTool['directAttain'] + ( tempTool['weightage'] * tempTool['attainLevel'] );  
-                          // console.log(tempTool['directAttain']);
-                          tempTool['overallAttain'] = (0.8 * tempTool['directAttain']) + (0.2 * tempTool['indirectAttain']);
+                                    /*if(check == 1)
+                                        tempTool['valuestry.directAttain'] = 0;*/
+                                    //else
+                                        tempTool['valuestry.directAttain'] = parseFloat(row['0'].valuestry[i].directAttain);
+                                     console.log("Direct attain is "+tempTool['valuestry.directAttain']);
+                                     console.log("d chck",row['0'].valuestry[i].directAttain);
+                                    // console.log(check);
+                                    //tempTool['indirectAttain'] = parseFloat(rows[0].indirectAttain);
+                                    tempTool['valuestry.directAttain'] = tempTool['valuestry.directAttain'] + ( tempTool['weightage'] * tempTool['attainLevel'] );  
+                                    // console.log("check direct",tempTool['valuestry.directAttain']);
+
+                                    // mongo.dbo.collection('CourseOutcome').find({"valuestry.year" : myobj['year'] , "courseID" : req.body.courseID}).toArray(function(err, rows){
+                                        tempTool['valuestry.indirectAttain'] = parseFloat(row['0'].valuestry[i].indirectAttain);
+                                    // });  
+                                    console.log("try",tempTool['valuestry.indirectAttain']);
 
 
-        	                  mongo.dbo.collection('CourseOutcome').updateOne(
-        	                  { courseID:myobj['courseID'] },
-        	                  {
-        	                      $set: {
-        	                                directAttain : tempTool['directAttain'],
-        	                                overallAttain : tempTool['overallAttain']
-        	                            },
+                                    tempTool['valuestry.overallAttain'] = (0.8 * tempTool['valuestry.directAttain']) + (0.2 * tempTool['valuestry.indirectAttain']);
 
-        	                      $push: { 
-        	                                "tool" : {
-        	                                            toolName : req.body.tool,
-        	                                            year : parseFloat(req.body.year),
-        	                                            targetMark : parseFloat(req.body.targetMark),
-        	                                            targetStud : parseFloat(req.body.targetStud),
-        	                                            weightage : parseFloat(req.body.weightage),
-        	                                            minMark : parseFloat(req.body.minMark),
-        	                                            numStud : parseFloat(numStud),
-        	                                            totalStud : parseFloat(totalStud),
-        	                                            low : parseFloat(req.body.low),
-        	                                            mod : parseFloat(req.body.mod),
-        	                                            high : parseFloat(req.body.high),
-        	                                            attainPercent : tempTool['attainPercent'].toFixed(3),
-        	                                            attainLevel : tempTool['attainLevel']
-        	                                         }
-        	                            }
-        	                  },
-        	                  { upsert : true }
-        	                  );
+                                    console.log("cheeccckkk",row['0'].valuestry[i]);
 
+
+
+                  	                  mongo.dbo.collection('CourseOutcome').updateOne(
+                  	                  {
+                                        "valuestry.year" : myobj['year']
+
+                  	                  },
+                  	                  {
+                  	                      $set: {
+                                                   
+                  	                                "valuestry.$.directAttain" : tempTool['valuestry.directAttain'],
+                  	                                "valuestry.$.overallAttain" : tempTool['valuestry.overallAttain']
+                                                  
+                  	                            },
+                                          $push : {  
+                                                   
+                  	                                "valuestry.$.tool" : {
+                  	                                            toolName : req.body.tool,
+                  	                                            year : parseFloat(req.body.year),
+                  	                                            targetMark : parseFloat(req.body.targetMark),
+                  	                                            targetStud : parseFloat(req.body.targetStud),
+                  	                                            weightage : parseFloat(req.body.weightage),
+                  	                                            minMark : parseFloat(req.body.minMark),
+                  	                                            numStud : parseFloat(numStud),
+                  	                                            totalStud : parseFloat(totalStud),
+                  	                                            low : parseFloat(req.body.low),
+                  	                                            mod : parseFloat(req.body.mod),
+                  	                                            high : parseFloat(req.body.high),
+                  	                                            attainPercent : tempTool['attainPercent'].toFixed(3),
+                  	                                            attainLevel : tempTool['attainLevel']
+                  	                                         }
+                                                          
+                  	                            }
+
+                  	                  },
+                  	                  { upsert : true }
+                  	                  );
+                             
+                        });   // "valuestry.directAttain":{"$exists":
     	             
                    });    // mongo.dbo.collection('CourseOutcome').find
               });  //  mongo.connect( 

@@ -101,6 +101,7 @@ module.exports.COAttain = function(req,res,next){
 			                if (err) return console.log(err)
 			                 res.render('coattain', {obj2:COrows, obj1:rows});
 			                      console.log("coattain CourseOutcome read");
+			                      //console.log("co rows",COrows);
 			                  });
 			        });
 
