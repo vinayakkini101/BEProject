@@ -52,12 +52,11 @@ router.get('/course',function(req,res){
         if (err) console.error(err)
         else console.log('Uploads folder created!')
     });
-
+    
     mkdirp.sync(__dirname+'/reports', function (err) {
         if (err) console.error(err)
         else console.log('Reports folder created!')
     });
-
 
 
 // Syllabus Modules---------------------------------------------------
