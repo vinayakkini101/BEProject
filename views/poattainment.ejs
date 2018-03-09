@@ -53,6 +53,22 @@
            <input type="text" class="form-control" name="textpo" >
         </div>
 
+        <div class="form-group">
+           <br>
+           Year
+           <input type="text" class="form-control" name="year" >
+        </div>
+
+        <div class="form-group">
+          <label for="sel1">Select Course Name</label>
+          <select class="form-control" id="sel1" name="courseName">
+           <% obj1.forEach(function(COrows,index){%>
+            <option name="<%= COrows.courseName %>"><%= COrows.courseName %></option>
+          <% }); %>
+          </select>
+        </div>
+
+
         
         <br>
               <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
@@ -79,8 +95,21 @@
 			    </select>
 			  </div>
 
+    <div class="form-group">
+           <br>
+           Year
+           <input type="text" class="form-control" name="year" >
+        </div>
 
-		
+
+		<div class="form-group">
+          <label for="sel1">Select Course Name</label>
+          <select class="form-control" id="sel1" name="courseName">
+           <% obj1.forEach(function(COrows,index){%>
+            <option name="<%= COrows.courseName %>"><%= COrows.courseName %></option>
+          <% }); %>
+          </select>
+        </div>
 
   <div class="row">
     <table class="table">
