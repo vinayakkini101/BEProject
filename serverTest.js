@@ -601,6 +601,8 @@ app.post('/virtualPage8',function(req,res){
    myobj['po12'] = req.body.po12;
    myobj['year'] = parseFloat(req.body.year);
 myobj['courseName'] = req.body.courseName;
+myobj['yearpg2'] = parseFloat(req.body.yearpg2);
+myobj['courseNamepg2'] = req.body.courseNamepg2;
 
 
     console.log(myobj['po12']);
@@ -654,501 +656,291 @@ if (myobj['po12'] == '' )
   myobj['po12'] = 0;
 }
 
-
+console.log("last",myobj['po12']);
 
 /// insertion in the PO Table --- we hav to remove this block
 
- // myobj['poID'] = req.body.poID;
- //   myobj['text'] = req.body.text;
- //   dbo.collection('POAttainment').insertOne(myobj, function(err, res) {
- //      if (err) throw err;
- //      console.log("1  PO Value doc inserted");
- //   });
 
 ///// End of INsertions
 
 //// end of conditions
-   myobj['test'] = parseFloat(myobj['po12']) + parseFloat(myobj['po1']);
+   //myobj['test'] = parseFloat(myobj['po12']) + parseFloat(myobj['po1']);
+
+
+ //myobj['total'] = parseFloat(myobj['po1']) + parseFloat(myobj['po2']) + parseFloat(myobj['po3']) + parseFloat(myobj['po4']) + parseFloat(myobj['po5']) + parseFloat(myobj['po6']) + parseFloat(myobj['po7']) + parseFloat(myobj['po8']) + parseFloat(myobj['po9']) + parseFloat(myobj['po10']) + parseFloat(myobj['po11']) + parseFloat(myobj['po12']);
+
+
+
+	mongo.connect( function( err ) {
+			/// putting in co table
+			                  mongo.dbo.collection('CourseOutcome').updateOne(
+			                      { "courseID" : req.body.courseID,
+			                      	"valuestry.year" : parseFloat(req.body.yearpg2) 
+			                      },
+			                      {
+			                          $push: { 
+			                                    "valuestry.$.pos" : {
+							                                                po1 : myobj['po1'],
+							                                                po2 : myobj['po2'],
+							                                                po3 : myobj['po3'],
+							                                                po4 : myobj['po4'],
+							                                                po5 : myobj['po5'],
+							                                                po6 : myobj['po6'],
+							                                                po7 : myobj['po7'],
+							                                                po8 : myobj['po8'],
+							                                                po9 : myobj['po9'],
+							                                                po10 : myobj['po10'],
+							                                                po11: myobj['po11'],
+							                                                po12 : myobj['po12']
 
 
- myobj['total'] = parseFloat(myobj['po1']) + parseFloat(myobj['po2']) + parseFloat(myobj['po3']) + parseFloat(myobj['po4']) + parseFloat(myobj['po5']) + parseFloat(myobj['po6']) + parseFloat(myobj['po7']) + parseFloat(myobj['po8']) + parseFloat(myobj['po9']) + parseFloat(myobj['po10']) + parseFloat(myobj['po11']) + parseFloat(myobj['po12']);
 
+			                                             }
+			                                }
+			                      },
+			                      { upsert : true }
+			                      );//updateOne
+			/// putting in co table done
 
-/// putting in co table
-mongo.connect( function( err ) {
- mongo.dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
-                  mongo.dbo.collection('CourseOutcome').updateOne(
-                      { "valuestry.year" : myobj['year'] },
-                      {
-                          
-
-                          $push: { 
-                                    "valuestry.$.pos" : {
-				                                                po1 : myobj['po1'],
-				                                                po2 : myobj['po2'],
-				                                                po3 : myobj['po3'],
-				                                                po4 : myobj['po4'],
-				                                                po5 : myobj['po5'],
-				                                                po6 : myobj['po6'],
-				                                                po7 : myobj['po7'],
-				                                                po8 : myobj['po8'],
-				                                                po9 : myobj['po9'],
-				                                                po10 : myobj['po10'],
-				                                                po11: myobj['po11'],
-				                                                po12 : myobj['po12']
-
-
-
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-
-               });
-
-// this is the faulty part
-// dbo.collection('CourseOutcome').find( { "pos": { po1:0, courseID: "CSC302.1" } } ).toArray(function(err , rows){
-// console.log(rows);
-// });
-
-
-//////testing overall attain
-
-
-///gives the output as snapshot wala
-/*dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{overallAttain : 1, _id : 0,courseName : 0,courseID :0 }).toArray(function(err , rows){
-overallAttainPO = rows['0'].overallAttain;
-console.log(rows['0'].overallAttain);
-console.log(typeof(rows));
-
-console.log(overallAttainPO);
- });
-*/
-/*function getOverallAttain() {
-dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{overallAttain : 1, _id : 0,courseName : 0,courseID :0 }).toArray(function(err , rows){
-overallAttainPO = rows['0'].overallAttain;
-//return rows['0'].overallAttain;
-console.log(rows['0'].overallAttain);
-console.log(typeof(rows));
-
-console.log('overall shhitt',overallAttainPO);
- //return overallAttainPO;
- });
-// return 'did not work';
-console.log('overall shhitt 11111',overallAttainPO);
-} 
-
-var x1 = getOverallAttain();
-console.log('the outside function',x1);*/
-//console.log(typeof(dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{overallAttain : 1})));
-
-
-
-
-///gives output
-/*dbo.collection('POAttainment').aggregate([
-   {
-     $lookup:
-       {
-         from: "CourseOutcome",
-         localField: myobj['courseID'],
-         foreignField: "overallAttain" ,
-         as: "docs"
-       }
-  }
-]).toArray(function(err , rows){
-console.log(rows);
- });*/
-
-
-
-
-
-/////////////////test block it is running 
-
-//var arr1 = new Array();
-mongo.dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{overallAttain : 1, _id : 0,courseName : 0,courseID :0 }).toArray(function(err , rows){
-overallAttainPO = rows['0'].overallAttain;
-//return rows['0'].overallAttain;
-console.log(rows['0'].overallAttain);
-console.log(typeof(rows));
-
-console.log('overall shhitt',overallAttainPO);
- //return overallAttainPO;
- 
-if(myobj['po1'] > 0 && myobj['po1'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '1' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po1'],
-                                                    overallAttain : overallAttainPO
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-//var total = 0,count=0;
-
-////////////////total,count,co-po
-
-mongo.dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
-console.log('INside the if of PO1',rows['0'].try1['0'].insidetry2.value);
-console.log('before total');
-var total = 0,count=0;
-console.log('before for');
-console.log(rows['0'].try1.length);
-for (var i = 0, len = rows['0'].try1.length; i < len; i++) {
-
-   total = total + parseFloat(rows['0'].try1[i].insidetry2.value);
-
-   ///console.log('this is total',total);
-   console.log('this is total',total);
-   //console.log('this is total',total);
-   count++;
-   //console.log('this is counttt',count);
-   console.log('this is counttt',count);
-   //console.log('this is counttt',count);
-}
-
-console.log('this is total',total);
-console.log('this is counttt',count);
-
-var copomatrix = total / count;
-
-
-//////////////////////////po atttainment
-
-/*dbo.collection('POAttainment').find( {$and : [{poID : '1'}, { try1: { $elemMatch : { insidetry2: { $elemMatch: {value : '1'}}}}}]}).toArray(function(eerr , rows){
-  console.log('match',rows);
-});*/ 
-
-mongo.dbo.collection('POAttainment').find( 
-  {
-    $and : [
-            {poID : '1'}
-            ]
-  }).toArray(function(eerr , rows1){
- // console.log('match',rows1);
-  //console.log('inside match',rows1['0'].try1['0'].courseID);
-  var sum1=0,count1=0,sum2=0,count2=0,sum3=0,count3=0;
-  var flag1=0,flag2=0,flag3=0;
-for(var i = 0, len = rows['0'].try1.length; i < len; i++){
-  if(rows1['0'].try1[i].insidetry2.value == '1')
-  {
-    console.log('inside valueee onneee');
-    sum1 = sum1 + rows1['0'].try1[i].insidetry2.overallAttain;
-    count1++;
-    console.log('checckkkkk1',rows1['0'].try1[i].insidetry2.overallAttain);
-    flag1=1;
-  }
 
+        ////po attainment table mein entry starts
+				mongo.dbo.collection('CourseOutcome').find( {courseID:myobj['courseID']},{"valuestry.$.overallAttain" : 1, _id : 0,courseName : 0,courseID :0 }).toArray(function(err , rows){
+							//getting overall attain year wise from co outcome table
+							for(var i=0,len= rows['0'].valuestry.length;i<len;i++){
+										
+								if(rows['0'].valuestry[i].year==parseFloat(req.body.yearpg2))
+										{
+											overallAttainPO = rows['0'].valuestry[i].overallAttain;
+										}
+							}
 
+							//console.log("check overall",rows['0'].valuestry['0'].overallAttain);
+							//console.log(rows);
+							console.log('overall shhitt',overallAttainPO);
 
+							if(myobj['po1'] > 0 && myobj['po1'] <= 3){
+									///po attainment table mein entry of overall attain
 
-   if(rows1['0'].try1[i].insidetry2.value == '2')
-  {
-    console.log('inside valueee twoo');
-    sum2 = sum2 + rows1['0'].try1[i].insidetry2.overallAttain;
-    count2++;
+									mongo.dbo.collection('POAttainment').find({poID : '1'}).toArray(function(err , rows1){
+											mongo.dbo.collection('POAttainment').updateOne(
+											                      { "valuestry.year" : myobj['yearpg2'],
+											                      	"valuestry.courseName" : myobj['courseNamepg2']
+											                      },
+											                      {              $push: { 
+											                                    "valuestry.$.try1" : {
+											                                    			year : myobj['yearpg2'],
+											                                                courseID : req.body.courseID,
+											                                                courseName : myobj['courseNamepg2'],
+											                                                "insidetry2":{
+											                                                    value : myobj['po1'],
+											                                                    overallAttain : overallAttainPO
+											                                                  }
+											                                             }
+											                                }
+											                      },
+											                      { upsert : true }
+											                      );//updateOne
+									});//mongo.dbo.collection('POAttainment').find({poID : '1'})
 
-    console.log('checckkkkk2',rows1['0'].try1[i].insidetry2.overallAttain);
-    flag2=2;
-  }
+									///po attainment table mein entry of overall attain done
+}//if --check
+}); //mongo.dbo.collection('CourseOutcome').find( {courseID:myobj['courseID']},{"valuestry.$.overallAttain" --check
 
+}); //mongo.connect --check
 
-   if(rows1['0'].try1[i].insidetry2.value == '3')
-  {
-    console.log('inside valueee threeeeeeee');
-    sum3 = sum3 + rows1['0'].try1[i].insidetry2.overallAttain;
-    count3++;
-    console.log('checckkkkk3',rows1['0'].try1[i].insidetry2.overallAttain);
-    flag3=3;
-  }
 
+				/*mongo.connect( function( err ) { // --check
+									mongo.dbo.collection('POAttainment').find({poID : '1'},{"valuestry.try1.insidetry2.value" : 1}).toArray(function(err , rows){
 
-}
-var average1=0,valavg1=0,average2=0,valavg2=0,average3=0,valavg3=0;
-if(flag1==1){
-  console.log('inside flag onne');
-average1 = sum1/count1;
-valavg1 = 1 * average1;
-console.log('value 1',valavg1);
-}
-if(flag2==2){
-  console.log('inside flag twoo');
- average2 = sum2/count2;
- valavg2 = 2 * average2;
-console.log('value 2',valavg2);
+											var total = 0,count=0;
+											//console.log(rows['0'].valuestry.length);
 
-}
-if(flag3==3){
-  console.log('inside flag three');
-average3 = sum3/count3;
-valavg3 = 3 * average3;
-console.log('value 3',valavg3);
-}
-var totalvalavg = valavg1+valavg2+valavg3;
-console.log('totaalvalavgg',totalvalavg);
-var poattain = totalvalavg/(flag1+flag2+flag3);
-console.log('final yyaayy',poattain);
 
+											for(var i=0,len=rows['0'].valuestry.length;i<len;i++){
+													if(rows['0'].valuestry[i].year == parseFloat(req.body.yearpg2))
+													{
+															console.log(i);
 
+															console.log("array thigy",rows['0'].valuestry[i].try1);
+															console.log("length value",rows['0'].valuestry[i].try1.length);
 
 
 
-/*dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1, "try1.insidetry2.overallAttain" : 1}).toArray(function(err , rows){
-//console.log('INside the if of PO1',rows['0'].try1['0'].insidetry2.value);
-//console.log('before total');
+													}//if
 
-console.log('before for po Attainment');
 
-console.log(rows['0'].try1.length);
-for (var i = 0, len = rows['0'].try1.length; i < len; i++) {
-
-
-   
-
-
-
-   /*total = total + parseFloat(rows['0'].try1[i].insidetry2.value);
-   //console.log('this is total',total);
-   count++;
-   //console.log('this is counttt',count);*/
-//}
-
-
-
-
-
-
-
-
-
-///////////////inserting total,count,copo and poattain in database
-
-
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '1' },
-                      {              $set: { 
-                                              "total" : total,
-                                              "count" : count,
-                                              "CoPoMatrix" : copomatrix,
-                                              "Poattainment" : poattain
-                                }
-                      },
-                      { upsert : true }
-                      );
-
-
-
-
-
-
-
-console.log('this is total',total);
-console.log('this is counttt',count);
-console.log('after for');
-});
- });
-//console.log('INside the if of PO1',arr1);
-
-//console.log('this is counttt check',count);
-///counting
-/*dbo.collection('POAttainment').find({poID : '1'},{"try1.insidetry2.value" : 1}).toArray(function(err , rows){
-
- console.log('count',rows['0'].try1['1'].insidetry2.value);
- 
-
- });*/
-
-
-
-}
-
-
-
-if(myobj['po2'] > 0 && myobj['po2'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '2' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po2']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po3'] > 0 && myobj['po3'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '3' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po3']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po4'] > 0 && myobj['po4'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '4' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po4']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po5'] > 0 && myobj['po5'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '5' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po5']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po6'] > 0 && myobj['po6'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '6' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po6']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po7'] > 0 && myobj['po7'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '7' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po7']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po8'] > 0 && myobj['po8'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '8' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po8']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po9'] > 0 && myobj['po9'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '9' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po9']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po10'] > 0 && myobj['po10'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '10' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po10']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po11'] > 0 && myobj['po11'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '11' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po11']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
-if(myobj['po12'] > 0 && myobj['po12'] <= 3){
-mongo.dbo.collection('POAttainment').updateOne(
-                      { poID : '12' },
-                      {              $push: { 
-                                    "try1" : {
-                                                courseID : req.body.courseID,
-                                                  "insidetry2":{
-                                                    value : myobj['po12']
-                                                  }
-                                             }
-                                }
-                      },
-                      { upsert : true }
-                      );
-}
+											}//for
+
+
+
+
+
+									});//mongo.dbo.collection('POAttainment').find({poID : '1'},{"valuestry.try1.insidetry2.value" : 1}
+
+
+							///}//if myobj['po1'] > 0 && myobj['po1'] <= 3 --check r
+
+
+				///});//mongo.dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{"valuestry.$.overallAttain" -- check r       
+
+	///});//mongo.connect --check r
+
+});// --check mongo.connect 2nd wala*/
+res.redirect('/poattainment');
+
+});//app.post
+
+
+
+
+app.post('/virtualPage14',function(req,res){
+var myobj={};
+myobj['yearpg3'] = parseFloat(req.body.yearpg3);
+myobj['courseNamepg3'] = req.body.courseNamepg3;
+
+mongo.connect( function( err ) { // --check
+									mongo.dbo.collection('POAttainment').find({poID : '1'},{"valuestry.try1.insidetry2.value" : 1}).toArray(function(err , rows){
+
+											var total = 0,count=0;
+											console.log(rows['0']);
+
+
+											for(var i=0,len=rows['0'].valuestry.length;i<len;i++){
+													if(rows['0'].valuestry[i].year == parseFloat(req.body.yearpg3) && rows['0'].valuestry[i].courseName == req.body.courseNamepg3)
+													{
+															console.log(i);
+
+															console.log("array thigy",rows['0'].valuestry[i].try1);
+															console.log("length value",rows['0'].valuestry[i].try1.length);
+
+															for(var j = 0, len1 = rows['0'].valuestry[i].try1.length;j<len1;j++){
+
+																	total = total + parseFloat(rows['0'].valuestry[i].try1[j].insidetry2.value);
+																	console.log('this is total',total);
+												   
+												   					count++;
+												   					console.log('this is counttt',count);
+
+
+
+															}//for j
+
+															console.log('this is total outside',total);
+															console.log('this is counttt',count);
+
+															var copomatrix = total / count;
+															console.log("copomatrix",copomatrix);
+
+
+
+															 var sum1=0,count1=0,sum2=0,count2=0,sum3=0,count3=0;
+															  var flag1=0,flag2=0,flag3=0;
+
+															  console.log("val i",i);
+															  console.log("check undefined",rows['0'].valuestry[i].try1.length);
+															for(var j = 0, len = rows['0'].valuestry[i].try1.length; j < len; j++){
+										  							if(rows['0'].valuestry[i].try1[j].insidetry2.value == '1')
+																			  {
+																			    console.log('inside valueee onneee');
+																			    sum1 = sum1 + rows['0'].valuestry[i].try1[j].insidetry2.overallAttain;
+																			    count1++;
+																			    console.log('checckkkkk1',rows['0'].valuestry[i].try1[j].insidetry2.overallAttain);
+																			    flag1=1;
+																			  }
+
+
+
+
+										   							if(rows['0'].valuestry[i].try1[j].insidetry2.value == '2')
+																			  {
+																			    console.log('inside valueee twoo');
+																			    sum2 = sum2 + rows['0'].valuestry[i].try1[j].insidetry2.overallAttain;
+																			    count2++;
+
+																			    console.log('checckkkkk2',rows['0'].valuestry[i].try1[j].insidetry2.overallAttain);
+																			    flag2=2;
+																			  }
+
+
+										   							if(rows['0'].valuestry[i].try1[j].insidetry2.value == '3')
+																			  {
+																			    console.log('inside valueee threeeeeeee');
+																			    sum3 = sum3 + rows['0'].valuestry[i].try1[j].insidetry2.overallAttain;
+																			    count3++;
+																			    console.log('checckkkkk3',rows['0'].valuestry[i].try1[j].insidetry2.overallAttain);
+																			    flag3=3;
+																			  }
+
+
+															} //for j vala
+															var average1=0,valavg1=0,average2=0,valavg2=0,average3=0,valavg3=0;
+															if(flag1==1){
+																	  console.log('inside flag onne');
+																	average1 = sum1/count1;
+																	valavg1 = 1 * average1;
+																	console.log('value 1',valavg1);
+															}
+															if(flag2==2){
+																	  console.log('inside flag twoo');
+																	 average2 = sum2/count2;
+																	 valavg2 = 2 * average2;
+																	console.log('value 2',valavg2);
+
+															}
+															if(flag3==3){
+																	  console.log('inside flag three');
+																	average3 = sum3/count3;
+																	valavg3 = 3 * average3;
+																	console.log('value 3',valavg3);
+															}
+															var totalvalavg = valavg1+valavg2+valavg3;
+															console.log('totaalvalavgg',totalvalavg);
+															var poattain = totalvalavg/(flag1+flag2+flag3);
+															console.log('final yyaayy',poattain);
+															break;
+
+													}//if
+
+
+											}//for
+
+											console.log('totaalvalavgg outside',totalvalavg);
+											console.log('final yyaayy outside',poattain);
+											mongo.dbo.collection('POAttainment').updateOne(
+										                      { 
+										                      	"valuestry.year" : myobj['yearpg3'],
+										                      	"valuestry.courseName" : myobj['courseNamepg3']
+										                       },
+										                      {              $set: { 
+										                                              "valuestry.$.total" : total,
+										                                              "valuestry.$.count" : count,
+										                                              "valuestry.$.CoPoMatrix" : copomatrix,
+										                                              "valuestry.$.Poattainment" : poattain
+										                                }
+										                      },
+										                      { upsert : true }
+										                      );
+
+
+
+									});//mongo.dbo.collection('POAttainment').find({poID : '1'},{"valuestry.try1.insidetry2.value" : 1}
+
+
+							///}//if myobj['po1'] > 0 && myobj['po1'] <= 3 --check r
+
+
+				///});//mongo.dbo.collection('CourseOutcome').find({ courseID:myobj['courseID']},{"valuestry.$.overallAttain" -- check r       
+
+	///});//mongo.connect --check r
+
+});// --check mongo.connect 2nd wala
+
+res.redirect('/poattainment');
+
+
 });
 
-});  //  mongo.connect
-
-
-
-  res.redirect('/poattainment');  //using POST REDIRECT GET
-});
-
-
-
-
+/////////////////////router.get this is diff part
 router.get('/poattainment',function(req,res){
    mongo.connect( function( err ) {
    mongo.dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
@@ -1157,12 +949,10 @@ router.get('/poattainment',function(req,res){
 
         console.log("poattainment doc read");
     });
-   });  //  mongo.connect
-
+   });  
 
 });
-
-
+//////////////////////////
 
 
 // Course --------------------------------------------------------------
