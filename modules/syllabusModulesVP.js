@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var mongo = require('./db.js');
 
-console.log("Entered vp.js");
+console.log("Entered syllabusModules.js");
 
 module.exports.syllabusModulesVP = function(req,res,next){
   console.log(req.body);
