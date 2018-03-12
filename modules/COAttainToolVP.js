@@ -127,7 +127,7 @@ module.exports.COAttainToolVP = function(req,res,next){
 
 
             mongo.connect( function( err ) {
-                mongo.dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID , "valuestry.year" : myobj['year']}).toArray(function(err , rows){
+                mongo.dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID , "valuestry.year" : parseFloat(req.body.year)}).toArray(function(err , rows){
                       if (err) return console.log(err)
                       
                         // when adding a tool for the first time, initialize directAttain to 0
@@ -173,6 +173,7 @@ module.exports.COAttainToolVP = function(req,res,next){
 
                   	                  mongo.dbo.collection('CourseOutcome').updateOne(
                   	                  {
+                                        "courseID" : req.body.courseID,
                                         "valuestry.year" : myobj['year']
 
                   	                  },
