@@ -18,7 +18,9 @@ var page2 = require('./modules/COAttain.js');
 var page3 = require('./modules/COAttainToolVP.js');
 var page4 = require('./modules/CourseOutcome.js');
 var page5 = require('./modules/Course.js');
+var page6 = require('./modules/chartCode.js');
 
+app.use('/chartsAA', page6.chartCode);
 
 // Start listening 
 var port_number = app.listen(process.env.PORT || 7000);
@@ -42,6 +44,10 @@ router.get('/plans',function(req,res){
 
 router.get('/course',function(req,res){
   res.render('course');
+});
+
+router.get('/charts',function(req,res){
+  res.render('charts');
 });
 
 
