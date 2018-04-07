@@ -1,11 +1,12 @@
-var express = require('express');
-var app = express();
 var mongo = require('./db.js');
 
 console.log("Entered coattain vp");
 
 
-module.exports.COAttain = function(req,res,next){
+module.exports.COAttain = function(app){
+
+
+  app.get('/coattain', function(req,res,next){
 
 	var resultArray = [];
 	var assert = require('assert');
@@ -113,5 +114,7 @@ module.exports.COAttain = function(req,res,next){
 
 });
 
+
+  }); //app.post
 
 };

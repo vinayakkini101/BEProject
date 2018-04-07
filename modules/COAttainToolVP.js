@@ -1,13 +1,14 @@
-var express = require('express');
-var app = express();
-var mongo = require('./db.js');
+// var express = require('express');
+// var app = express();
 const multer = require('multer');
+var mongo = require('./db.js');
 
 console.log("Entered CO attainment vp");
 
-module.exports.COAttainToolVP = function(req,res,next){
+module.exports.COAttainToolVP = function(app){
 
-
+ app.post('/COAttainToolVP',function(req,res,next){
+     
   //  create a storage which says where and how the files/images should be saved.
    var Storage = multer.diskStorage({
 
@@ -134,6 +135,7 @@ module.exports.COAttainToolVP = function(req,res,next){
                         var check=1;
                         
                            mongo.dbo.collection('CourseOutcome').find({"valuestry.year" : myobj['year'],"valuestry.directAttain":{"$exists":true}}).toArray(function(err, row){
+                            if (err) return console.log(err)
                             var flag=4,len;
                             for(var i=0,len = row['0'].valuestry.length;i<len;i++){
                                   if(row['0'].valuestry[i].year == myobj['year'])
@@ -219,4 +221,6 @@ module.exports.COAttainToolVP = function(req,res,next){
        res.redirect('/coattain');  //using POST REDIRECT GET
    
 
- };
+ });  //app.post
+
+}; //module.exports

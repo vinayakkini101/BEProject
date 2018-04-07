@@ -13,14 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Required files
 var mongo = require('./modules/db.js');
-var page1 = require('./modules/syllabusModulesVP.js');
-var page2 = require('./modules/COAttain.js');
-var page3 = require('./modules/COAttainToolVP.js');
-var page4 = require('./modules/CourseOutcome.js');
-var page5 = require('./modules/Course.js');
-var page6 = require('./modules/chartCode.js');
 
-app.use('/chartsAA', page6.chartCode);
 
 // Start listening 
 var port_number = app.listen(process.env.PORT || 7000);
@@ -52,6 +45,12 @@ router.get('/charts',function(req,res){
 
 
 
+// Chart code
+var chartcode= require('./modules/chartCode.js');
+chartcode.chartCode(app);
+
+
+
 //create folder uploads if it does not exist......if it exists, it does nothing
     var mkdirp = require('mkdirp');  console.log(__dirname);
     mkdirp.sync(__dirname+'/uploads', function (err) {
@@ -65,8 +64,9 @@ router.get('/charts',function(req,res){
     });
 
 
-// Syllabus Modules---------------------------------------------------
-app.use('/syllabusModulesVP', page1.syllabusModulesVP);   
+// Syllabus Modules---------------------------------------------------  
+var syllab = require('./modules/syllabusModulesVP.js');
+syllab.syllabusModulesVP(app);
 
 router.get('/syllabusModules',function(req,res){
   mongo.connect(function( err ) {
@@ -85,6 +85,24 @@ router.get('/syllabusModules',function(req,res){
 
 var examScheme = require('./modules/examScheme.js');
 examScheme.examScheme(app);
+
+
+
+// Course --------------------------------------------------------------
+
+var cours = require('./modules/Course.js');
+cours.Course(app);
+
+
+// coattain------------------------------------
+var coattain = require('./modules/COAttain.js');
+coattain.COAttain(app) 
+
+
+
+// Course Outcome--------------------------------------------------------------
+var cout = require('./modules/CourseOutcome.js');
+cout.CourseOutcome(app);
 
 
 
@@ -482,8 +500,8 @@ pdfdoc.end();
 
 // CO Attainment Adding tools---------------------------------------------------------------
 
-app.use('/COAttainToolVP', page3.COAttainToolVP);
-
+var coat = require('./modules/COAttainToolVP.js');
+coat.COAttainToolVP(app);
 
   
 
@@ -915,21 +933,5 @@ router.get('/poattainment',function(req,res){
 //////////////////////////
 
 
-// Course --------------------------------------------------------------
-
-app.use('/Course', page5.Course);
-
-
-
-
-// coattain------------------------------------
-
-app.use('/coattain', page2.COAttain);
-
-
-
-// Course Outcome--------------------------------------------------------------
-
-app.use('/CourseOutcome', page4.CourseOutcome);
 
 
