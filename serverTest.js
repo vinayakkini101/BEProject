@@ -45,6 +45,13 @@ router.get('/charts',function(req,res){
 
 
 
+// Download code
+router.get('/template.xslx', function(req,res){
+    res.download('./template.xlsx');
+});
+
+
+
 // Chart code
 var chartcode= require('./modules/chartCode.js');
 chartcode.chartCode(app);

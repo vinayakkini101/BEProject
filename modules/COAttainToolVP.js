@@ -62,39 +62,70 @@ module.exports.COAttainToolVP = function(app){
             // var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true, range:new_range});
             //console.log(sh);          // sh is an array of array of the column of the specified range
 
+
             // Looping through all the sheets
-            for(var sheet_number=0 ; sheet_number < workbook.SheetNames.length ; sheet_number++ )
+            // for(var sheet_number=0 ; sheet_number < workbook.SheetNames.length ; sheet_number++ )
+            // {
+            //         var worksheet = workbook.Sheets[workbook.SheetNames[sheet_number]];
+            //         var range = XLSX.utils.decode_range(workbook.Sheets[workbook.SheetNames[sheet_number]]["!ref"]);
+            //         var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
+            //         var flag=0;
+            //         for(var k=0; k<=range.e.r; k++)
+            //         {
+            //           for(var g=0; g<=range.e.c; g++)
+            //           {
+            //               if(sh[k][g] == req.body.columnName)
+            //                 {
+            //                    flag=1;
+            //                    break;
+            //                 }
+            //           }
+            //             if(flag==1)
+            //               break;
+            //         }
+            //     if(flag==1)
+            //       break;
+            // }
+
+
+            // // console.log("Working on the sheet - "+workbook.SheetNames[sheet_number]);
+            //  var totalStud=0, numStud=0;
+            //  k++;       //to start below the cell containing column name
+            // for(var p=k; p<=range.e.r; p++)
+            // {
+            //     if( (sh[p][g]==undefined)  || typeof sh[p][g]=="string")
+            //       break; 
+            //     if(sh[p][g] >= req.body.minMark)
+            //       numStud++;
+            //     totalStud++;
+            // }
+
+            var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            var range = XLSX.utils.decode_range(workbook.Sheets[workbook.SheetNames[0]]["!ref"]);
+            var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
+
+            var flag=0;
+            for(var k=12; k<=range.e.r; k++)
             {
-                    var worksheet = workbook.Sheets[workbook.SheetNames[sheet_number]];
-                    var range = XLSX.utils.decode_range(workbook.Sheets[workbook.SheetNames[sheet_number]]["!ref"]);
-                    var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
-                    var flag=0;
-                    for(var k=0; k<=range.e.r; k++)
+                for(var g=0; g<=range.e.c; g++)
+                {
+                    if(sh[k][g] == sh[1][1])
                     {
-                      for(var g=0; g<=range.e.c; g++)
-                      {
-                          if(sh[k][g] == req.body.columnName)
-                            {
-                               flag=1;
-                               break;
-                            }
-                      }
-                        if(flag==1)
-                          break;
+                        flag=1;
+                        break;
                     }
+                }
                 if(flag==1)
-                  break;
+                    break;
             }
 
-
-            console.log("Working on the sheet - "+workbook.SheetNames[sheet_number]);
-             var totalStud=0, numStud=0;
-             k++;       //to start below the cell containing column name
+            var totalStud=0, numStud=0;
+            k++;
             for(var p=k; p<=range.e.r; p++)
             {
-                if( (sh[p][g]==undefined)  || typeof sh[p][g]=="string")
+                if( (parseFloat(sh[p][g])==undefined)  || typeof parseFloat(sh[p][g])=="string")
                   break; 
-                if(sh[p][g] >= req.body.minMark)
+                if(parseFloat(sh[p][g]) >= parseFloat(sh[3][1]*sh[6][1]/100))        
                   numStud++;
                 totalStud++;
             }
@@ -106,17 +137,20 @@ module.exports.COAttainToolVP = function(app){
          // Now we have "numStud" and "totalStud" , we will calculate directAttain and overallAtain
 
          var myobj={};
-         myobj['courseID'] = req.body.courseID;
-         myobj['year'] = parseFloat(req.body.year);
+        //  myobj['courseID'] = req.body.courseID;
+        //  myobj['year'] = parseFloat(req.body.year);
+            myobj['courseID'] = req.body.courseID;
+            myobj['year'] = parseFloat(sh[0][1]);
 
            var tempTool={};
-           tempTool['weightage'] = parseFloat(req.body.weightage);
-           // tempTool['numStud'] = parseFloat(req.body.numStud);
-           // tempTool['totalStud'] = parseFloat(req.body.totalStud);
-           tempTool['low'] = parseFloat(req.body.low);
-           tempTool['mod'] = parseFloat(req.body.mod);
-           tempTool['high'] = parseFloat(req.body.high);
-
+        //    tempTool['weightage'] = parseFloat(req.body.weightage);
+        //    tempTool['low'] = parseFloat(req.body.low);
+        //    tempTool['mod'] = parseFloat(req.body.mod);
+        //    tempTool['high'] = parseFloat(req.body.high);
+        tempTool['weightage'] = parseFloat(sh[5][1]);
+        tempTool['low'] = parseFloat(sh[9][1]);
+        tempTool['mod'] = parseFloat(sh[8][1]);
+        tempTool['high'] = parseFloat(sh[7][1]);
 
            tempTool['attainPercent'] = numStud / totalStud * 100;
            if(tempTool['attainPercent'] >= tempTool['low'] && tempTool['attainPercent'] < tempTool['mod'])
@@ -128,7 +162,7 @@ module.exports.COAttainToolVP = function(app){
 
 
             mongo.connect( function( err ) {
-                mongo.dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID , "valuestry.year" : parseFloat(req.body.year)}).toArray(function(err , rows){
+                mongo.dbo.collection('CourseOutcome').find({"courseID" : req.body.courseID , "valuestry.year" : parseFloat(sh[0][1])}).toArray(function(err , rows){
                       if (err) return console.log(err)
                       
                         // when adding a tool for the first time, initialize directAttain to 0
@@ -176,7 +210,7 @@ module.exports.COAttainToolVP = function(app){
                   	                  mongo.dbo.collection('CourseOutcome').updateOne(
                   	                  {
                                         "courseID" : req.body.courseID,
-                                        "valuestry.year" : myobj['year']
+                                        "valuestry.year" : parseFloat(sh[0][1])
 
                   	                  },
                   	                  {
@@ -189,17 +223,17 @@ module.exports.COAttainToolVP = function(app){
                                           $push : {  
                                                    
                   	                                "valuestry.$.tool" : {
-                  	                                            toolName : req.body.tool,
-                  	                                            year : parseFloat(req.body.year),
-                  	                                            targetMark : parseFloat(req.body.targetMark),
-                  	                                            targetStud : parseFloat(req.body.targetStud),
-                  	                                            weightage : parseFloat(req.body.weightage),
-                  	                                            minMark : parseFloat(req.body.minMark),
+                  	                                            toolName : sh[2][1],
+                  	                                            year : parseFloat(sh[0][1]),
+                  	                                            targetMark : parseFloat(sh[3][1]),
+                  	                                            targetStud : parseFloat(sh[4][1]),
+                  	                                            weightage : parseFloat(sh[5][1]),
+                  	                                            minMark : parseFloat(sh[3][1]*sh[6][1]/100),
                   	                                            numStud : parseFloat(numStud),
                   	                                            totalStud : parseFloat(totalStud),
-                  	                                            low : parseFloat(req.body.low),
-                  	                                            mod : parseFloat(req.body.mod),
-                  	                                            high : parseFloat(req.body.high),
+                  	                                            low : parseFloat(sh[9][1]),
+                  	                                            mod : parseFloat(sh[8][1]),
+                  	                                            high : parseFloat(sh[7][1]),
                   	                                            attainPercent : tempTool['attainPercent'].toFixed(3),
                   	                                            attainLevel : tempTool['attainLevel']
                   	                                         }
