@@ -58,7 +58,7 @@ app.get('/display', function(req,res){
 
 // Download code
 router.get('/template', function(req,res){
-    res.download('./template.xlsx');
+    res.download('./template.xls');
 });
 
 
