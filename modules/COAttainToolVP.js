@@ -105,7 +105,7 @@ module.exports.COAttainToolVP = function(app){
             var sh = XLSX.utils.sheet_to_json(worksheet, {header:1, raw:true});
 
             var flag=0;
-            for(var k=12; k<=range.e.r; k++)
+            for(var k=2; k<=range.e.r; k++)
             {
                 for(var g=0; g<=range.e.c; g++)
                 {
@@ -120,12 +120,12 @@ module.exports.COAttainToolVP = function(app){
             }
 
             var totalStud=0, numStud=0;
-            k++;
+            k++;  
             for(var p=k; p<=range.e.r; p++)
             {
                 if( (parseFloat(sh[p][g])==undefined)  || typeof parseFloat(sh[p][g])=="string")
                   break; 
-                if(parseFloat(sh[p][g]) >= parseFloat(sh[3][1]*sh[6][1]/100))        
+                if(parseFloat(sh[p][g]) >= parseFloat(sh[3][1]*sh[6][1]/100).toFixed(0))        
                   numStud++;
                 totalStud++;
             }
@@ -153,9 +153,12 @@ module.exports.COAttainToolVP = function(app){
         tempTool['high'] = parseFloat(sh[7][1]);
 
            tempTool['attainPercent'] = numStud / totalStud * 100;
-           if(tempTool['attainPercent'] >= tempTool['low'] && tempTool['attainPercent'] < tempTool['mod'])
+           tempTool['attainPercent'] = parseFloat(tempTool['attainPercent']);       
+           tempTool['attainPercent'] = tempTool['attainPercent'].toFixed(3);    
+ console.log("waah " +(tempTool['attainPercent'] <= 60 ));
+           if((tempTool['attainPercent'] >= tempTool['low']) && (tempTool['attainPercent'] < tempTool['mod']))
               tempTool['attainLevel'] = 1;
-           else if(tempTool['attainPercent'] >= tempTool['mod'] && tempTool['attainPercent'] < tempTool['high'])
+           else if((tempTool['attainPercent'] >= tempTool['mod']) && (tempTool['attainPercent'] < tempTool['high']))
               tempTool['attainLevel'] = 2;
            else 
               tempTool['attainLevel'] = 3;
@@ -216,8 +219,8 @@ module.exports.COAttainToolVP = function(app){
                   	                  {
                   	                      $set: {
                                                    
-                  	                                "valuestry.$.directAttain" : tempTool['valuestry.directAttain'],
-                  	                                "valuestry.$.overallAttain" : tempTool['valuestry.overallAttain']
+                  	                                "valuestry.$.directAttain" : parseFloat(tempTool['valuestry.directAttain'].toFixed(2)),
+                  	                                "valuestry.$.overallAttain" : parseFloat(tempTool['valuestry.overallAttain'].toFixed(2))
                                                   
                   	                            },
                                           $push : {  
@@ -234,8 +237,8 @@ module.exports.COAttainToolVP = function(app){
                   	                                            low : parseFloat(sh[9][1]),
                   	                                            mod : parseFloat(sh[8][1]),
                   	                                            high : parseFloat(sh[7][1]),
-                  	                                            attainPercent : tempTool['attainPercent'].toFixed(3),
-                  	                                            attainLevel : tempTool['attainLevel']
+                  	                                            attainPercent : parseFloat(tempTool['attainPercent']),
+                  	                                            attainLevel : parseFloat(tempTool['attainLevel'])
                   	                                         }
                                                           
                   	                            }

@@ -10,7 +10,7 @@ module.exports.chartCode = function(app){
             var dataArray=[];
 
             mongo.connect( function( err ) {
-                mongo.dbo.collection('CourseOutcome').find({"courseID":"CSC302.10"}).toArray(function(err , rows){
+                mongo.dbo.collection('CourseOutcome').find().toArray(function(err , rows){
                     if ( err ) throw err;
                     rows.forEach(function(rows,index){
                         

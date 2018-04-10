@@ -23,7 +23,6 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0-beta",
-    "chart.js": "2.6.0",
     "datatables.net-bs4": "1.10.15",
     "ejs": "^2.5.5",
     "express": "^4.16.2",

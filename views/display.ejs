@@ -108,248 +108,100 @@
                 <!-- Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
               
-              <div class="content-wrapper">
+    <div class="content-wrapper">
       <div class="container">
 
-          <!-- Breadcrumbs -->
-          <!-- <ol class="breadcrumb">
+          <!-- Breadcrumbs
+          <ol class="breadcrumb">
               <li class="breadcrumb-item">
                 <a href="/">Dashboard</a>
               </li>
               <li class="breadcrumb-item">
-                  <a href="/coattain">CO Attainment</a>
+                  <a href="/display">Display Table</a>
               </li>
-          </ol> -->
+          </ol>
+          <br> -->
 
-
-
-         <ul class="nav nav-tabs" role = "tablist">
-            <li class="nav-item">
-              <a class="nav-link active" href="#part1" role="tab" data-toggle="tab">Add Course</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#part2" role="tab" data-toggle="tab">Add Course Outcome</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#part3" role="tab" data-toggle="tab">CO Attainment </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#part4" role="tab" data-toggle="tab">CO PDF GENERATION</a>
-            </li>
-        </ul>
-
-
-
-        <div class="tab-content">
-              <!--<h3>Add Course</h3>-->
-              <div class="tab-pane active" role="tabpanel" id="part1">
-                  <form role="form" data-toggle="validator" class="shake" method="post" action="/Course">
-                     
-
-                      <div class="form-group">
-                         <br>
-                         Course ID
-                         <input type="text" class="form-control" name="courseID" placeholder="Course ID">
-                      </div>
-
-                      <div class="form-group">
-                         <br>
-                         Course Name
-                         <input type="text" class="form-control" name="courseName" placeholder="Course Name">
-                      </div>
-
-                      
-                      <br>
-                            <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
-                            <div id="msgSubmit" class="h3 text-center hidden"></div>
-                            <div class="clearfix"></div>
-                        </form>
-                  </form>
-              </div>
-
-
-
-
-              <!--<h3>Add Course Outcome</h3>-->
-              <br>
-              <div class="tab-pane " role="tabpanel" id="part2">
-                  <form role="form" data-toggle="validator" class="shake" method="post" action="/CourseOutcome">
-                     
-
-                      <div class="form-group">
-                        <label for="sel1">Select Course</label>
-                        <select class="form-control" id="sel1" name="courseName">
-                         <% obj1.forEach(function(rows,index){%>
-                          <option name="<%= rows.courseName %>"><%= rows.courseName %></option>
-                        <% }); %>
-                        </select>
-                      </div>
-
-                      <div class="form-group">
-                         <br>
-                         Course Outcome ID
-                         <input type="text" class="form-control" name="courseID" >
-                      </div>
-
-                      <div class="form-group">
-                         <br>
-                         Text
-                         <input type="text" class="form-control" name="text" >
-                      </div>
-
-                      <div class="form-group">
-                         <br>
-                         Year
-                         <input type="text" class="form-control" name="year" >
-                      </div>
-
-                     <div class="form-group">
-                         <br>
-                            Indirect attain
-                         <input type="text" class="form-control" name="indirectAttain" >
-                      </div>
-                      
-                      
-                      <br>
-                            <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
-                            <div id="msgSubmit" class="h3 text-center hidden"></div>
-                            <div class="clearfix"></div>
-                  </form>
-                   <hr>
-              </div>
+          <div class="row">
+                <!-- column -->
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-block">
+                            <!-- <h4 class="card-title">Course Outcome</h4> -->
+                            
+                            <div >
+                                <h3>Course Outcomes</h3>        
+                                <table class="table table-hover table-bordered ">
+                                    <thead>
+                                    <tr>
+                                        <th>Course ID</th>
+                                        <th>Course Name</th>
+                                        <th>Year</th>
+                                        <!-- <th>Course Outcome Name</th> -->
+                                        <th>Direct Attainment</th>
+                                        <th>Indirect Attainment</th>
+                                        <th>Overall Attainment</th>
+                                        <th>Tool Name</th>
+                                        <th>Tool Attainment Level</th>
+                                        
+                                    </tr>
+                                    </thead> 
+                                    <tbody>
+                                        <% displayObject.forEach(function(rows,index){%>
+                                    <tr>
+                                        <td><%= rows.courseID %> </td>
+                                        <td><%= rows.courseName %> </td>
+                                        <% for (var i in rows.valuestry){ %>   
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><%= rows.valuestry[i].year %> </td>
+                                                <!-- <td><%= rows.valuestry[i].text %> </td> -->
+                                                <td><%= rows.valuestry[i].directAttain %> </td>
+                                                <td><%= rows.valuestry[i].indirectAttain %> </td>
+                                                <td><%= rows.valuestry[i].overallAttain %> </td>
+                                            </tr>
+                                
+                                            <% for (var j in rows.valuestry[i].tool){ %>   
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <!-- <td></td> -->
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><%= rows.valuestry[i].tool[j].toolName %> </td>
+                                                    <td><%= rows.valuestry[i].tool[j].attainLevel %> </td>
+                                                </tr>
+                                            <%} %>
+                                
+                                
+                                        <%} %>
+                                
+                                        
+                                    </tr>
+                                    <% }); %>
+                                    </tbody>
+                                </table>
+                           </div>
 
 
 
 
-
-              <!--<h3>CO Attainment</h3>-->
-              <div class="tab-pane " role="tabpanel" id="part3">
-                    <form role="form" data-toggle="validator" class="shake" method="post"  enctype="multipart/form-data"   action="/COAttainToolVP">
-                       <h6>Note : Ensure that there are no blank cells in the column but ONE at the end of the column </h6>
-                       <br>
-
-                    <div class="row">
-                          <div class="form-group col-sm-6">
-                            <label for="sel1">Select Course Outcome</label>
-                            <select class="form-control" id="sel1" name="courseID">
-                               <% obj2.forEach(function(COrows,index){%>
-                                <option name="<%= COrows.courseID %>"><%= COrows.courseID %></option>
-                              <% }); %>
-                            </select>
-                          </div>
-<!-- 
-                    <div class="form-group col-sm-3">
-                            Year
-                           <input type="text" class="form-control input-group-lg" name="year" >
-                        </div> -->
-
-                          
-
-                    </div>
-
-                    <div class="form-group">
-                       <br>
-                       Upload Excel
-                        <div class="form-group">
-                            <div class='input-group' id='datetimepicker5'>
-                                <input type='file'  class="form-control"  name="excelUploader" multiple />
-                            </div>
-                        </div>
-                        <div class="help-block with-errors"></div>
-                    </div>
-
-                    <!-- <div class="form-group">
-                       <br>
-                       Column name
-                       <input type="text" class="form-control" name="columnName" placeholder="Column Name">
-                    </div>
-
-                    <div class="form-group">
-                       <br>
-                       Tool
-                       <input type="text" class="form-control" name="tool" >
-                    </div>
-                    <br>
-
-                    <div class="row">
-                         <div class="form-group col-sm-3">
-                           Target % of marks
-                           <input type="text" class="form-control input-group-lg" name="targetMark" >
-                        </div>
-
-                        <div class="form-group col-sm-3">
-                           Target % of students
-                           <input type="text" class="form-control input-group-lg" name="targetStud" >
-                        </div>
-
-                        <div class="form-group col-sm-3">
-                           Weightage
-                           <input type="text" class="form-control input-group-lg" name="weightage" >
-                        </div>
-
-                        <div class="form-group col-sm-3">
-                            Minimum Marks
-                           <input type="text" class="form-control input-group-lg" name="minMark" >
                         </div>
                     </div>
-
-                    <br>
-                    <h4>Target Level Percentage</h4>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                           Low
-                           <input type="text" class="form-control input-group-lg" name="low" title="lastnamed">
-                        </div>
-
-                        <div class="form-group col-sm-4">
-                           Moderate
-                           <input type="text" class="form-control input-group-lg" name="mod" >
-                        </div>
-
-                        <div class="form-group col-sm-4">
-                            High
-                           <input type="text" class="form-control input-group-lg" name="high" >
-                        </div>
-                    </div>
-                     -->
-                    
-                        <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
-                        <div id="msgSubmit" class="h3 text-center hidden"></div>
-                        <div class="clearfix"></div>
-                    </form>
-                    <hr>
-              </div>
+                </div>
+                <!-- column -->
+            </div>
+        
 
 
 
+        
 
 
               
-              <div class="tab-pane " role="tabpanel" id="part4">
-                  <form role="form" data-toggle="validator" class="shake" method="post" action="/virtualPage15">
-                     
-
-                    
-
-                      <div class="form-group">
-                         <br>
-                         Course Name
-                         <input type="text" class="form-control" name="courseName" placeholder="Course Name">
-                      </div>
-
-                      <div class="form-group col-sm-3">
-                            Year
-                           <input type="text" class="form-control input-group-lg" name="year" >
-                        </div>
-
-                      
-                      <br>
-                            <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
-                            <div id="msgSubmit" class="h3 text-center hidden"></div>
-                            <div class="clearfix"></div>
-                        </form>
-                  </form>
-              </div>
 
 
        </div>

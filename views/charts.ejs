@@ -1,105 +1,158 @@
-<% include headerAndSide.ejs %>
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Contact form using Bootstrap 3.3.4</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta charset="utf-8">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!-- saved from url=(0083)https://wrappixel.com/demos/free-admin-templates/monster-admin-lite/html/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Learning Outcome Based Attainment Dashboard</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="../css/blue.css" id="theme" rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
-<body style="background-color: #7e7e7e">
 
-    <div class="content-wrapper">
-        <div class="container-fluid">
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+   
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="content-wrapper">
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                 <div id="chart-container" class="container-fluid">
+                      Loading FusionCharts... 
+                  </div>
 
-          <!-- Breadcrumbs-->
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="/">Dashboard</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="/plans">Plans</a>
-            </li>
-            <li class="breadcrumb-item active">Charts</li>
-          </ol>
+            </div>
+        <!-- </div> -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+
+     <!-- Bootstrap core JavaScript -->
+     <script>
+        FusionCharts.ready(function () {
+    
+          var chartData;
+    
+          $(function(){
+            $.ajax({
+              url: 'http://localhost:7000/chartsAA',
+              type: 'GET',
+              dataType:'json',
+              success : function(data) {
+                // console.log("Data from API endpoint "+JSON.stringify(data[0]));
+                // callback(JSON.stringify(data));     --------this gives error
+                callback(data);
+              }
+            });
+          });
+    
+          function callback(response) 
+          {
+                chartData = response;
+    
+                var revenueChart = new FusionCharts
+                ({
+                    type: 'column3d',
+                    renderAt: 'chart-container',
+                    width: '600',
+                    height: '400',
+                    dataFormat: 'json',
+                    dataSource: 
+                    {
+                        "chart": {
+                                  "caption": "CO Attainment in the last 3 years for CSC302.10",
+                                  "subCaption": "",
+                                  "xAxisName": "Years",
+                                  "yAxisName": "CO Attainment Value",
+                                  "paletteColors": "#0075c2",
+                                  "valueFontColor": "#ffffff",
+                                  "baseFont": "Helvetica Neue,Arial",
+                                  "captionFontSize": "18",
+                                  "subcaptionFontSize": "14",
+                                  "subcaptionFontBold": "0",
+                                  "placeValuesInside": "1",
+                                  "showShadow": "0",
+                                  "divlineColor": "#999999",               
+                                  "divLineIsDashed": "1",
+                                  "divlineThickness": "1",
+                                  "divLineDashLen": "1",
+                                  "divLineGapLen": "1",
+                                  "canvasBgColor": "#ffffff",
+                                  // "borderThickness": "2",
+                                  // "showBorder" :"1",
+                                  "rotateValues": "0",              // values inside bar are horizontal
+                                  "labelFontSize": "15",           // 2015,2016.. 
+                                  "outCnvBaseFontSize": "15"      // co att, years, and y-axis numbers
+                        },
+    
+                        "data" : chartData
+                    }
+                });
+              
+              revenueChart.render();
+          }
+    });
+    </script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/popper/popper.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+     <script src="/vendor/jquery/tether.js"></script>
+     <script src="/vendor/jquery/waves.js"></script>
+     <script src="/vendor/jquery/sidebarmenu.js"></script>
+     <script src="/vendor/jquery/sticky-kit.min.js"></script>
+     <script src="/vendor/jquery/custom.min.js"></script>
+
+      <script src="/vendor/jquery/jquery.flot.js"></script>
+     <script src="/vendor/jquery/jquery.flot.tooltip.min.js"></script>
+     <script src="/vendor/jquery/flot-data.js"></script>
+     <script src="/vendor/jquery/jQuery.style.switcher.js"></script>
 
 
     
-          <div id="chart-container" class="container-fluid">
-            Loading FusionCharts... 
-          </div>
-                
-      
+    <!-- Bootstrap tether Core JavaScript -->
+   
+    
+   
+    
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!-- Flot Charts JavaScript -->
+   
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    
 
-        </div>
-    </div>
 
 
+<div class="flotTip" style="position: absolute; background: rgb(255, 255, 255); z-index: 1040; padding: 0.4em 0.6em; border-radius: 0.5em; font-size: 0.8em; border: 1px solid rgb(17, 17, 17); white-space: nowrap; left: 865px; top: 493px; display: none;"></div>
 </body>
 </html>
-<script>
-    FusionCharts.ready(function () {
 
-      var chartData;
 
-      $(function(){
-        $.ajax({
-          url: 'http://localhost:7000/chartsAA',
-          type: 'GET',
-          dataType:'json',
-          success : function(data) {
-            // console.log("Data from API endpoint "+JSON.stringify(data[0]));
-            // callback(JSON.stringify(data));     --------this gives error
-            callback(data);
-          }
-        });
-      });
-
-      function callback(response) 
-      {
-            chartData = response;
-
-            var revenueChart = new FusionCharts
-            ({
-                type: 'column3d',
-                renderAt: 'chart-container',
-                width: '600',
-                height: '400',
-                dataFormat: 'json',
-                dataSource: 
-                {
-                    "chart": {
-                              "caption": "CO Attainment in the last 3 years for CSC302.10",
-                              "subCaption": "",
-                              "xAxisName": "Years",
-                              "yAxisName": "CO Attainment Value",
-                              "paletteColors": "#0075c2",
-                              "valueFontColor": "#ffffff",
-                              "baseFont": "Helvetica Neue,Arial",
-                              "captionFontSize": "18",
-                              "subcaptionFontSize": "14",
-                              "subcaptionFontBold": "0",
-                              "placeValuesInside": "1",
-                              "showShadow": "0",
-                              "divlineColor": "#999999",               
-                              "divLineIsDashed": "1",
-                              "divlineThickness": "1",
-                              "divLineDashLen": "1",
-                              "divLineGapLen": "1",
-                              "canvasBgColor": "#ffffff",
-                              // "borderThickness": "2",
-                              // "showBorder" :"1",
-                              "rotateValues": "0",              // values inside bar are horizontal
-                              "labelFontSize": "15",           // 2015,2016.. 
-                              "outCnvBaseFontSize": "15"      // co att, years, and y-axis numbers
-                    },
-
-                    "data" : chartData
-                }
-            });
-          
-          revenueChart.render();
-      }
-});
-  </script>

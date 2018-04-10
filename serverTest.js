@@ -44,6 +44,17 @@ router.get('/charts',function(req,res){
 });
 
 
+// display temp code
+
+app.get('/display', function(req,res){
+    mongo.connect( function( err ) {  
+        mongo.dbo.collection('CourseOutcome').find().toArray(function(err , rows){
+          if (err) return console.log(err)
+          res.render('display', {displayObject : rows});
+          });
+    });
+});
+
 
 // Download code
 router.get('/template.xslx', function(req,res){
@@ -941,4 +952,101 @@ router.get('/poattainment',function(req,res){
 
 
 
+
+
+
+
+
+
+app.post('/virtualPage15',function(req,res){
+console.log(req.body);
+  
+  console.log("virtual page 15 has been pohochaoahed");
+
+
+  var myobj={};
+   myobj['courseName'] = req.body.courseName;
+   myobj['year'] = parseFloat(req.body.year);
+
+   mongo.connect(function(err) {
+     mongo.dbo.collection('CourseOutcome').find({"courseName" : req.body.courseName}).toArray(function(err , rows){
+         console.log("is this the real rows ?? dan dan daaannnn",rows);
+               
+               var pdfMaker = require('pdf-maker');
+   var template = '/copdf';
+   var data = {
+    rows
+  };
+  var pdfPath = '/file.pdf';
+  var option = {
+    
+        paperSize: {
+            format: 'A4',
+            orientation: 'portrait',
+            border: '1.8cm'
+        }
+    };
+
+
+ pdfMaker(template, data, pdfPath, option);
+
+        });
+   });
+
+
+   
+ 
+  res.redirect('/copdf'); 
+
+
+
+  //////trying the pdf generation with phantonjs
+
+  var phantom = require('phantom');   
+
+  phantom.create().then(function(ph) {
+      ph.createPage().then(function(page) {
+          page.open("views/copdf.html").then(function(status) {
+            console.log("inside the open")
+              page.render('google.pdf').then(function() {
+                  console.log('Page Rendered');
+                  ph.exit();
+              });
+          });
+      });
+  });
+
+   //using POST REDIRECT GET
+
+});
+
+router.get('/copdf',function(req,res){
+mongo.connect(function(err) {  
+  mongo.dbo.collection('CourseOutcome').find().toArray(function(err , rows){
+  if (err) return console.log(err)
+  
+    var ejs = require('ejs');
+    var phantom = require('phantom');   
+
+    var webPage = require('webpage');
+    
+
+  var html = res.render('copdf', {obj:rows});
+        console.log("Scheme doc read");
+
+    
+    //var page = webPage.create();
+    
+      webPage.content = html;
+      console.log("what is inside", html );
+      //page.content = html;
+
+      //webPage.render('test.pdf');
+
+     
+      
+    });
+   });
+
+});
 
