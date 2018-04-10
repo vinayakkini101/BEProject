@@ -18,7 +18,7 @@ var page2 = require('./modules/COAttain.js');
 var page3 = require('./modules/COAttainToolVP.js');
 var page4 = require('./modules/CourseOutcome.js');
 var page5 = require('./modules/Course.js');
-
+var page6 = require('./modules/COReport.js');
 
 // Start listening 
 var port_number = app.listen(process.env.PORT || 7000);
@@ -43,6 +43,20 @@ router.get('/plans',function(req,res){
 router.get('/course',function(req,res){
   res.render('course');
 });
+
+router.get('/report',function(req,res){
+  res.render('report');
+});
+
+/*router.get('/reportprintco',function(req,res){
+   res.render('reportprintco');
+});*/
+
+//app.use('/COReport',page6.COReport);
+
+var coreport = require('./modules/COReport.js');
+coreport.COReport(app);
+
 
 
 
@@ -973,3 +987,4 @@ app.use('/coattain', page2.COAttain);
 app.use('/CourseOutcome', page4.CourseOutcome);
 
 
+//app.use('/report', page6.COReport);
