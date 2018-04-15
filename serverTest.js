@@ -7,9 +7,15 @@ app.use('/',router);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname+'/public'));
 const multer = require('multer');
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
 
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash    = require('connect-flash');
+var morgan       = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser   = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+var session      = require('express-session');
 
 // Required files
 var mongo = require('./modules/db.js');
@@ -22,9 +28,37 @@ app.listen(port_number,function(){
 });
 
 
+mongoose.connect('mongodb://vinayakkini101:beproject@ds225608.mlab.com:25608/beproject'); // connect to our database
 
-router.get('/',function(req,res){
-  res.render('index');
+require('./config/passport')(passport); // pass passport for configuration
+
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser.json()); // get information from html forms
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.use(session({
+    secret: 'ilovescotchscotchyscotchscotch', // session secret
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+// Disable browser cache
+app.use(function(req, res, next) {
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+});
+
+
+
+app.get('/', function(req, res) {
+   res.render('login.ejs', { message: req.flash('loginMessage') });
 });
 
 router.get('/syllabus',function(req,res){
@@ -44,9 +78,59 @@ router.get('/charts',function(req,res){
 });
 
 
-// display temp code
 
-app.get('/display', function(req,res){
+
+ app.get('/dashboard', isLoggedIn, function(req, res) {
+        res.render('index.ejs', {
+            user : req.user
+        });
+  });
+
+
+    // LOGOUT ==============================
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+
+
+
+
+
+	// show the login form
+        app.get('/login', function(req, res) {
+            res.render('login.ejs', { message: req.flash('loginMessage') });
+        });
+
+        // process the login form
+        app.post('/login', passport.authenticate('local-login', {
+            successRedirect : '/dashboard', // redirect to the secure profile section
+            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+        }));
+
+        // SIGNUP =================================
+        // show the signup form
+        app.get('/signup', function(req, res) {
+            res.render('signup.ejs', { message: req.flash('signupMessage') });
+        });
+
+        // process the signup form
+        app.post('/signup', passport.authenticate('local-signup', {
+            successRedirect : '/dashboard', // redirect to the secure profile section
+            failureRedirect : '/signup', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+        }));
+
+
+
+
+
+
+
+//  temp code
+
+/*app.get('/display', function(req,res){
     mongo.connect( function( err ) {  
         mongo.dbo.collection('CourseOutcome').find().toArray(function(err , rows){
           if (err) return console.log(err)
@@ -54,10 +138,25 @@ app.get('/display', function(req,res){
           });
     });
 });
+*/
+    app.get('/display', isLoggedIn, function(req, res) {
+        res.render('profile.ejs', {
+            user : req.user
+        });
+    });
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect('/');
+}
+
+
 
 
 // Download code
-router.get('/template', function(req,res){
+router.get('/template.xls', function(req,res){
     res.download('./template.xls');
 });
 

@@ -6,7 +6,7 @@ console.log("Entered coattain vp");
 module.exports.COAttain = function(app){
 
 
-  app.get('/coattain', function(req,res,next){
+  app.get('/coattain', isLoggedIn, function(req,res,next){
 
 	var resultArray = [];
 	var assert = require('assert');
@@ -100,7 +100,7 @@ module.exports.COAttain = function(app){
 
 			                mongo.dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
 			                if (err) return console.log(err)
-			                 res.render('coattain', {obj2:COrows, obj1:rows});
+			                 res.render('coattain', {obj2:COrows, obj1:rows, user : req.user});
 			                      console.log("coattain CourseOutcome read");
 			                      //console.log("co rows",COrows);
 			                  });
@@ -115,6 +115,18 @@ module.exports.COAttain = function(app){
 });
 
 
-  }); //app.post
+  }); //app.get
+
+
+	
+
+  // route middleware to ensure user is logged in
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect('/');
+}
+
 
 };

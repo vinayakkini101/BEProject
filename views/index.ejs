@@ -70,7 +70,7 @@
                 <nav class="sidebar-nav active">
                     <ul id="sidebarnav" class="in">
                         <li class="active">
-                            <a href="/" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
+                            <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
                         </li>
                         <li>
                             <a href="/coattain" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
@@ -82,7 +82,7 @@
                             <a href="/display" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Display Table</a>
                         </li>
                         <li>
-                            <a href="/template" download>
+                            <a href="/template.xslx" download>
                               <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
                             </a>
                         </li>
@@ -109,14 +109,12 @@
                 <!-- Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
                 <div class="row page-titles">
-                    <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                    </div>
-                   
+                    	<div class="col-md-9 col-8 align-self-center">
+                        	<h3 class="text-themecolor m-b-0 m-t-0">Welcome  <% if (user.name) {%> <%=user.name %><% } %>  !</h3>
+		       </div>  
+  			<div class="col-md-3 float-right"> 
+			     <a href="/logout" class="btn btn-outline-secondary btn-md pull-right">Logout</a>
+			</div>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
@@ -179,7 +177,7 @@
                                                 <td>$3.9K</td>
                                             </tr>
                                             <tr class="active">
-                                                <td><span class="round"><img src="./Monster Admin Template - The Most Complete &amp; Trusted Bootstrap 4 Admin Template_files/2.jpg" alt="user" width="50"></span></td>
+                                                <!-- <td><span class="round"><img src="./Monster Admin Template - The Most Complete &amp; Trusted Bootstrap 4 Admin Template_files/2.jpg" alt="user" width="50"></span></td> -->
                                                 <td>
                                                     <h6>Andrew</h6><small class="text-muted">Project Manager</small></td>
                                                 <td>Real Homes</td>
