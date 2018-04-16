@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<!-- saved from url=(0083)https://wrappixel.com/demos/free-admin-templates/monster-admin-lite/html/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-    <title>Learning Outcome Based Attainment Dashboard</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>Learning Outcome Attainment Dashboard</title>
     <!-- Bootstrap Core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="../css/blue.css" id="theme" rel="stylesheet">
-    <!-- Custom fonts for this template -->
-    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">>
+    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,7 +29,10 @@
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-   
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -37,24 +40,47 @@
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-        <header class="topbar" style="">
+        <header class="topbar">
             <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    
+                    <!-- <a class="navbar-brand" > -->
                         <!-- Logo icon -->
-                       
-                        <!--End Logo icon -->
-                        <!-- Logo text -->
-                        
-                    
+                        <b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <!-- <img src="../assets/images/images.jpg"  /> -->
+                            
+                        </b>
+                    <!-- </a> -->
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-               
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto mt-md-0 ">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <!-- <li class="nav-item hidden-sm-down">
+                            <form class="app-search p-l-20">
+                                <input type="text" class="form-control" placeholder="Search for..."> <a class="srh-btn"><i class="ti-search"></i></a>
+                            </form>
+                        </li> -->
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <div > 
+                            <a href="/logout" class="btn btn-outline-secondary btn-lg pull-right">Logout</a>
+                       </div>
+                    </ul>
+                </div>
             </nav>
         </header>
         <!-- ============================================================== -->
@@ -65,7 +91,7 @@
         <!-- ============================================================== -->
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
-            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;"><div class="scroll-sidebar" style="overflow: hidden; width: auto; height: 100%;">
+            <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav active">
                     <ul id="sidebarnav" class="in">
@@ -91,7 +117,7 @@
                     
                 </nav>
                 <!-- End Sidebar navigation -->
-            </div><div class="slimScrollBar" style="background: rgb(220, 220, 220); width: 5px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; left: 1px; height: 555px;"></div><div class="slimScrollRail" style="width: 5px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; left: 1px;"></div></div>
+            </div>
             <!-- End Sidebar scroll-->
         </aside>
         <!-- ============================================================== -->
@@ -100,7 +126,7 @@
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
-        <div class="page-wrapper" style="min-height: 511px;">
+        <div class="page-wrapper">
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
@@ -109,12 +135,16 @@
                 <!-- Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
                 <div class="row page-titles">
-                    	<div class="col-md-9 col-8 align-self-center">
-                        	<h3 class="text-themecolor m-b-0 m-t-0">Welcome  <% if (user.name) {%> <%=user.name %><% } %>  !</h3>
-		       </div>  
-  			<div class="col-md-3 float-right"> 
-			     <a href="/logout" class="btn btn-outline-secondary btn-md pull-right">Logout</a>
-			</div>
+                    <div class="col-md-6 col-8 align-self-center">
+                                <h3 class="text-themecolor m-b-0 m-t-0">Welcome  <% if (user.name) {%> <%=user.name %><% } %>  !</h3>
+                        <!-- <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol> -->
+                    </div>
+                    <!-- <div class="col-md-6 col-4 align-self-center">
+                        <a href="https://wrappixel.com/templates/monsteradmin/" class="btn pull-right hidden-sm-down btn-success"> Upgrade to Pro</a>
+                    </div> -->
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
@@ -124,13 +154,42 @@
                 <!-- ============================================================== -->
                 <!-- Row -->
                 <div class="row">
-                    
-                    
-                <!--  daily and weekly sales wala row -->
-                    
-            
+                    <!-- Column -->
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title">Daily Sales</h4>
+                                <div class="text-right">
+                                    <h2 class="font-light m-b-0"><i class="ti-arrow-up text-success"></i> $120</h2>
+                                    <span class="text-muted">Todays Income</span>
+                                </div>
+                                <span class="text-success">80%</span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 80%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title">Weekly Sales</h4>
+                                <div class="text-right">
+                                    <h2 class="font-light m-b-0"><i class="ti-arrow-up text-info"></i> $5,000</h2>
+                                    <span class="text-muted">Todays Income</span>
+                                </div>
+                                <span class="text-info">30%</span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 30%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
                 </div>
-               
+                <!-- Row -->
                 <!-- Row -->
                 <div class="row">
                     <!-- column -->
@@ -138,9 +197,9 @@
                         <div class="card">
                             <div class="card-block">
                                 <h4 class="card-title">Revenue Statistics</h4>
-                                <!-- <div id="chart-container" class="container-fluid">
-                                    Loading FusionCharts... 
-                                </div> -->
+                                <div class="flot-chart">
+                                    <div class="flot-chart-content" id="flot-line-chart"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,7 +212,7 @@
                         <div class="card">
                             <div class="card-block">
                                 <select class="custom-select pull-right">
-                                    <option selected="">January</option>
+                                    <option selected>January</option>
                                     <option value="1">February</option>
                                     <option value="2">March</option>
                                     <option value="3">April</option>
@@ -177,7 +236,7 @@
                                                 <td>$3.9K</td>
                                             </tr>
                                             <tr class="active">
-                                                <!-- <td><span class="round"><img src="./Monster Admin Template - The Most Complete &amp; Trusted Bootstrap 4 Admin Template_files/2.jpg" alt="user" width="50"></span></td> -->
+                                                <td><span class="round"><img src="../assets/images/users/2.jpg" alt="user" width="50" /></span></td>
                                                 <td>
                                                     <h6>Andrew</h6><small class="text-muted">Project Manager</small></td>
                                                 <td>Real Homes</td>
@@ -220,7 +279,50 @@
                 </div>
                 <!-- Row -->
                 <!-- Row -->
-                
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <img class="card-img-top img-responsive" src="../assets/images/big/img1.jpg" alt="Card">
+                            <div class="card-block">
+                                <ul class="list-inline font-14">
+                                    <li class="p-l-0">20 May 2016</li>
+                                    <li><a href="javascript:void(0)" class="link">3 Comment</a></li>
+                                </ul>
+                                <h3 class="font-normal">Featured Hydroflora Pots Garden &amp; Outdoors</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <img class="card-img-top img-responsive" src="../assets/images/big/img2.jpg" alt="Card">
+                            <div class="card-block">
+                                <ul class="list-inline font-14">
+                                    <li class="p-l-0">20 May 2016</li>
+                                    <li><a href="javascript:void(0)" class="link">3 Comment</a></li>
+                                </ul>
+                                <h3 class="font-normal">Featured Hydroflora Pots Garden &amp; Outdoors</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <img class="card-img-top img-responsive" src="../assets/images/big/img4.jpg" alt="Card">
+                            <div class="card-block">
+                                <ul class="list-inline font-14">
+                                    <li class="p-l-0">20 May 2016</li>
+                                    <li><a href="javascript:void(0)" class="link">3 Comment</a></li>
+                                </ul>
+                                <h3 class="font-normal">Featured Hydroflora Pots Garden &amp; Outdoors</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
                 <!-- Row -->
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
@@ -233,7 +335,7 @@
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer text-center">
-                Shreya Nigel Vinayak
+                © 2018
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
@@ -249,108 +351,98 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-
      <!-- Bootstrap core JavaScript -->
      <script>
-            FusionCharts.ready(function () {
-        
-              var chartData;
-        
-              $(function(){
-                $.ajax({
-                  url: 'http://localhost:7000/chartsAA',
-                  type: 'GET',
-                  dataType:'json',
-                  success : function(data) {
-                    // console.log("Data from API endpoint "+JSON.stringify(data[0]));
-                    // callback(JSON.stringify(data));     --------this gives error
-                    callback(data);
-                  }
-                });
-              });
-        
-              function callback(response) 
-              {
-                    chartData = response;
-        
-                    var revenueChart = new FusionCharts
-                    ({
-                        type: 'column3d',
-                        renderAt: 'chart-container',
-                        width: '600',
-                        height: '400',
-                        dataFormat: 'json',
-                        dataSource: 
-                        {
-                            "chart": {
-                                      "caption": "CO Attainment in the last 3 years for CSC302.10",
-                                      "subCaption": "",
-                                      "xAxisName": "Years",
-                                      "yAxisName": "CO Attainment Value",
-                                      "paletteColors": "#0075c2",
-                                      "valueFontColor": "#ffffff",
-                                      "baseFont": "Helvetica Neue,Arial",
-                                      "captionFontSize": "18",
-                                      "subcaptionFontSize": "14",
-                                      "subcaptionFontBold": "0",
-                                      "placeValuesInside": "1",
-                                      "showShadow": "0",
-                                      "divlineColor": "#999999",               
-                                      "divLineIsDashed": "1",
-                                      "divlineThickness": "1",
-                                      "divLineDashLen": "1",
-                                      "divLineGapLen": "1",
-                                      "canvasBgColor": "#ffffff",
-                                      // "borderThickness": "2",
-                                      // "showBorder" :"1",
-                                      "rotateValues": "0",              // values inside bar are horizontal
-                                      "labelFontSize": "15",           // 2015,2016.. 
-                                      "outCnvBaseFontSize": "15"      // co att, years, and y-axis numbers
-                            },
-        
-                            "data" : chartData
-                        }
-                    });
-                  
-                  revenueChart.render();
+        FusionCharts.ready(function () {
+    
+          var chartData;
+    
+          $(function(){
+            $.ajax({
+              url: 'http://localhost:7000/chartsAA',
+              type: 'GET',
+              dataType:'json',
+              success : function(data) {
+                // console.log("Data from API endpoint "+JSON.stringify(data[0]));
+                // callback(JSON.stringify(data));     --------this gives error
+                callback(data);
               }
-        });
-          </script>
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/popper/popper.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-     <script src="/vendor/jquery/tether.js"></script>
-     <script src="/vendor/jquery/waves.js"></script>
-     <script src="/vendor/jquery/sidebarmenu.js"></script>
-     <script src="/vendor/jquery/sticky-kit.min.js"></script>
-     <script src="/vendor/jquery/custom.min.js"></script>
-
-      <script src="/vendor/jquery/jquery.flot.js"></script>
-     <script src="/vendor/jquery/jquery.flot.tooltip.min.js"></script>
-     <script src="/vendor/jquery/flot-data.js"></script>
-     <script src="/vendor/jquery/jQuery.style.switcher.js"></script>
-
-
+            });
+          });
     
+          function callback(response) 
+          {
+                chartData = response;
+    
+                var revenueChart = new FusionCharts
+                ({
+                    type: 'column3d',
+                    renderAt: 'chart-container',
+                    width: '600',
+                    height: '400',
+                    dataFormat: 'json',
+                    dataSource: 
+                    {
+                        "chart": {
+                                  "caption": "CO Attainment in the last 3 years for CSC302.10",
+                                  "subCaption": "",
+                                  "xAxisName": "Years",
+                                  "yAxisName": "CO Attainment Value",
+                                  "paletteColors": "#0075c2",
+                                  "valueFontColor": "#ffffff",
+                                  "baseFont": "Helvetica Neue,Arial",
+                                  "captionFontSize": "18",
+                                  "subcaptionFontSize": "14",
+                                  "subcaptionFontBold": "0",
+                                  "placeValuesInside": "1",
+                                  "showShadow": "0",
+                                  "divlineColor": "#999999",               
+                                  "divLineIsDashed": "1",
+                                  "divlineThickness": "1",
+                                  "divLineDashLen": "1",
+                                  "divLineGapLen": "1",
+                                  "canvasBgColor": "#ffffff",
+                                  // "borderThickness": "2",
+                                  // "showBorder" :"1",
+                                  "rotateValues": "0",              // values inside bar are horizontal
+                                  "labelFontSize": "15",           // 2015,2016.. 
+                                  "outCnvBaseFontSize": "15"      // co att, years, and y-axis numbers
+                        },
+    
+                        "data" : chartData
+                    }
+                });
+              
+              revenueChart.render();
+          }
+    });
+      </script>
+    <script src="../assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-   
-    
-   
-    
+    <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>
+    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="js/custom.min.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
     <!-- Flot Charts JavaScript -->
-   
+    <script src="../assets/plugins/flot/jquery.flot.js"></script>
+    <script src="../assets/plugins/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="js/flot-data.js"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    
-
-
-
-<div class="flotTip" style="position: absolute; background: rgb(255, 255, 255); z-index: 1040; padding: 0.4em 0.6em; border-radius: 0.5em; font-size: 0.8em; border: 1px solid rgb(17, 17, 17); white-space: nowrap; left: 865px; top: 493px; display: none;"></div>
+    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <div class="flotTip" style="position: absolute; background: rgb(255, 255, 255); z-index: 1040; padding: 0.4em 0.6em; border-radius: 0.5em; font-size: 0.8em; border: 1px solid rgb(17, 17, 17); white-space: nowrap; left: 865px; top: 493px; display: none;"></div>
 </body>
+
 </html>
-
-

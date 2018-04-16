@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<!-- saved from url=(0083)https://wrappixel.com/demos/free-admin-templates/monster-admin-lite/html/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-    <title>Learning Outcome Based Attainment Dashboard - CO Attainment</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>Learning Outcome Attainment Dashboard</title>
     <!-- Bootstrap Core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="../css/blue.css" id="theme" rel="stylesheet">
-    <!-- Custom fonts for this template -->
-    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">>
+    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,7 +29,10 @@
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-   
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -37,24 +40,47 @@
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-        <header class="topbar" style="">
+        <header class="topbar">
             <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    
+                    <!-- <a class="navbar-brand" > -->
                         <!-- Logo icon -->
-                       
-                        <!--End Logo icon -->
-                        <!-- Logo text -->
-                        
-                    
+                        <b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <!-- <img src="../assets/images/images.jpg"  /> -->
+                            
+                        </b>
+                    <!-- </a> -->
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-               
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto mt-md-0 ">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <!-- <li class="nav-item hidden-sm-down">
+                            <form class="app-search p-l-20">
+                                <input type="text" class="form-control" placeholder="Search for..."> <a class="srh-btn"><i class="ti-search"></i></a>
+                            </form>
+                        </li> -->
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <div > 
+                            <a href="/logout" class="btn btn-outline-secondary btn-lg pull-right">Logout</a>
+                       </div>
+                    </ul>
+                </div>
             </nav>
         </header>
         <!-- ============================================================== -->
@@ -65,15 +91,15 @@
         <!-- ============================================================== -->
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
-            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;"><div class="scroll-sidebar" style="overflow: hidden; width: auto; height: 100%;">
+            <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav active">
                     <ul id="sidebarnav" class="in">
                         <li class="active">
-                            <a href="/dashboard" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
+                            <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
                         </li>
                         <li>
-                            <a href="/coattain" class="waves-effect active"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
+                            <a href="/coattain" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
                         </li>
                         <li>
                             <a href="/poattainment" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>PO Attainment</a>
@@ -86,11 +112,12 @@
                               <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
                             </a>
                         </li>
+                       
                     </ul>
                     
                 </nav>
                 <!-- End Sidebar navigation -->
-            </div><div class="slimScrollBar" style="background: rgb(220, 220, 220); width: 5px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; left: 1px; height: 555px;"></div><div class="slimScrollRail" style="width: 5px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; left: 1px;"></div></div>
+            </div>
             <!-- End Sidebar scroll-->
         </aside>
         <!-- ============================================================== -->
