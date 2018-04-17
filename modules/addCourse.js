@@ -36,7 +36,7 @@ module.exports.addCourse = function(app){
 
    });
  
-  res.redirect('/admin');  //using POST REDIRECT GET
+  res.redirect('/dashboard');  //using POST REDIRECT GET
 
  });
 };

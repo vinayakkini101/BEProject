@@ -96,7 +96,7 @@
                 <nav class="sidebar-nav active">
                     <ul id="sidebarnav" class="in">
                         <li class="active">
-                            <a href="/admin" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Admin Dashboard</a>
+                            <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Admin Dashboard</a>
                         </li>
                         <!-- <li>
                             <a href="/coattain" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
@@ -181,21 +181,28 @@
                                         <input type="text" class="form-control" name="teacherPass" placeholder="Password" required>
                                      </div>
               
-                                    <div class="form-group">
-                                       <!-- <br> -->
-                                        Name
-                                       <input type="text" class="form-control" name="teacherName" placeholder="Name" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <!-- <br> -->
-                                        <label for="sel1">Select Department</label>
-                                        <select class="form-control" id="dep" name="depID">
-                                         <% obj4.forEach(function(rows,index){%>
-                                          <option name="<%= rows.courseName %>"><%= rows.depID %></option>
-                                        <% }); %>
-                                        </select>
+                                     <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <!-- <br> -->
+                                                    Name
+                                                    <input type="text" class="form-control" name="teacherName" placeholder="Name" required>
+                                                </div>
+                                            </div>
+     
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <!-- <br> -->
+                                                    <label for="sel1">Select Department</label>
+                                                    <select class="form-control" id="dep" name="depID">
+                                                    <% obj4.forEach(function(rows,index){%>
+                                                    <option name="<%= rows.courseName %>"><%= rows.depID %></option>
+                                                    <% }); %>
+                                                    </select>
+                                                </div>
+                                            </div>
                                      </div>
+                                   
 
                                           <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
                                           <div id="msgSubmit" class="h3 text-center hidden"></div>
@@ -265,6 +272,32 @@
                                 <!-- <div class="flot-chart">
                                     <div class="flot-chart-content" id="flot-line-chart"></div>
                                 </div> -->
+                                <form role="form" data-toggle="validator" class="shake" method="post" action="/assign">
+                                        <div class="row">
+                                            <div class="col">
+                                                    <label for="sel1">Select Course</label>
+                                                    <select class="form-control" name="courseName">
+                                                    <% obj3.forEach(function(rows,index){%>
+                                                    <option name="<%= rows.courseName %>"><%= rows.courseName %></option>
+                                                    <% }); %>
+                                                    </select>
+                                            </div>
+                                            <div class="col">
+                                                    <label for="sel1">Select Teacher</label>
+                                                    <select class="form-control" name="teacherName">
+                                                     <% obj5.forEach(function(rows,index){%>
+                                                      <option name="<%= rows.courseName %>"><%= rows.name %></option>
+                                                    <% }); %>
+                                                    </select>
+                                            </div>
+                                        </div>
+
+                                         <br>
+                                          <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+                                          <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                          <div class="clearfix"></div>
+                                      </form>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -282,61 +315,29 @@
                                     <option value="2">March</option>
                                     <option value="3">April</option>
                                 </select> -->
-                                <h4 class="card-title">View</h4>
+                                <h4 class="card-title">View Assigned Courses</h4>
                                 <div class="table-responsive m-t-40">
-                                    <!-- <table class="table stylish-table">
+                                     <table class="table stylish-table">
                                         <thead>
                                             <tr>
-                                                <th colspan="2">Assigned</th>
-                                                <th>Name</th>
-                                                <th>Budget</th>
+                                                    <th >Teacher</th>
+                                                    <th>Course</th>
+                                                    <!-- <th>Budget</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <% obj5.forEach(function(rows,index){%>
                                             <tr>
-                                                <td style="width:50px;"><span class="round">S</span></td>
-                                                <td>
-                                                    <h6>Sunil Joshi</h6><small class="text-muted">Web Designer</small></td>
-                                                <td>Elite Admin</td>
-                                                <td>$3.9K</td>
+                                                <td><%= rows.name %> </td>
+
+                                                <% for (var i in rows.courseArray){ %> 
+                                                    <td><%= rows.courseArray[i] %></td>
+                                                <%} %>
+
                                             </tr>
-                                            <tr class="active">
-                                                <td><span class="round"><img src="../assets/images/users/2.jpg" alt="user" width="50" /></span></td>
-                                                <td>
-                                                    <h6>Andrew</h6><small class="text-muted">Project Manager</small></td>
-                                                <td>Real Homes</td>
-                                                <td>$23.9K</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="round round-success">B</span></td>
-                                                <td>
-                                                    <h6>Bhavesh patel</h6><small class="text-muted">Developer</small></td>
-                                                <td>MedicalPro Theme</td>
-                                                <td>$12.9K</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="round round-primary">N</span></td>
-                                                <td>
-                                                    <h6>Nirav Joshi</h6><small class="text-muted">Frontend Eng</small></td>
-                                                <td>Elite Admin</td>
-                                                <td>$10.9K</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="round round-warning">M</span></td>
-                                                <td>
-                                                    <h6>Micheal Doe</h6><small class="text-muted">Content Writer</small></td>
-                                                <td>Helping Hands</td>
-                                                <td>$12.9K</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="round round-danger">N</span></td>
-                                                <td>
-                                                    <h6>Johnathan</h6><small class="text-muted">Graphic</small></td>
-                                                <td>Digital Agency</td>
-                                                <td>$2.6K</td>
-                                            </tr>
+                                            <% }); %>
                                         </tbody>
-                                    </table> -->
+                                    </table> 
                                 </div>
                             </div>
                         </div>
