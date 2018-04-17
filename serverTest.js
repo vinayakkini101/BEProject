@@ -19,7 +19,12 @@ var session      = require('express-session');
 
 // Required files
 var mongo = require('./modules/db.js');
-
+var page1 = require('./modules/syllabusModulesVP.js');
+var page2 = require('./modules/COAttain.js');
+var page3 = require('./modules/COAttainToolVP.js');
+var page4 = require('./modules/CourseOutcome.js');
+var page5 = require('./modules/Course.js');
+var page6 = require('./modules/COReport.js');
 
 // Start listening 
 var port_number = app.listen(process.env.PORT || 7000);
@@ -72,6 +77,21 @@ router.get('/plans',function(req,res){
 router.get('/course',function(req,res){
   res.render('course');
 });
+
+
+router.get('/report',function(req,res){
+  res.render('report');
+});
+
+/*router.get('/reportprintco',function(req,res){
+   res.render('reportprintco');
+});*/
+
+//app.use('/COReport',page6.COReport);
+
+var coreport = require('./modules/COReport.js');
+coreport.COReport(app);
+
 
 router.get('/charts',function(req,res){
   res.render('charts');
@@ -218,6 +238,7 @@ router.get('/template.xls', function(req,res){
 // Chart code
 var chartcode= require('./modules/chartCode.js');
 chartcode.chartCode(app);
+
 
 
 
@@ -1202,3 +1223,4 @@ mongo.connect(function(err) {
 
 });
 
+//app.use('/report', page6.COReport);
