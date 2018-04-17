@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<!-- saved from url=(0083)https://wrappixel.com/demos/free-admin-templates/monster-admin-lite/html/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Learning Outcome Based Attainment Dashboard - CO Attainment</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="../css/blue.css" id="theme" rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+   
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" style="">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    
+                        <!-- Logo icon -->
+                       
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        
+                    
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+               
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;"><div class="scroll-sidebar" style="overflow: hidden; width: auto; height: 100%;">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav active">
+                    <ul id="sidebarnav" class="in">
+                        <li class="active">
+                            <a href="/" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/coattain" class="waves-effect active"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
+                        </li>
+                        <li>
+                            <a href="/poattainment" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>PO Attainment</a>
+                        </li>
+                        <li>
+                            <a href="/display" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Display Table</a>
+                        </li>
+                        <li>
+                            <a href="/template.xslx" download>
+                              <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div><div class="slimScrollBar" style="background: rgb(220, 220, 220); width: 5px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; left: 1px; height: 555px;"></div><div class="slimScrollRail" style="width: 5px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; left: 1px;"></div></div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper" style="min-height: 511px;">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+              
+    <div class="content-wrapper">
+      <div class="container">
+
+          <!-- Breadcrumbs
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="/">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item">
+                  <a href="/display">Display Table</a>
+              </li>
+          </ol>
+          <br> -->
+
+          <div class="row">
+                <!-- column -->
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-block">
+                            <!-- <h4 class="card-title">Course Outcome</h4> -->
+                            
+                            <div >
+                                <h3>Course Outcomes</h3>        
+                                <table class="table table-hover table-bordered ">
+                                    <thead>
+                                    <tr>
+                                        <th>Course ID</th>
+                                        <th>Course Name</th>
+                                        <th>Year</th>
+                                        <!-- <th>Course Outcome Name</th> -->
+                                        <th>Direct Attainment</th>
+                                        <th>Indirect Attainment</th>
+                                        <th>Overall Attainment</th>
+                                        <th>Tool Name</th>
+                                        <th>Tool Attainment Level</th>
+                                        
+                                    </tr>
+                                    </thead> 
+                                    <tbody>
+                                        <% displayObject.forEach(function(rows,index){%>
+                                    <tr>
+                                        <td><%= rows.courseID %> </td>
+                                        <td><%= rows.courseName %> </td>
+                                        <% for (var i in rows.valuestry){ %>   
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><%= rows.valuestry[i].year %> </td>
+                                                <!-- <td><%= rows.valuestry[i].text %> </td> -->
+                                                <td><%= rows.valuestry[i].directAttain %> </td>
+                                                <td><%= rows.valuestry[i].indirectAttain %> </td>
+                                                <td><%= rows.valuestry[i].overallAttain %> </td>
+                                            </tr>
+                                
+                                            <% for (var j in rows.valuestry[i].tool){ %>   
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <!-- <td></td> -->
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><%= rows.valuestry[i].tool[j].toolName %> </td>
+                                                    <td><%= rows.valuestry[i].tool[j].attainLevel %> </td>
+                                                </tr>
+                                            <%} %>
+                                
+                                
+                                        <%} %>
+                                
+                                        
+                                    </tr>
+                                    <% }); %>
+                                    </tbody>
+                                </table>
+                           </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- column -->
+            </div>
+        
+
+
+
+        
+
+
+              
+
+
+       </div>
+     </div>
+  </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center">
+                Shreya Nigel Vinayak
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+
+     <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/popper/popper.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+     <script src="/vendor/jquery/tether.js"></script>
+     <script src="/vendor/jquery/waves.js"></script>
+     <script src="/vendor/jquery/sidebarmenu.js"></script>
+     <script src="/vendor/jquery/sticky-kit.min.js"></script>
+     <script src="/vendor/jquery/custom.min.js"></script>
+
+      <script src="/vendor/jquery/jquery.flot.js"></script>
+     <script src="/vendor/jquery/jquery.flot.tooltip.min.js"></script>
+     <script src="/vendor/jquery/flot-data.js"></script>
+     <script src="/vendor/jquery/jQuery.style.switcher.js"></script>
+
+
+    
+    <!-- Bootstrap tether Core JavaScript -->
+   
+    
+   
+    
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!-- Flot Charts JavaScript -->
+   
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    
+
+
+
+<div class="flotTip" style="position: absolute; background: rgb(255, 255, 255); z-index: 1040; padding: 0.4em 0.6em; border-radius: 0.5em; font-size: 0.8em; border: 1px solid rgb(17, 17, 17); white-space: nowrap; left: 865px; top: 493px; display: none;"></div></body></html>
+
+
+

@@ -1,9 +1,9 @@
-var express = require('express');
-var app = express();
 var mongo = require('./db.js');
 
-module.exports.CourseOutcome = function (req, res, next){
+module.exports.CourseOutcome = function (app){
 
+ app.post('/CourseOutcome',function(req,res,next){
+   
    console.log(req.body);
 
    var myobj={};
@@ -42,4 +42,6 @@ module.exports.CourseOutcome = function (req, res, next){
 
 
   res.redirect('/coattain');  //using POST REDIRECT GET
+
+ });	
 };

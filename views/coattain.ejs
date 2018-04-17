@@ -1,31 +1,155 @@
-<% include headerAndSide.ejs %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Contact form using Bootstrap 3.3.4</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta charset="utf-8">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    
-    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>Learning Outcome Attainment Dashboard</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 
-
-<body style="background-color: #7e7e7e">
-
-	<div class="content-wrapper">
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <!-- <a class="navbar-brand" > -->
+                        <!-- Logo icon -->
+                        <b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <!-- <img src="../assets/images/images.jpg"  /> -->
+                            
+                        </b>
+                    <!-- </a> -->
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto mt-md-0 ">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <!-- <li class="nav-item hidden-sm-down">
+                            <form class="app-search p-l-20">
+                                <input type="text" class="form-control" placeholder="Search for..."> <a class="srh-btn"><i class="ti-search"></i></a>
+                            </form>
+                        </li> -->
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <div > 
+                            <a href="/logout" class="btn btn-outline-secondary btn-lg pull-right">Logout</a>
+                       </div>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav active">
+                    <ul id="sidebarnav" class="in">
+                        <li class="active">
+                            <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/coattain" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
+                        </li>
+                        <li>
+                            <a href="/poattainment" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>PO Attainment</a>
+                        </li>
+                        <li>
+                            <a href="/display" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Display Table</a>
+                        </li>
+                        <li>
+                            <a href="/report" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
+                        </li>
+                        <li>
+                            <a href="/template.xslx" download>
+                              <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                    
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper" style="min-height: 511px;">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+              
+              <div class="content-wrapper">
       <div class="container">
 
           <!-- Breadcrumbs -->
-          <ol class="breadcrumb">
+          <!-- <ol class="breadcrumb">
               <li class="breadcrumb-item">
                 <a href="/">Dashboard</a>
               </li>
               <li class="breadcrumb-item">
                   <a href="/coattain">CO Attainment</a>
               </li>
-          </ol>
+          </ol> -->
 
 
 
@@ -38,6 +162,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#part3" role="tab" data-toggle="tab">CO Attainment </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#part4" role="tab" data-toggle="tab">CO PDF GENERATION</a>
             </li>
         </ul>
 
@@ -140,11 +267,11 @@
                               <% }); %>
                             </select>
                           </div>
-
+<!-- 
                     <div class="form-group col-sm-3">
                             Year
                            <input type="text" class="form-control input-group-lg" name="year" >
-                        </div>
+                        </div> -->
 
                           
 
@@ -161,7 +288,7 @@
                         <div class="help-block with-errors"></div>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                        <br>
                        Column name
                        <input type="text" class="form-control" name="columnName" placeholder="Column Name">
@@ -185,15 +312,15 @@
                            <input type="text" class="form-control input-group-lg" name="targetStud" >
                         </div>
 
-                      	<div class="form-group col-sm-3">
-                      	   Weightage
-                      	   <input type="text" class="form-control input-group-lg" name="weightage" >
-                      	</div>
+                        <div class="form-group col-sm-3">
+                           Weightage
+                           <input type="text" class="form-control input-group-lg" name="weightage" >
+                        </div>
 
-                      	<div class="form-group col-sm-3">
-                      	    Minimum Marks
-                      	   <input type="text" class="form-control input-group-lg" name="minMark" >
-                      	</div>
+                        <div class="form-group col-sm-3">
+                            Minimum Marks
+                           <input type="text" class="form-control input-group-lg" name="minMark" >
+                        </div>
                     </div>
 
                     <br>
@@ -214,18 +341,109 @@
                            <input type="text" class="form-control input-group-lg" name="high" >
                         </div>
                     </div>
-                	
-                	<br>
+                     -->
+                    
                         <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
                         <div id="msgSubmit" class="h3 text-center hidden"></div>
                         <div class="clearfix"></div>
                     </form>
                     <hr>
               </div>
+
+
+
+
+
+              
+              <div class="tab-pane " role="tabpanel" id="part4">
+                  <form role="form" data-toggle="validator" class="shake" method="post" action="/virtualPage15">
+                     
+
+                    
+
+                      <div class="form-group">
+                         <br>
+                         Course Name
+                         <input type="text" class="form-control" name="courseName" placeholder="Course Name">
+                      </div>
+
+                      <div class="form-group col-sm-3">
+                            Year
+                           <input type="text" class="form-control input-group-lg" name="year" >
+                        </div>
+
+                      
+                      <br>
+                            <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+                            <div id="msgSubmit" class="h3 text-center hidden"></div>
+                            <div class="clearfix"></div>
+                        </form>
+                  </form>
+              </div>
+
+
        </div>
      </div>
   </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center">
+                Shreya Nigel Vinayak
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+
+     <!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/popper/popper.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+     <script src="/vendor/jquery/tether.js"></script>
+     <script src="/vendor/jquery/waves.js"></script>
+     <script src="/vendor/jquery/sidebarmenu.js"></script>
+     <script src="/vendor/jquery/sticky-kit.min.js"></script>
+     <script src="/vendor/jquery/custom.min.js"></script>
+
+      <script src="/vendor/jquery/jquery.flot.js"></script>
+     <script src="/vendor/jquery/jquery.flot.tooltip.min.js"></script>
+     <script src="/vendor/jquery/flot-data.js"></script>
+     <script src="/vendor/jquery/jQuery.style.switcher.js"></script>
 
 
-</body>
-</html>
+    
+    <!-- Bootstrap tether Core JavaScript -->
+   
+    
+   
+    
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!-- Flot Charts JavaScript -->
+   
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    
+
+
+
+<div class="flotTip" style="position: absolute; background: rgb(255, 255, 255); z-index: 1040; padding: 0.4em 0.6em; border-radius: 0.5em; font-size: 0.8em; border: 1px solid rgb(17, 17, 17); white-space: nowrap; left: 865px; top: 493px; display: none;"></div></body></html>
+
+
+

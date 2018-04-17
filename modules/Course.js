@@ -1,9 +1,10 @@
-var express = require('express');
-var app = express();
 var mongo = require('./db.js');
 
-module.exports.Course = function(req,res,next){
-	console.log(req.body);
+module.exports.Course = function(app){
+
+ app.post('/Course',function(req,res,next){
+
+  console.log(req.body);
 
   var myobj={};
    myobj['courseID'] = req.body.courseID;
@@ -26,4 +27,6 @@ module.exports.Course = function(req,res,next){
    });
  
   res.redirect('/coattain');  //using POST REDIRECT GET
+
+ });
 };

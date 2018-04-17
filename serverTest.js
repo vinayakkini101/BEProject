@@ -7,9 +7,15 @@ app.use('/',router);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname+'/public'));
 const multer = require('multer');
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
 
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash    = require('connect-flash');
+var morgan       = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser   = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+var session      = require('express-session');
 
 // Required files
 var mongo = require('./modules/db.js');
@@ -27,9 +33,37 @@ app.listen(port_number,function(){
 });
 
 
+mongoose.connect('mongodb://vinayakkini101:beproject@ds225608.mlab.com:25608/beproject'); // connect to our database
 
-router.get('/',function(req,res){
-  res.render('index');
+require('./config/passport')(passport); // pass passport for configuration
+
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser.json()); // get information from html forms
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.use(session({
+    secret: 'ilovescotchscotchyscotchscotch', // session secret
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+// Disable browser cache
+app.use(function(req, res, next) {
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+});
+
+
+
+app.get('/', function(req, res) {
+   res.render('login.ejs', { message: req.flash('loginMessage') });
 });
 
 router.get('/syllabus',function(req,res){
@@ -44,6 +78,7 @@ router.get('/course',function(req,res){
   res.render('course');
 });
 
+
 router.get('/report',function(req,res){
   res.render('report');
 });
@@ -56,6 +91,142 @@ router.get('/report',function(req,res){
 
 var coreport = require('./modules/COReport.js');
 coreport.COReport(app);
+
+
+router.get('/charts',function(req,res){
+  res.render('charts');
+});
+
+
+app.get('/admin', isLoggedIn, function(req, res) {
+  if(req.user.name=='Admin')
+  {
+      mongo.connect(function( err ) {
+        if(err) throw err;
+        mongo.dbo.collection('departments').find().toArray(function(err , rows){
+          if (err) return console.log(err)
+          res.render('admin.ejs', {obj4:rows, user : req.user});
+          });
+      });
+  }
+  else
+  {
+    res.render('login.ejs', {
+      user : req.user
+     });
+  }
+});
+
+
+
+ app.get('/dashboard', isLoggedIn, function(req, res) {
+        if(req.user.name=='Admin')
+        {
+            mongo.connect(function( err ) {
+              if(err) throw err;
+              mongo.dbo.collection('departments').find().toArray(function(err , rows){
+                if (err) return console.log(err)
+                res.render('admin.ejs', {obj4:rows, user : req.user});
+                });
+            });
+        }
+        else
+        {
+          res.render('index.ejs', {
+            user : req.user
+          });
+        }
+});
+
+
+    // LOGOUT ==============================
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+
+
+
+
+
+	// show the login form
+        app.get('/login', function(req, res) {
+            res.render('login.ejs', { message: req.flash('loginMessage') });
+        });
+
+        // process the login form
+        app.post('/login', passport.authenticate('local-login', {
+            successRedirect : '/dashboard', // redirect to the secure profile section
+            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+        }));
+
+        // SIGNUP =================================
+        // show the signup form
+        app.get('/signup', function(req, res) {
+            res.render('signup.ejs', { message: req.flash('signupMessage') });
+        });
+
+        // process the signup form
+        app.post('/signup', passport.authenticate('local-signup', {
+            successRedirect : '/dashboard', // redirect to the secure profile section
+            failureRedirect : '/signup', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+        }));
+
+
+
+
+
+
+
+//  temp code
+
+/*app.get('/display', function(req,res){
+    mongo.connect( function( err ) {  
+        mongo.dbo.collection('CourseOutcome').find().toArray(function(err , rows){
+          if (err) return console.log(err)
+          res.render('display', {displayObject : rows});
+          });
+    });
+});
+*/
+    app.get('/display', isLoggedIn, function(req, res) {
+        res.render('profile.ejs', {
+            user : req.user
+        });
+    });
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect('/');
+}
+
+
+
+// Admin Add Teacher code
+var adminTeacher= require('./modules/addTeacher.js');
+adminTeacher.addTeacher(app);
+
+
+// Admin Add Course code
+var adminCourse= require('./modules/addCourse.js');
+adminCourse.addCourse(app);
+
+
+
+// Download code
+router.get('/template.xls', function(req,res){
+    res.download('./template.xls');
+});
+
+
+
+// Chart code
+var chartcode= require('./modules/chartCode.js');
+chartcode.chartCode(app);
 
 
 
@@ -73,8 +244,9 @@ coreport.COReport(app);
     });
 
 
-// Syllabus Modules---------------------------------------------------
-app.use('/syllabusModulesVP', page1.syllabusModulesVP);   
+// Syllabus Modules---------------------------------------------------  
+var syllab = require('./modules/syllabusModulesVP.js');
+syllab.syllabusModulesVP(app);
 
 router.get('/syllabusModules',function(req,res){
   mongo.connect(function( err ) {
@@ -90,56 +262,28 @@ router.get('/syllabusModules',function(req,res){
 
 
 // Syllabus Examination Scheme-----------------------------------------------
-app.post('/virtualPage2',function(req,res){
-  console.log(req.body);
 
-  var myobj={};
-   myobj['courseID'] = req.body.courseID;
-   myobj['courseName'] = req.body.courseName;
-   myobj['iatest1'] = parseInt(req.body.iatest1);
-   myobj['iatest2'] = parseInt(req.body.iatest2);
-   myobj['iatestavg'] = parseInt(req.body.iatestavg);
-   myobj['endsem'] = parseInt(req.body.endsem);
-   myobj['duration'] = parseInt(req.body.duration);
-   myobj['tw'] = parseInt(req.body.tw);
-   myobj['oral'] = parseInt(req.body.or);
-   myobj['total'] = parseInt(req.body.total);
-   
-   dbo.collection('Course').find({"courseID" : req.body.courseID}).toArray(function(err , rows){
-                  dbo.collection('Course').updateOne(
-                      { courseID:myobj['courseID'] },
-                      {
-                          $set: { 
-                                    courseName : myobj['courseName'],
-                                    InternalAssessmentTest_1 : myobj['iatest1'],
-                                    InternalAssessmentTest_2 : myobj['iatest2'],
-                                    InternalAssessmentTest_Avg : myobj['iatestavg'],
-                                    EndSemesterExam : myobj['endsem'],
-                                    duration : myobj['duration'],
-                                    termWork : myobj['tw'],
-                                    oral : myobj['oral'],
-                                    total : myobj['total']
-                                }
-                      },
-                      { upsert : true }
-                      );
-
-      });
-
- 
-  res.redirect('/syllabusScheme');  //using POST REDIRECT GET
-
-});
+var examScheme = require('./modules/examScheme.js');
+examScheme.examScheme(app);
 
 
 
-router.get('/syllabusScheme',function(req,res){
-  dbo.collection('SyllabusScheme').find().toArray(function(err , rows){
-  if (err) return console.log(err)
-  res.render('schemeData', {obj:rows});
-        console.log("Scheme doc read");
-    });
-});
+// Course --------------------------------------------------------------
+
+var cours = require('./modules/Course.js');
+cours.Course(app);
+
+
+// coattain------------------------------------
+var coattain = require('./modules/COAttain.js');
+coattain.COAttain(app) 
+
+
+
+// Course Outcome--------------------------------------------------------------
+var cout = require('./modules/CourseOutcome.js');
+cout.CourseOutcome(app);
+
 
 
 
@@ -536,8 +680,8 @@ pdfdoc.end();
 
 // CO Attainment Adding tools---------------------------------------------------------------
 
-app.use('/COAttainToolVP', page3.COAttainToolVP);
-
+var coat = require('./modules/COAttainToolVP.js');
+coat.COAttainToolVP(app);
 
   
 
@@ -969,22 +1113,103 @@ router.get('/poattainment',function(req,res){
 //////////////////////////
 
 
-// Course --------------------------------------------------------------
-
-app.use('/Course', page5.Course);
 
 
 
 
-// coattain------------------------------------
-
-app.use('/coattain', page2.COAttain);
 
 
 
-// Course Outcome--------------------------------------------------------------
+app.post('/virtualPage15',function(req,res){
+console.log(req.body);
+  
+  console.log("virtual page 15 has been pohochaoahed");
 
-app.use('/CourseOutcome', page4.CourseOutcome);
 
+  var myobj={};
+   myobj['courseName'] = req.body.courseName;
+   myobj['year'] = parseFloat(req.body.year);
+
+   mongo.connect(function(err) {
+     mongo.dbo.collection('CourseOutcome').find({"courseName" : req.body.courseName}).toArray(function(err , rows){
+         console.log("is this the real rows ?? dan dan daaannnn",rows);
+               
+               var pdfMaker = require('pdf-maker');
+   var template = '/copdf';
+   var data = {
+    rows
+  };
+  var pdfPath = '/file.pdf';
+  var option = {
+    
+        paperSize: {
+            format: 'A4',
+            orientation: 'portrait',
+            border: '1.8cm'
+        }
+    };
+
+
+ pdfMaker(template, data, pdfPath, option);
+
+        });
+   });
+
+
+   
+ 
+  res.redirect('/copdf'); 
+
+
+
+  //////trying the pdf generation with phantonjs
+
+  var phantom = require('phantom');   
+
+  phantom.create().then(function(ph) {
+      ph.createPage().then(function(page) {
+          page.open("views/copdf.html").then(function(status) {
+            console.log("inside the open")
+              page.render('google.pdf').then(function() {
+                  console.log('Page Rendered');
+                  ph.exit();
+              });
+          });
+      });
+  });
+
+   //using POST REDIRECT GET
+
+});
+
+router.get('/copdf',function(req,res){
+mongo.connect(function(err) {  
+  mongo.dbo.collection('CourseOutcome').find().toArray(function(err , rows){
+  if (err) return console.log(err)
+  
+    var ejs = require('ejs');
+    var phantom = require('phantom');   
+
+    var webPage = require('webpage');
+    
+
+  var html = res.render('copdf', {obj:rows});
+        console.log("Scheme doc read");
+
+    
+    //var page = webPage.create();
+    
+      webPage.content = html;
+      console.log("what is inside", html );
+      //page.content = html;
+
+      //webPage.render('test.pdf');
+
+     
+      
+    });
+   });
+
+});
 
 //app.use('/report', page6.COReport);

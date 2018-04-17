@@ -12,7 +12,11 @@ module.exports.COReport = function(app){
 
 				   mongo.connect(function(err) {
 				   	   console.log("inside mongoconnect");
-					   mongo.dbo.collection('CourseOutcome').find({},{"courseName" : req.body.courseName}).toArray(function(err , rows){
+					   
+
+					   mongo.dbo.collection('CourseOutcome').find({"courseName" : req.body.courseName}).toArray(function(err , rows){
+
+					   	console.log("trying to get it done", req.body.courseName);
 					   	
 
 					   		var row = [];
@@ -30,7 +34,7 @@ module.exports.COReport = function(app){
 									   	if(rows[i].valuestry[j].year==parseFloat(req.body.year)){
 									   		//console.log("heccckkkk",rows[i].valuestry[j]);
 									   		row[i]  = rows[i].valuestry[j];
-
+									   		console.log("heccckkkk",rows[i].valuestry[j]);
 
 									   		console.log("tool length",rows[i].valuestry[j].tool.length);
 

@@ -7,36 +7,30 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/sb-admin.css">
+    <link rel="stylesheet" href="/vendor/bootstrap/css/custom.css">
+
 </head>
-<body style="background-color: #7e7e7e">
 
-
-
-<div >
-  <h3>CO report generation</h3>        
+<body style="background-color: #ffffff">
+<div class="container-fluid">
+  <h3>CO REPORT GENERATION</h3>
   <table class="table table-striped table-hover table-bordered">
     <thead>
           <% obj1.forEach(function(rows,index){
               var count=index;
           %>
-                <tr>
-                <td><%= rows.courseID %> </td>
+
+          <% console.log("kya he yeh",obj[count]);%>
+                <tr style="border: 2px solid black">
+                          <td style="border: 2px solid black">Course ID: <%= rows.courseID %> </td>
+                           <td style="border: 2px solid black">Overall Attainment: <%= obj[count].overallAttain %> </td>
+                          <td style="border: 2px solid black">Year: <%= obj[count].year %> </td>
                 </tr>
          
                                           
     </thead> 
     <tbody>
 
-                                             
-                                             
-                 <tr>
-                          <td><%= obj[count].overallAttain %> </td>
-                          <td><%= obj[count].year %> </td>
-                  </tr>
-                                                                      
-
-                                                                    
-                                                                 
                                                                   
                                                               <% console.log("obj2 check",obj2,obj2.length);
                                                                   console.log("obj2 value of a particual index",obj2[count+1]);%>
@@ -48,30 +42,47 @@
                                                               //obj2.forEach((data,index)=>{%>
 
                                                                       
-                                                                        
                                                                    
 
-                                                                        <% arr.forEach((innerData,innerIndex)=>{
+
+
+                                                                    <tr style="border: 2px solid black">
+                                                                      <% arr.forEach((innerData,innerIndex)=>{
                                                                         console.log("inner data is ",innerData.toolName);%>
+                                                                         <th style="border: 2px solid black">Tool: <%= innerData.toolName %></th>
 
-
-
-                                                                    <tr>
-                                                                         <th><%= innerData.toolName %></th>
+                                                                          <%});%>
                                                                     </tr> 
                                                                         
-                                                                    <tr>
-                                                                         <td><%= innerData.targetMark %> 
+                                                                    <tr style="border: 2px solid black">
+                                                                    <% arr.forEach((innerData,innerIndex)=>{
+                                                                        console.log("inner data is ",innerData.toolName);%>
+                                                                        
                                                                         <br>
-                                                                        <%= innerData.targetStud %> </td>
+                                                                         <td style="border: 2px solid black">
+                                                                              <span class="text-primary">Target</span>
+                                                                              <br>
+                                                                               Target: <%= innerData.targetStud %> of students will score minimum
+                                                                              <%= innerData.targetMark %> marks
+                                                                              <br>
+                                                                              <span class="text-primary">Attainment</span>
+                                                                              <br>
+                                                                              Total number of students: <%= innerData.totalStud %>
+                                                                              <br>
+                                                                              Total number of students score <%= innerData.minMark %> /<%= (innerData.minMark*100)/innerData.targetMark   %> or more is <%= innerData.numStud%>
+                                                                              <br>
+                                                                              Attainment percent: <%= innerData.attainPercent %>
+                                                                              <br>
+                                                                              Attainment level: <%= innerData.attainLevel %>
+                                                                          
+                                                                        </td>
+                                                                    <%});%>
                                                                     </tr>
                                                                         
                                                                         
 
 
-                                                                      <%});%>
-
-                                                                  <%//});%>
+                                                                      
 
                                                                   
                                                              

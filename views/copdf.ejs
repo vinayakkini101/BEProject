@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact form using Bootstrap 3.3.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin.css">
+</head>
+<body style="background-color: #7e7e7e">
+
+
+
+<div >
+  <h3>Assignments</h3>        
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+	<th>Question </th>
+	<th>Submission Date</th>
+        <th>Given Date</th>
+      </tr>
+    </thead> 
+    <tbody>
+    	<% obj.forEach(function(rows,index){%>
+      <tr>
+	<td><%= rows.courseID %> </td>
+	<td><%= rows.courseName %> </td>
+	
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+
+</div>
+
+
+
+</body>
+</html>
+
+
+
