@@ -138,9 +138,13 @@ router.get('/charts',function(req,res){
         }
         else
         {
-          res.render('index.ejs', {
-            user : req.user
-          });
+            mongo.connect(function( err ) {
+                mongo.dbo.collection('users').find({"email":req.user.email}).toArray(function(err , userRows){
+                    if (err) return console.log(err)
+                    res.render('index.ejs', {teacherData:userRows , user : req.user});
+                });  
+            });
+
         }
 });
 
