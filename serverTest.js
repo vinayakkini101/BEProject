@@ -98,24 +98,24 @@ router.get('/charts',function(req,res){
 });
 
 
-app.get('/admin', isLoggedIn, function(req, res) {
-  if(req.user.name=='Admin')
-  {
-      mongo.connect(function( err ) {
-        if(err) throw err;
-        mongo.dbo.collection('departments').find().toArray(function(err , rows){
-          if (err) return console.log(err)
-          res.render('admin.ejs', {obj4:rows, user : req.user});
-          });
-      });
-  }
-  else
-  {
-    res.render('login.ejs', {
-      user : req.user
-     });
-  }
-});
+// app.get('/admin', isLoggedIn, function(req, res) {
+//   if(req.user.name=='Admin')
+//   {
+//       mongo.connect(function( err ) {
+//         if(err) throw err;
+//         mongo.dbo.collection('departments').find().toArray(function(err , rows){
+//           if (err) return console.log(err)
+//           res.render('admin.ejs', {obj4:rows, user : req.user});
+//           });
+//       });
+//   }
+//   else
+//   {
+//     res.render('login.ejs', {
+//       user : req.user
+//      });
+//   }
+// });
 
 
 
@@ -123,18 +123,28 @@ app.get('/admin', isLoggedIn, function(req, res) {
         if(req.user.name=='Admin')
         {
             mongo.connect(function( err ) {
-              if(err) throw err;
-              mongo.dbo.collection('departments').find().toArray(function(err , rows){
-                if (err) return console.log(err)
-                res.render('admin.ejs', {obj4:rows, user : req.user});
+                if(err) throw err;
+                mongo.dbo.collection('departments').find().toArray(function(err , rows){
+                  if (err) return console.log(err)
+                      mongo.dbo.collection('users').find().toArray(function(err , depRows){
+                          if (err) return console.log(err)
+                          mongo.dbo.collection('Course').find().toArray(function(err , courseRows){
+                              if (err) return console.log(err)
+                              res.render('admin.ejs', {obj3:courseRows, obj5:depRows , obj4:rows , user : req.user});
+                          });
+                      });
                 });
             });
         }
         else
         {
-          res.render('index.ejs', {
-            user : req.user
-          });
+            mongo.connect(function( err ) {
+                mongo.dbo.collection('users').find({"email":req.user.email}).toArray(function(err , userRows){
+                    if (err) return console.log(err)
+                    res.render('index.ejs', {teacherData:userRows , user : req.user});
+                });  
+            });
+
         }
 });
 
@@ -204,6 +214,11 @@ function isLoggedIn(req, res, next) {
     res.redirect('/');
 }
 
+
+
+// Admin Assign code
+var assign= require('./modules/assign.js');
+assign.assign(app);
 
 
 // Admin Add Teacher code
