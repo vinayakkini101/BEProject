@@ -83,6 +83,23 @@ router.get('/report',function(req,res){
   res.render('report');
 });
 
+router.get('/courseobj',function(req,res){
+
+mongo.connect(function (err){
+    
+     mongo.dbo.collection('CourseObj').find().toArray(function(err , rows){
+          res.render('courseobj',{objecto:rows});
+    });
+
+
+});
+  
+});
+
+
+var courseobj = require('./modules/CourseObj.js');
+courseobj.CourseObj(app);
+
 /*router.get('/reportprintco',function(req,res){
    res.render('reportprintco');
 });*/
