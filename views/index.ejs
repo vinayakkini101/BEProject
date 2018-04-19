@@ -23,6 +23,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+    <script src="../js/fusioncharts/fusioncharts.js"></script>
+    <script src="../js/fusioncharts/fusioncharts.charts.js"></script>
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -95,6 +99,11 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav active">
                     <ul id="sidebarnav" class="in">
+                        <li>
+                            <a href="/template.xslx" download>
+                                <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
+                            </a>
+                        </li>
                         <li class="active">
                             <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
                         </li>
@@ -109,9 +118,9 @@
                         </li>
 
                         <% teacherData.forEach(function(rows,index) {%>
-                        <li>
+                        <li >
                             <% for(var i in rows.courseArray) {%>
-                            <a href="/dashboard"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i> <%= rows.courseArray[i] %> </a>
+                            <a href="/" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i> <%= rows.courseArray[i] %> </a>
                             <% } %> 
                         </li>
                         <% }); %>
@@ -123,11 +132,7 @@
                             <a href="/report" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
                         </li> -->
 
-                        <li>
-                            <a href="/template.xslx" download>
-                              <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
-                            </a>
-                        </li>
+                        
                        
                     </ul>
                     
@@ -172,7 +177,7 @@
                 <!-- Row -->
                 <div class="row">
                     <!-- Column -->
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <div class="card">
                             <div class="card-block">
                                 <h4 class="card-title">Daily Sales</h4>
@@ -186,10 +191,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Column -->
                     <!-- Column -->
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <div class="card">
                             <div class="card-block">
                                 <h4 class="card-title">Weekly Sales</h4>
@@ -204,7 +209,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Column -->
                 </div>
                 <!-- Row -->
@@ -214,9 +219,12 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-block">
-                                <h4 class="card-title">Revenue Statistics</h4>
+                                <!-- <h4 class="card-title">Revenue Statistics</h4>
                                 <div class="flot-chart">
                                     <div class="flot-chart-content" id="flot-line-chart"></div>
+                                </div> -->
+                                <div id="chart-container" class="container-fluid">
+                                        Loading FusionCharts... 
                                 </div>
                             </div>
                         </div>
@@ -225,6 +233,7 @@
                 </div>
                 <!-- Row -->
                 <!-- Row -->
+        <!--
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
@@ -295,10 +304,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Row -->
-                <!-- Row -->
+               
+            
                 <div class="row">
-                    <!-- Column -->
+                  
                     <div class="col-lg-4">
                         <div class="card">
                             <img class="card-img-top img-responsive" src="../assets/images/big/img1.jpg" alt="Card">
@@ -311,8 +320,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
+                    
                     <div class="col-lg-4">
                         <div class="card">
                             <img class="card-img-top img-responsive" src="../assets/images/big/img2.jpg" alt="Card">
@@ -325,8 +333,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
+                    
                     <div class="col-lg-4">
                         <div class="card">
                             <img class="card-img-top img-responsive" src="../assets/images/big/img4.jpg" alt="Card">
@@ -339,7 +346,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
+        -->        
                 </div>
                 <!-- Row -->
                 <!-- ============================================================== -->
