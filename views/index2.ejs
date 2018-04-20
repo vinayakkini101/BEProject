@@ -104,31 +104,56 @@
                                 <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
                             </a>
                         </li>
-                        <li class="active">
+
+                        <li>
                             <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
                         </li>
 
-                        <!-- <li>
-                            <a href="/coattain" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
+                        <!-- <li class="active">
+                                <% courseData.forEach(function(rows,index){%>
+                            <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i><%= rows.courseID %></a>
+                            <% }); %>
+                        </li> -->
+
+                        <li>
+                            <a href="/report" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
                         </li>
                         
                         <li>
-                            <a href="/poattainment" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>PO Attainment</a>
-                        </li> -->
-
-                        <% teacherData.forEach(function(rows,index) {%>
-                        <li >
-                            <% for(var i in rows.courseArray) {%>
-                            <a href="/myCourses?course=<%= rows.courseArray[i] %>" class="waves-effect" ><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i> <%= rows.courseArray[i] %> </a>
-                            <% } %> 
+                            <a href="/coattain" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
                         </li>
-                        <% }); %>
 
-                        <!-- <li>
-                            <a href="/report" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
-
-                        </li> -->
-            
+                        <li>
+                            <a href="/poattainment" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>PO Attainment</a>
+                        </li>
+                    
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Time Table</a>
+                        </li>
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Syllabus-text books</a>
+                        </li>
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Course Objectives</a>
+                        </li>
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lecture Plan</a>
+                        </li>
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lab assignments</a>
+                        </li>
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Curriculum Gap</a>
+                        </li>
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>List of Experiments</a>
+                        </li>
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lab Manual</a>
+                        </li>
+                        <li>
+                            <a href="/" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Unit Test Question Papers</a>
+                        </li>
 
                         
                        
@@ -156,6 +181,7 @@
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
                                 <h3 class="text-themecolor m-b-0 m-t-0">Welcome  <% if (user.name) {%> <%=user.name %><% } %>  !</h3>
+                                <h4 class="text-themecolor m-b-0 m-t-0">COs are  <% courseData.forEach(function(rows,index){%> <%= rows.courseID %> <% }); %>  </h4>
                         <!-- <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                             <li class="breadcrumb-item active">Dashboard</li>
@@ -174,6 +200,7 @@
                 <!-- ============================================================== -->
                 <!-- Row -->
                 <div class="row">
+                    
                     <!-- Column -->
                     <!-- <div class="col-sm-6">
                         <div class="card">
@@ -210,27 +237,23 @@
                     </div> -->
                     <!-- Column -->
                 </div>
-                <!-- Row -->
-                <!-- Row -->
+               
                 <div class="row">
-                    <!-- column -->
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-block">
-                                <!-- <h4 class="card-title">Revenue Statistics</h4>
+                                <h4 class="card-title">Revenue Statistics</h4>
                                 <div class="flot-chart">
                                     <div class="flot-chart-content" id="flot-line-chart"></div>
-                                </div> -->
+                                </div> 
                                 <div id="chart-container" class="container-fluid">
                                         Loading FusionCharts... 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- column -->
                 </div>
-                <!-- Row -->
-                <!-- Row -->
+               
         <!--
                 <div class="row">
                     <div class="col-sm-12">
@@ -375,71 +398,7 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
      <!-- Bootstrap core JavaScript -->
-     <script>
-        FusionCharts.ready(function () {
-    
-          var chartData;
-    
-          $(function(){
-            $.ajax({
-              url: 'http://localhost:7000/chartsAA',
-              type: 'GET',
-              dataType:'json',
-              success : function(data) {
-                // console.log("Data from API endpoint "+JSON.stringify(data[0]));
-                // callback(JSON.stringify(data));     --------this gives error
-                callback(data);
-              }
-            });
-          });
-    
-          function callback(response) 
-          {
-                chartData = response;
-    
-                var revenueChart = new FusionCharts
-                ({
-                    type: 'column3d',
-                    renderAt: 'chart-container',
-                    width: '600',
-                    height: '400',
-                    dataFormat: 'json',
-                    dataSource: 
-                    {
-                        "chart": {
-                                  "caption": "CO Attainment in the last 3 years for CSC302.10",
-                                  "subCaption": "",
-                                  "xAxisName": "Years",
-                                  "yAxisName": "CO Attainment Value",
-                                  "paletteColors": "#0075c2",
-                                  "valueFontColor": "#ffffff",
-                                  "baseFont": "Helvetica Neue,Arial",
-                                  "captionFontSize": "18",
-                                  "subcaptionFontSize": "14",
-                                  "subcaptionFontBold": "0",
-                                  "placeValuesInside": "1",
-                                  "showShadow": "0",
-                                  "divlineColor": "#999999",               
-                                  "divLineIsDashed": "1",
-                                  "divlineThickness": "1",
-                                  "divLineDashLen": "1",
-                                  "divLineGapLen": "1",
-                                  "canvasBgColor": "#ffffff",
-                                  // "borderThickness": "2",
-                                  // "showBorder" :"1",
-                                  "rotateValues": "0",              // values inside bar are horizontal
-                                  "labelFontSize": "15",           // 2015,2016.. 
-                                  "outCnvBaseFontSize": "15"      // co att, years, and y-axis numbers
-                        },
-    
-                        "data" : chartData
-                    }
-                });
-              
-              revenueChart.render();
-          }
-    });
-      </script>
+     
     <script src="../assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>

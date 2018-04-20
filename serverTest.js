@@ -119,6 +119,23 @@ router.get('/charts',function(req,res){
 
 
 
+app.get('/myCourses', isLoggedIn, function(req, res) {
+        // console.log(req.query.course);
+      
+        var myobj={};
+         myobj['course'] = req.query.course;
+         
+          mongo.connect(function( err ) {
+              mongo.dbo.collection('CourseOutcome').find({"courseName":myobj['course']}).toArray(function(err , courseRows){
+                  if (err) return console.log(err)
+                  res.render('index2.ejs', {courseData:courseRows, user:req.user, url:req.query.course});
+              });  
+          });
+    });
+
+
+
+
  app.get('/dashboard', isLoggedIn, function(req, res) {
         if(req.user.name=='Admin')
         {
@@ -207,12 +224,12 @@ router.get('/charts',function(req,res){
         });
     });
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated())
+            return next();
 
-    res.redirect('/');
-}
+        res.redirect('/');
+    }
 
 
 
