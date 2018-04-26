@@ -83,28 +83,20 @@ router.get('/report',function(req,res){
   res.render('report');
 });
 
-router.get('/courseobj',function(req,res){
 
-mongo.connect(function (err){
+app.get('/courseobj',isLoggedIn,function(req,res){
     
-     mongo.dbo.collection('CourseObj').find().toArray(function(err , rows){
-          res.render('courseobj',{objecto:rows});
+    mongo.connect(function (err){
+        mongo.dbo.collection('CourseObj').find().toArray(function(err , rows){
+            res.render('courseobj.ejs',{objecto:rows, user:req.user});
+        });
     });
-
-
-});
-  
 });
 
 
 var courseobj = require('./modules/CourseObj.js');
 courseobj.CourseObj(app);
 
-/*router.get('/reportprintco',function(req,res){
-   res.render('reportprintco');
-});*/
-
-//app.use('/COReport',page6.COReport);
 
 var coreport = require('./modules/COReport.js');
 coreport.COReport(app);
@@ -136,7 +128,22 @@ router.get('/charts',function(req,res){
 
 
 
-app.get('/myCourses', isLoggedIn, function(req, res) {
+app.get('/textbooks',isLoggedIn,function(req,res){
+    console.log("res locals is "+courseID);
+    mongo.connect(function (err){
+        mongo.dbo.collection('Course').find({"courseName": res.locals.courseID}).toArray(function(err , rows){
+            if (err) return console.log(err)
+            res.render('textbooks.ejs',{text:rows, user:req.user});
+        });
+    });
+});
+
+var textbooks = require('./modules/textbooks.js');
+textbooks.textbooks(app);
+
+
+
+app.get('/myCourses', isLoggedIn, function(req, res, next) {
         // console.log(req.query.course);
       
         var myobj={};
@@ -145,6 +152,8 @@ app.get('/myCourses', isLoggedIn, function(req, res) {
           mongo.connect(function( err ) {
               mongo.dbo.collection('CourseOutcome').find({"courseName":myobj['course']}).toArray(function(err , courseRows){
                   if (err) return console.log(err)
+                  res.locals.courseID = courseRows.courseID;
+                  res.locals.courseName = req.query.course;
                   res.render('index2.ejs', {courseData:courseRows, user:req.user, url:req.query.course});
               });  
           });

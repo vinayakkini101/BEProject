@@ -2,7 +2,7 @@ var mongo = require('./db.js');
 
 module.exports.CourseObj = function (app){
 
- app.post('/CourseObj',function(req,res,next){
+ app.post('/CourseObj', isLoggedIn,function(req,res,next){
    
    console.log(req.body);
 
@@ -35,4 +35,17 @@ module.exports.CourseObj = function (app){
 res.redirect('/courseobj');  //using POST REDIRECT GET
 
  });	
+
+
+
+ function isLoggedIn(req, res, next) {
+	if (req.isAuthenticated())
+		return next();
+
+	res.redirect('/');
+ } 
+
+
+
+
 };
