@@ -83,17 +83,14 @@ router.get('/report',function(req,res){
   res.render('report');
 });
 
-router.get('/courseobj',function(req,res){
 
-mongo.connect(function (err){
-    
-     mongo.dbo.collection('CourseObj').find().toArray(function(err , rows){
-          res.render('courseobj',{objecto:rows});
+app.get('/courseobj',function(req,res){
+  console.log(req.query.course);
+    mongo.connect(function (err){
+         mongo.dbo.collection('Course').find({"courseName":req.query.course}).toArray(function(err , rows){
+              res.render('courseobj',{objectives:rows});
+        });
     });
-
-
-});
-  
 });
 
 
