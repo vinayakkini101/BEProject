@@ -154,7 +154,7 @@ app.get('/myCourses', isLoggedIn, function(req, res, next) {
                   if (err) return console.log(err)
                   res.locals.courseID = courseRows.courseID;
                   res.locals.courseName = req.query.course;
-                  res.render('index2.ejs', {courseData:courseRows, user:req.user, url:req.query.course});
+                  res.render('index2.ejs', {courseData:courseRows, user:req.user, url:req.query});
               });  
           });
     });
