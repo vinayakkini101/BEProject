@@ -23,10 +23,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    <script src="../assets/plugins/flot/jquery.js"</script>
+    <script src="../assets/plugins/flot/jquery.js"></script>
 
 
-    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+     <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
     <link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
 </head>
@@ -135,15 +135,14 @@
 
                  <form role="form" data-toggle="validator" class="shake" method="post" action="/CourseObj">
 
-
+                         <!-- Add button seen  -->
                         <div class="input-group control-group after-add-more">
-                            <!-- <input type="text" name="addmore[]" class="form-control" placeholder=""> -->
                             <div class="input-group-btn"> 
                               <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
                             </div>
                         </div>
 
-
+                         <!-- input boxes to display data -->
                         <% objectives.forEach(function(rows,index) { %>
                         <% for(var i in rows.objectives)  {%>
                         <div class="control-group input-group" style="margin-top:10px">
@@ -155,43 +154,46 @@
                         <% } %>  
                         <% }); %>
 
+                        <!-- The input boxes which will be displayed on add button click -->
                         <!-- Copy Fields -->
                         <div class="copy hide">
                           <div class="control-group input-group" style="margin-top:10px">
-                            <input type="text" name="hiddenaddmore[]" class="form-control" placeholder="">
+                            <input type="text" name="addmore[]" class="form-control" placeholder="">
                             <div class="input-group-btn"> 
                               <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
                             </div>
                           </div>
                         </div>
-<!-- 
-          </div>
-      </div> -->
-                          <script type="text/javascript">
-                              $(document).ready(function() {
-                                $(".add-more").click(function(){ 
-                                    var html = $(".copy").html();
-                                    $(".after-add-more").after(html);
-                                });
+ 
+          <!-- </div>
+      </div>  -->
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                            $(".add-more").click(function(){ 
+                                var html = $(".copy").html();
+                                $(".after-add-more").after(html);
+                            });
 
-                                $("body").on("click",".remove",function(){ 
-                                    $(this).parents(".control-group").remove();
-                                });
+                            $("body").on("click",".remove",function(){ 
+                                $(this).parents(".control-group").remove();
+                            });
 
-                              });
-                          </script>
+                            });
+                        </script>
 
-                          <% objectives.forEach(function(rows,index) { %>
-                          <div class="hide">
-                              <input type="text" value="<%=rows.courseName%>" name="courseName" />
-                          </div>
-                          <% }); %>
+                        <!-- hidden input field just to pass the name of course to CourseObj.js -->
+                        <% objectives.forEach(function(rows,index) { %>
+                        <div class="hide">
+                            <input type="text" value="<%=rows.courseName%>" name="courseName" />
+                        </div>
+                        <% }); %>
 
-                            <br>
-                            <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
-                            <div id="msgSubmit" class="h3 text-center hidden"></div>
-                            <div class="clearfix"></div>
-                  </form>
+
+                        <br>
+                        <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+                        <div id="msgSubmit" class="h3 text-center hidden"></div>
+                        <div class="clearfix"></div>
+                </form>
 
        </div>
     </div>
