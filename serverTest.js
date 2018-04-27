@@ -144,7 +144,7 @@ textbooks.textbooks(app);
 
 
 app.get('/myCourses', isLoggedIn, function(req, res, next) {
-        // console.log(req.query.course);
+        console.log(req.query.course);
       
         var myobj={};
          myobj['course'] = req.query.course;
