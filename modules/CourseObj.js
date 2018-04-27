@@ -3,42 +3,42 @@ var mongo = require('./db.js');
 module.exports.CourseObj = function (app){
 
  app.post('/CourseObj', isLoggedIn,function(req,res,next){
-   
-   // console.log(req.body);
 
-   // var myobj={};
-   	// myobj['courseobjective'] = req.body.courseobjective;
-    // myobj['year'] = parseFloat(req.body.year);
-
-    // var courseobjective = [];
-    if(req.body.hiddenaddmore.length > 0 )
-    {
-    	req.body.addmore.push.apply(req.body.addmore, req.body.hiddenaddmore);
-    }
-console.log(req.body);
-    // req.body.hiddenaddmore.slice(-1,1);
+	console.log(req.body.addmore);
+    req.body.addmore.pop();
+	console.log(req.body.addmore);
 
    mongo.connect(function (err){
 	  
-	                  mongo.dbo.collection('Course').updateOne(
-	                      {"courseName": req.body.courseName},
-	                      {
-	                          $addToSet: { 
-	                                    objectives : { $each: req.body.addmore }
-	                                    
-	                                },
-	                         
-	                      },
-	                      { upsert : true }
-	                      );
+		// empty array before pushing new values
+			mongo.dbo.collection('Course').updateOne(
+			{"courseName": req.body.courseName},
+			{
+				$set: { 
+						objectives : []
+					},
+			},
+			{ upsert : true }
+			);
 
-	         
+		// now that its empty, push values
+			mongo.dbo.collection('Course').updateOne(
+			{"courseName": req.body.courseName},
+			{
+				$addToSet: { 
+						objectives : { $each: req.body.addmore }
+
+					},
+			},
+			{ upsert : true }
+			);
+						  
    });
 
 
 
 
-res.redirect('/courseobj');  //using POST REDIRECT GET
+res.redirect('/courseobj?course='+req.body.courseName);  //using POST REDIRECT GET
 
  });	
 

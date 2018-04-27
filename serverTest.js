@@ -84,19 +84,11 @@ router.get('/report',function(req,res){
 });
 
 
-<<<<<<< HEAD
-app.get('/courseobj',isLoggedIn,function(req,res){
-    
-    mongo.connect(function (err){
-        mongo.dbo.collection('CourseObj').find().toArray(function(err , rows){
-            res.render('courseobj.ejs',{objecto:rows, user:req.user});
-=======
 app.get('/courseobj',function(req,res){
   console.log(req.query.course);
     mongo.connect(function (err){
          mongo.dbo.collection('Course').find({"courseName":req.query.course}).toArray(function(err , rows){
               res.render('courseobj',{objectives:rows});
->>>>>>> b6be932d8576202cd0aeac32079fba94d856490c
         });
     });
 });
