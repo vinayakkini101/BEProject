@@ -83,6 +83,12 @@ router.get('/report',function(req,res){
   res.render('report');
 });
 
+
+router.get('/timetable',function(req,res){
+  res.render('timetable');
+});
+
+
 app.get('/lectureplan',function(req,res){
   console.log(req.query.course);
     mongo.connect(function (err){
@@ -270,6 +276,10 @@ app.get('/myCourses', isLoggedIn, function(req, res, next) {
         res.redirect('/');
     }
 
+
+// File uploads for all
+var up= require('./modules/uploadFile.js');
+up.uploadFile(app);
 
 
 // Admin Assign code
