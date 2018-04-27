@@ -83,6 +83,19 @@ router.get('/report',function(req,res){
   res.render('report');
 });
 
+app.get('/lectureplan',function(req,res){
+  console.log(req.query.course);
+    mongo.connect(function (err){
+         mongo.dbo.collection('Course').find({"courseName":req.query.course}).toArray(function(err , rows){
+              res.render('lectureplan',{objectives:rows});
+        });
+    });
+});
+
+
+var lectureplan = require('./modules/LecturePlan.js');
+lectureplan.LecturePlan(app);
+
 
 app.get('/courseobj',function(req,res){
   console.log(req.query.course);
