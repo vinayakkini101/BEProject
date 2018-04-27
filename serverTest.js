@@ -83,6 +83,19 @@ router.get('/report',function(req,res){
   res.render('report');
 });
 
+app.get('/lectureplan',function(req,res){
+  console.log(req.query.course);
+    mongo.connect(function (err){
+         mongo.dbo.collection('Course').find({"courseName":req.query.course}).toArray(function(err , rows){
+              res.render('lectureplan',{objectives:rows});
+        });
+    });
+});
+
+
+var lectureplan = require('./modules/LecturePlan.js');
+lectureplan.LecturePlan(app);
+
 
 app.get('/courseobj',function(req,res){
   console.log(req.query.course);
@@ -128,7 +141,7 @@ router.get('/charts',function(req,res){
 
 
 
-app.get('/textbooks',isLoggedIn,function(req,res){
+/*app.get('/textbooks',isLoggedIn,function(req,res){
     console.log("res locals is "+courseID);
     mongo.connect(function (err){
         mongo.dbo.collection('Course').find({"courseName": res.locals.courseID}).toArray(function(err , rows){
@@ -138,8 +151,8 @@ app.get('/textbooks',isLoggedIn,function(req,res){
     });
 });
 
-var textbooks = require('./modules/textbooks.js');
-textbooks.textbooks(app);
+var textbooks = require('./modules/Textbooks.js');
+textbooks.Textbooks(app);*/
 
 
 

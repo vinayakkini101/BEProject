@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>Learning Outcome Attainment Dashboard</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    <script src="../assets/plugins/flot/jquery.js"></script>
+
+
+      <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
+<link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+
+      <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
+
+
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <!-- <a class="navbar-brand" > -->
+                        <!-- Logo icon -->
+                        <b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <!-- <img src="../assets/images/images.jpg"  /> -->
+                            
+                        </b>
+                    <!-- </a> -->
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto mt-md-0 ">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <!-- <li class="nav-item hidden-sm-down">
+                            <form class="app-search p-l-20">
+                                <input type="text" class="form-control" placeholder="Search for..."> <a class="srh-btn"><i class="ti-search"></i></a>
+                            </form>
+                        </li> -->
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <div > 
+                            <a href="/logout" class="btn btn-outline-secondary btn-lg pull-right">Logout</a>
+                       </div>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav active">
+                    <ul id="sidebarnav" class="in">
+                        <li class="active">
+                            <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/coattain" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
+                        </li>
+                        <li>
+                            <a href="/poattainment" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>PO Attainment</a>
+                        </li>
+                        <li>
+                            <a href="/display" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Display Table</a>
+                        </li>
+                        <li>
+                            <a href="/report" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
+                        </li>
+                        <li>
+                            <a href="/template.xslx" download>
+                              <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                    
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+
+
+  <div class="page-wrapper" style="min-height: 511px;">
+
+
+      <div class="container-fluid">
+
+
+
+
+
+  <div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">Lecture Plan</div>
+    <br>
+    <div class="panel-body">
+
+
+         <form role="form" data-toggle="validator" class="shake" method="post" action="/LecturePlan">
+
+<!-- ADD -->
+
+        <div class="input-group control-group after-add-more">
+          <!-- <input type="text" name="addmore[]" class="form-control" placeholder="Enter Name Here"> -->
+          <div class="input-group-btn"> 
+            <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
+          </div>
+        </div>
+
+
+        
+ 
+
+        <!-- display fields from database -->
+        
+                                                              <% objectives.forEach(function(rows,index) { %>
+                                                                              <% for(var i in rows.lectureplan.srno)  {%>
+                                                                <div class="control-group input-group" style="margin-top:10px">
+                                                               
+                                                                  <input type="text" name="addmore[]" class="form-control" placeholder="Sr no" value="<%= rows.lectureplan.srno[i] %>">
+                                                                  
+                                                                              
+                                                                  <input type="text" name="portion[]" class="form-control" placeholder="Portion to cover" value="<%= rows.lectureplan.portion[i] %>">
+                                                                  <input type="text" name="example[]" class="form-control" placeholder="example to teach" value="<%= rows.lectureplan.example[i] %>">
+                                                                  <input placeholder="Planned Date" name="planned[]" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" class="form-control" value="<%= rows.lectureplan.planned[i] %>">
+                                                                  <input placeholder="Actual Date" name="actual[]" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" class="form-control" value="<%= rows.lectureplan.actual[i] %>" >
+
+                                                        <!--                                                
+                                                      <script type="text/javascript">
+                                                                                
+                                                                                 $('#editable-select').editableSelect();
+                                                                              </script>
+
+                                                                                        <select class="form-control" id="editable-select" name="courseobjective">
+
+
+                                                                              
+                                                                                            <option class="form-control"> checkk</option>
+                                                                            
+                                                                                            <option class="form-control"> go doooo</option>
+                                                                             
+                                                                         
+
+                                                                              </select> -->
+                                                                            <div class="col-sm-3">
+                                                                               <div class="input-group dropdown">
+                                                                               <span role="button" class="input-group-addon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></span>
+                                                                                  <input type="text" class="form-control countrycode dropdown-toggle" value="<%= rows.lectureplan.method[i] %>" name="method">
+                                                                                  <ul class="dropdown-menu">
+                                                                                    <li><a href="#" data-value="Class Room Teaching">Class Room Teaching</a></li>
+                                                                                    <li><a href="#" data-value="Tutorial">Tutorial</a></li>
+                                                                                    <li><a href="#" data-value="Remedial Coaching">Remedial Coaching</a></li>
+                                                                                  </ul>
+                                                                                  
+                                                                                </div>
+                                                                              </div>
+
+                                                      <script> 
+                                                      $(function() {
+                                                        $('.dropdown-menu a').click(function() {
+                                                          console.log($(this).attr('data-value'));
+                                                          $(this).closest('.dropdown').find('input.countrycode')
+                                                            .val('' + $(this).attr('data-value') + '');
+                                                        });
+                                                      });</script>
+                                                                              
+
+
+                                                                  <div class="input-group-btn"> 
+                                                                    <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+                                                                  </div>
+                                                                </div>
+                                                              
+                                                              <% } %>  
+                                                                              <% }); %>
+
+
+
+
+                            <!-- when add is clicked empty values -->
+
+          <div class="copy hide">
+                                                          
+                                                            <div class="control-group input-group" style="margin-top:10px">
+                                                           
+                                                              <input type="text" name="addmore[]" class="form-control" placeholder="Sr no" >
+                                                              
+                                                                          
+                                                              <input type="text" name="portion[]" class="form-control" placeholder="Portion to cover" >
+                                                              <input type="text" name="example[]" class="form-control" placeholder="example to teach" >
+                                                              <input placeholder="Planned Date" name="planned[]" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" class="form-control" >
+                                                              <input placeholder="Actual Date" name="actual[]" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" class="form-control" >
+
+                                                    <!--                                                
+                                                  <script type="text/javascript">
+                                                                            
+                                                                             $('#editable-select').editableSelect();
+                                                                          </script>
+
+                                                                                    <select class="form-control" id="editable-select" name="courseobjective">
+
+
+                                                                          
+                                                                                        <option class="form-control"> checkk</option>
+                                                                        
+                                                                                        <option class="form-control"> go doooo</option>
+                                                                         
+                                                                     
+
+                                                                          </select> -->
+                                                                        <div class="col-sm-3">
+                                                                           <div class="input-group dropdown">
+                                                                           <span role="button" class="input-group-addon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></span>
+                                                                              <input type="text" class="form-control countrycode dropdown-toggle" placeholder="Choose method" name="method">
+                                                                              <ul class="dropdown-menu">
+                                                                                <li><a href="#" data-value="Class Room Teaching">Class Room Teaching</a></li>
+                                                                                <li><a href="#" data-value="Tutorial">Tutorial</a></li>
+                                                                                <li><a href="#" data-value="Remedial Coaching">Remedial Coaching</a></li>
+                                                                              </ul>
+                                                                              
+                                                                            </div>
+                                                                          </div>
+
+                                                                  <script> 
+                                                                  $(function() {
+                                                                    $('.dropdown-menu a').click(function() {
+                                                                      console.log($(this).attr('data-value'));
+                                                                      $(this).closest('.dropdown').find('input.countrycode')
+                                                                        .val('' + $(this).attr('data-value') + '');
+                                                                    });
+                                                                  });</script>
+                        
+
+
+                    <div class="input-group-btn"> 
+                      <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+                    </div>
+                  </div>
+        </div>
+
+
+
+
+
+
+
+        <script type="text/javascript">
+
+
+    $(document).ready(function() {
+
+
+      $(".add-more").click(function(){ 
+          var html = $(".copy").html();
+          $(".after-add-more").after(html);
+      });
+
+
+      $("body").on("click",".remove",function(){ 
+          $(this).parents(".control-group").remove();
+      });
+
+
+    });
+
+
+</script>
+
+<% objectives.forEach(function(rows,index) { %>
+                        <div class="hide">
+                            <input type="text" value="<%=rows.courseName%>" name="courseName" />
+                        </div>
+                        <% }); %>
+
+        <br>
+  <div class="container-fluid">
+          <button name="submit" type="submit" id="form-submit" class="btn btn-success btn-md pull-right ">Submit</button>
+  </div>
+ </form>  
+</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+</div>
+
+</div>
+</div>
+
+
+
+<!-- Bootstrap core JavaScript -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/popper/popper.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+     <script src="/vendor/jquery/tether.js"></script>
+     <script src="/vendor/jquery/waves.js"></script>
+     <script src="/vendor/jquery/sidebarmenu.js"></script>
+     <script src="/vendor/jquery/sticky-kit.min.js"></script>
+     <script src="/vendor/jquery/custom.min.js"></script>
+
+      <script src="/vendor/jquery/jquery.flot.js"></script>
+     <script src="/vendor/jquery/jquery.flot.tooltip.min.js"></script>
+     <script src="/vendor/jquery/flot-data.js"></script>
+     <script src="/vendor/jquery/jQuery.style.switcher.js"></script>
+
+
+    
+    <!-- Bootstrap tether Core JavaScript -->
+   
+    
+   
+
+
+
+<div class="flotTip" style="position: absolute; background: rgb(255, 255, 255); z-index: 1040; padding: 0.4em 0.6em; border-radius: 0.5em; font-size: 0.8em; border: 1px solid rgb(17, 17, 17); white-space: nowrap; left: 865px; top: 493px; display: none;"></div>
+</body>
+</html>
