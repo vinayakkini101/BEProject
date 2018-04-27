@@ -141,7 +141,7 @@ router.get('/charts',function(req,res){
 
 
 
-app.get('/textbooks',isLoggedIn,function(req,res){
+/*app.get('/textbooks',isLoggedIn,function(req,res){
     console.log("res locals is "+courseID);
     mongo.connect(function (err){
         mongo.dbo.collection('Course').find({"courseName": res.locals.courseID}).toArray(function(err , rows){
@@ -151,8 +151,8 @@ app.get('/textbooks',isLoggedIn,function(req,res){
     });
 });
 
-var textbooks = require('./modules/textbooks.js');
-textbooks.textbooks(app);
+var textbooks = require('./modules/Textbooks.js');
+textbooks.Textbooks(app);*/
 
 
 
