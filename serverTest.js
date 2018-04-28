@@ -983,6 +983,37 @@ console.log("last",myobj['po12']);
 
 									///po attainment table mein entry of overall attain done
 }//if --check
+
+if(myobj['po2'] > 0 && myobj['po2'] <= 3){
+                  ///po attainment table mein entry of overall attain
+
+                  mongo.dbo.collection('POAttainment').find({poID : '2'}).toArray(function(err , rows1){
+                      mongo.dbo.collection('POAttainment').updateOne(
+                                            { "valuestry.year" : myobj['yearpg2'],
+                                              "valuestry.courseName" : myobj['courseNamepg2']
+                                            },
+                                            {              $push: { 
+                                                          "valuestry.$.try1" : {
+                                                                year : myobj['yearpg2'],
+                                                                      courseID : req.body.courseID,
+                                                                      courseName : myobj['courseNamepg2'],
+                                                                      "insidetry2":{
+                                                                          value : myobj['po2'],
+                                                                          overallAttain : overallAttainPO
+                                                                        }
+                                                                   }
+                                                      }
+                                            },
+                                            { upsert : true }
+                                            );//updateOne
+                  });//mongo.dbo.collection('POAttainment').find({poID : '1'})
+
+                  ///po attainment table mein entry of overall attain done
+}//if --check
+
+
+
+
 }); //mongo.dbo.collection('CourseOutcome').find( {courseID:myobj['courseID']},{"valuestry.$.overallAttain" --check
 
 }); //mongo.connect --check
@@ -1163,6 +1194,144 @@ mongo.connect( function( err ) { // --check
 
 
 									});//mongo.dbo.collection('POAttainment').find({poID : '1'},{"valuestry.try1.insidetry2.value" : 1}
+
+
+////////////////////////////2nd po
+
+
+            mongo.dbo.collection('POAttainment').find({poID : '2'},{"valuestry.try1.insidetry2.value" : 1}).toArray(function(err , rows){
+
+                      var total = 0,count=0;
+                      console.log(rows['0']);
+
+
+                      for(var i=0,len=rows['0'].valuestry.length;i<len;i++){
+                          if(rows['0'].valuestry[i].year == parseFloat(req.body.yearpg3) && rows['0'].valuestry[i].courseName == req.body.courseNamepg3)
+                          {
+                              console.log(i);
+
+                              console.log("array thigy",rows['0'].valuestry[i].try1);
+                              console.log("length value",rows['0'].valuestry[i].try1.length);
+
+                              for(var j = 0, len1 = rows['0'].valuestry[i].try1.length;j<len1;j++){
+
+                                  total = total + parseFloat(rows['0'].valuestry[i].try1[j].insidetry2.value);
+                                  console.log('this is total',total);
+                           
+                                    count++;
+                                    console.log('this is counttt',count);
+
+
+
+                              }//for j
+
+                              console.log('this is total outside',total);
+                              console.log('this is counttt',count);
+
+                              var copomatrix = total / count;
+                              console.log("copomatrix",copomatrix);
+
+
+
+                               var sum1=0,count1=0,sum2=0,count2=0,sum3=0,count3=0;
+                                var flag1=0,flag2=0,flag3=0;
+
+                                console.log("val i",i);
+                                console.log("check undefined",rows['0'].valuestry[i].try1.length);
+                              for(var j = 0, len = rows['0'].valuestry[i].try1.length; j < len; j++){
+                                    if(rows['0'].valuestry[i].try1[j].insidetry2.value == '1')
+                                        {
+                                          console.log('inside valueee onneee');
+                                          sum1 = sum1 + rows['0'].valuestry[i].try1[j].insidetry2.overallAttain;
+                                          count1++;
+                                          console.log('checckkkkk1',rows['0'].valuestry[i].try1[j].insidetry2.overallAttain);
+                                          flag1=1;
+                                        }
+
+
+
+
+                                    if(rows['0'].valuestry[i].try1[j].insidetry2.value == '2')
+                                        {
+                                          console.log('inside valueee twoo');
+                                          sum2 = sum2 + rows['0'].valuestry[i].try1[j].insidetry2.overallAttain;
+                                          count2++;
+
+                                          console.log('checckkkkk2',rows['0'].valuestry[i].try1[j].insidetry2.overallAttain);
+                                          flag2=2;
+                                        }
+
+
+                                    if(rows['0'].valuestry[i].try1[j].insidetry2.value == '3')
+                                        {
+                                          console.log('inside valueee threeeeeeee');
+                                          sum3 = sum3 + rows['0'].valuestry[i].try1[j].insidetry2.overallAttain;
+                                          count3++;
+                                          console.log('checckkkkk3',rows['0'].valuestry[i].try1[j].insidetry2.overallAttain);
+                                          flag3=3;
+                                        }
+
+
+                              } //for j vala
+                              var average1=0,valavg1=0,average2=0,valavg2=0,average3=0,valavg3=0;
+                              if(flag1==1){
+                                    console.log('inside flag onne');
+                                  average1 = sum1/count1;
+                                  valavg1 = 1 * average1;
+                                  console.log('value 1',valavg1);
+                              }
+                              if(flag2==2){
+                                    console.log('inside flag twoo');
+                                   average2 = sum2/count2;
+                                   valavg2 = 2 * average2;
+                                  console.log('value 2',valavg2);
+
+                              }
+                              if(flag3==3){
+                                    console.log('inside flag three');
+                                  average3 = sum3/count3;
+                                  valavg3 = 3 * average3;
+                                  console.log('value 3',valavg3);
+                              }
+                              var totalvalavg = valavg1+valavg2+valavg3;
+                              console.log('totaalvalavgg',totalvalavg);
+                              var poattain = totalvalavg/(flag1+flag2+flag3);
+                              console.log('final yyaayy',poattain);
+                              break;
+
+                          }//if
+
+
+                      }//for
+
+                      console.log('totaalvalavgg outside',totalvalavg);
+                      console.log('final yyaayy outside',poattain);
+                      mongo.dbo.collection('POAttainment').updateOne(
+                                          { 
+                                            "valuestry.year" : myobj['yearpg3'],
+                                            "valuestry.courseName" : myobj['courseNamepg3']
+                                           },
+                                          {              $set: { 
+                                                                  "valuestry.$.total" : total,
+                                                                  "valuestry.$.count" : count,
+                                                                  "valuestry.$.CoPoMatrix" : copomatrix,
+                                                                  "valuestry.$.Poattainment" : poattain
+                                                    }
+                                          },
+                                          { upsert : true }
+                                          );
+
+
+
+                  });
+
+
+
+
+
+
+
+
 
 
 							///}//if myobj['po1'] > 0 && myobj['po1'] <= 3 --check r
