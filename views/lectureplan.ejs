@@ -203,13 +203,13 @@
                                                                               <% for(var i in rows.lectureplan.srno)  {%>
                                                                 <div class="control-group input-group" style="margin-top:10px">
                                                                
-                                                                  <input type="text" name="addmore[]" class="form-control" placeholder="Sr no" value="<%= rows.lectureplan.srno[i] %>">
+                                                                  <input type="text" name="addmore[]" class="form-control" value="<%= rows.lectureplan.srno[i] %>">
                                                                   
                                                                               
-                                                                  <input type="text" name="portion[]" class="form-control" placeholder="Portion to cover" value="<%= rows.lectureplan.portion[i] %>">
-                                                                  <input type="text" name="example[]" class="form-control" placeholder="example to teach" value="<%= rows.lectureplan.example[i] %>">
-                                                                  <input placeholder="Planned Date" name="planned[]" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" class="form-control" value="<%= rows.lectureplan.planned[i] %>">
-                                                                  <input placeholder="Actual Date" name="actual[]" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" class="form-control" value="<%= rows.lectureplan.actual[i] %>" >
+                                                                  <input type="text" name="portion[]" class="form-control"  value="<%= rows.lectureplan.portion[i] %>">
+                                                                  <input type="text" name="example[]" class="form-control"  value="<%= rows.lectureplan.example[i] %>">
+                                                                  <input  name="planned[]" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" class="form-control" value="<%= rows.lectureplan.planned[i] %>">
+                                                                  <input  name="actual[]" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" class="form-control" value="<%= rows.lectureplan.actual[i] %>" >
 
                                                         <!--                                                
                                                       <script type="text/javascript">
@@ -232,11 +232,11 @@
                                                                                <div class="input-group dropdown">
                                                                                <span role="button" class="input-group-addon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></span>
                                                                                   <input type="text" class="form-control countrycode dropdown-toggle" value="<%= rows.lectureplan.method[i] %>" name="method">
-                                                                                  <ul class="dropdown-menu">
+                                                                                  <!-- <ul class="dropdown-menu">
                                                                                     <li><a href="#" data-value="Class Room Teaching">Class Room Teaching</a></li>
                                                                                     <li><a href="#" data-value="Tutorial">Tutorial</a></li>
                                                                                     <li><a href="#" data-value="Remedial Coaching">Remedial Coaching</a></li>
-                                                                                  </ul>
+                                                                                  </ul> -->
                                                                                   
                                                                                 </div>
                                                                               </div>
@@ -299,9 +299,20 @@
                                                                            <span role="button" class="input-group-addon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></span>
                                                                               <input type="text" class="form-control countrycode dropdown-toggle" placeholder="Choose method" name="method">
                                                                               <ul class="dropdown-menu">
-                                                                                <li><a href="#" data-value="Class Room Teaching">Class Room Teaching</a></li>
-                                                                                <li><a href="#" data-value="Tutorial">Tutorial</a></li>
-                                                                                <li><a href="#" data-value="Remedial Coaching">Remedial Coaching</a></li>
+                                                                               
+                                                                                <% objectives.forEach(function(rows,index) { %>
+                                                                              <% for(var i in rows.lectureplan.method)  {%>
+                                                                                        <li><a href="#" data-value="<%= rows.lectureplan.method[i] %>"><%= rows.lectureplan.method[i] %></a></li>
+                                                                                        <!-- <li><a href="#" data-value="Tutorial">Tutorial</a></li>
+                                                                                        <li><a href="#" data-value="Tutorial">Lab Experiment</a></li>
+                                                                                        <li><a href="#" data-value="Tutorial">Self Learning Online Resources</a></li>
+                                                                                        <li><a href="#" data-value="Tutorial">Slides</a></li>
+                                                                                        <li><a href="#" data-value="Tutorial">Simulations/Demonstrations</a></li>
+                                                                                        <li><a href="#" data-value="Tutorial">Expert Lecture</a></li>
+                                                                                        <li><a href="#" data-value="Remedial Coaching">Remedial Coaching</a></li> -->
+
+                                                                                <% } %>  
+                                                                              <% }); %>
                                                                               </ul>
                                                                               
                                                                             </div>
