@@ -14,11 +14,12 @@ module.exports.chartCode = function(app){
 
                 if(req.query.course != undefined)
                 {
+                    // console.log(req.query.course);
                     mongo.dbo.collection('CourseOutcome').find({"courseName": req.query.course}).toArray(function(err , rows){
                         if ( err ) throw err;
                         rows.forEach(function(rows,index){
                             
-                            // console.log(rows.valuestry.length);
+                            console.log(rows);
                             var valArray=[];
                            
                             for(var p=0; p<rows.valuestry.length; p++)

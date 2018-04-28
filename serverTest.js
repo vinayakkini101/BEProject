@@ -85,7 +85,7 @@ app.get('/report',function(req,res){
 
 
 router.get('/timetable',function(req,res){
-  res.render('timetable');
+  res.render('timetable', {url: req.query});
 });
 
 
