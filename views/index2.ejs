@@ -428,8 +428,8 @@
 
             function callback(response) 
             {
-                chartData = response.dataArray;
-                category = response.categories;
+                chartData = response;
+                // category = response.categories;
 console.log(chartData);
                 var revenueChart = new FusionCharts
                 ({
@@ -440,9 +440,9 @@ console.log(chartData);
                     dataFormat: 'json',
                     dataSource: {
                             "chart": {
-                                        "caption": "Comparison of Quarterly Revenue",
-                                        "xAxisname": "Quarter",
-                                        "yAxisName": "Revenues (In USD)",
+                                        "caption": "",
+                                        "xAxisname": "Year",
+                                        "yAxisName": "CO Attainment",
                                         "numberPrefix": "$",
                                         "plotFillAlpha": "80",
 
@@ -478,10 +478,19 @@ console.log(chartData);
                                         "legendBorderAlpha": "0",
                                         "legendShadow": "0",
                                         "legendItemFontSize": "10",
-                                        "legendItemFontColor": "#666666"
+                                        "legendItemFontColor": "#666666",
+                                        "labelFontSize": "15",
+                                        "outCnvBaseFontSize": "15"
+
                                     },
 
-                                    "categories": category,
+                                    "categories": [{
+                                        "category": [{
+                                            "label": "CSC302.1"
+                                        }, {
+                                            "label": "CSC302.2"
+                                        }]
+                                    }],
                                         
                                     "dataset": chartData
 

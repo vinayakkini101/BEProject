@@ -32,7 +32,7 @@ module.exports.chartCode = function(app){
                         });
 
                         // console.log(dataArray);
-                        res.json( {dataArray:dataArray , categories:categories} );
+                        res.json( dataArray );
 
                     });
                 }
