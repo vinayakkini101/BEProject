@@ -8,29 +8,40 @@ module.exports.chartCode = function(app){
         function getData(){
             //use the find() API and pass an empty query object to retrieve all records
             var dataArray=[];
-
+            var categories=[];
+            
             mongo.connect( function( err ) {
 
                 if(req.query.course != undefined)
                 {
+                    // console.log(req.query.course);
                     mongo.dbo.collection('CourseOutcome').find({"courseName": req.query.course}).toArray(function(err , rows){
                         if ( err ) throw err;
                         rows.forEach(function(rows,index){
                             
-                            // console.log(rows.valuestry.length);
+                            console.log(rows);
+                            var valArray=[];
+                           
                             for(var p=0; p<rows.valuestry.length; p++)
                             {
-                                dataArray.push({ "label":""+rows.valuestry[p].year+"\n"+rows.courseID , "value":rows.valuestry[p].overallAttain});
+                                 valArray.push({"value": ""+rows.valuestry[p].overallAttain});
                             }
+
+                            dataArray.push({ "seriesname":""+rows.valuestry[index].year , "data": valArray});
+                            categories.push({"label": ""+rows.courseID})
+
                         });
+
                         // console.log(dataArray);
-                        res.json(dataArray);
+                        res.json( dataArray );
 
                     });
                 }
                 else
                 {
-                    mongo.dbo.collection('CourseOutcome').find().toArray(function(err , rows){
+                    var multiValueArray = req.query.user.split(',');
+                    //  console.log(multiValueArray);
+                    mongo.dbo.collection('CourseOutcome').find({ "courseName" : { $in : multiValueArray }}).toArray(function(err , rows){
                         if ( err ) throw err;
                         rows.forEach(function(rows,index){
                             

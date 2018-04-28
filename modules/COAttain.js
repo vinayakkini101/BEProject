@@ -100,7 +100,7 @@ module.exports.COAttain = function(app){
 
 			                mongo.dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
 			                if (err) return console.log(err)
-			                 res.render('coattain', {obj2:COrows, obj1:rows, user : req.user});
+			                 res.render('coattain', {obj2:COrows, obj1:rows, user : req.user, url : req.query});
 			                      console.log("coattain CourseOutcome read");
 			                      //console.log("co rows",COrows);
 			                  });

@@ -65,7 +65,7 @@ module.exports.LecturePlan = function (app){
 
 
 
-res.redirect('/lectureplan?course='+req.body.courseName);  //using POST REDIRECT GET
+res.redirect('/lectureplan?course='+req.query.course);  //using POST REDIRECT GET
 
  });	
 

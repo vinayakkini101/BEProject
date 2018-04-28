@@ -79,13 +79,13 @@ router.get('/course',function(req,res){
 });
 
 
-router.get('/report',function(req,res){
-  res.render('report');
+app.get('/report',function(req,res){
+  res.render('report',{url : req.query.course});
 });
 
 
 router.get('/timetable',function(req,res){
-  res.render('timetable');
+  res.render('timetable', {url: req.query});
 });
 
 
@@ -93,7 +93,7 @@ app.get('/lectureplan',function(req,res){
   console.log(req.query.course);
     mongo.connect(function (err){
          mongo.dbo.collection('Course').find({"courseName":req.query.course}).toArray(function(err , rows){
-              res.render('lectureplan',{objectives:rows});
+              res.render('lectureplan',{objectives:rows, url: req.query});
         });
     });
 });
@@ -107,7 +107,7 @@ app.get('/courseobj',function(req,res){
   console.log(req.query.course);
     mongo.connect(function (err){
          mongo.dbo.collection('Course').find({"courseName":req.query.course}).toArray(function(err , rows){
-              res.render('courseobj',{objectives:rows});
+              res.render('courseobj',{objectives:rows, url:req.query});
         });
     });
 });
@@ -163,7 +163,7 @@ textbooks.Textbooks(app);*/
 
 
 app.get('/myCourses', isLoggedIn, function(req, res, next) {
-        // console.log(req.query.course);
+        console.log(req.query.course);
       
         var myobj={};
          myobj['course'] = req.query.course;
@@ -1349,11 +1349,11 @@ res.redirect('/poattainment');
 });
 
 /////////////////////router.get this is diff part
-router.get('/poattainment',function(req,res){
+app.get('/poattainment',function(req,res){
    mongo.connect( function( err ) {
    mongo.dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
         if (err) return console.log(err)
-         res.render('poattainment', {obj1:COrows});
+         res.render('poattainment', {obj1:COrows, url: req.query});
 
         console.log("poattainment doc read");
     });

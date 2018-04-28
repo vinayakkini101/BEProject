@@ -100,7 +100,7 @@
                 <nav class="sidebar-nav active">
                     <ul id="sidebarnav" class="in">
                         <li>
-                            <a href="/template.xslx" download>
+                            <a href="/template.xls" download>
                                 <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
                             </a>
                         </li>
@@ -384,7 +384,7 @@
     
           $(function(){
             $.ajax({
-              url: 'http://localhost:7000/chartsAA',
+              url: 'http://localhost:7000/chartsAA?user=<%= user.courseArray %>',
               type: 'GET',
               dataType:'json',
               success : function(data) {
@@ -398,7 +398,7 @@
           function callback(response) 
           {
                 chartData = response;
-    
+                
                 var revenueChart = new FusionCharts
                 ({
                     type: 'column3d',

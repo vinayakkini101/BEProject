@@ -95,27 +95,65 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav active">
                     <ul id="sidebarnav" class="in">
-                        <li class="active">
+                        <li>
+                            <a href="/template.xls" download>
+                                <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
+                            </a>
+                        </li>
+
+                        <li>
                             <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="/coattain" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
-                        </li>
-                        <li>
-                            <a href="/poattainment" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>PO Attainment</a>
-                        </li>
-                        <li>
-                            <a href="/display" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Display Table</a>
-                        </li>
-                        <li>
-                            <a href="/report" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
                         </li>
                         
                         <li>
-                            <a href="/template.xslx" download>
-                              <div name="download"  id="download" class="btn btn-success btn-md ">Download Excel Template</div>
-                            </a>
+                            <a href="/report?course=<%=url.course%>" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
                         </li>
+                        
+                        <li>
+                            <a href="/coattain?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
+                        </li>
+
+                        <li>
+                            <a href="/poattainment?course=<%=url.course%>" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>PO Attainment</a>
+                        </li>
+                    
+                        <li>
+                            <a href="/timetable" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Time Table</a>
+                        </li>
+
+                        <!-- <li>
+                            <a href="/dashboard" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Syllabus-text books</a>
+                        </li> -->
+
+                        <li>
+                            <a href="/courseobj?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Course Objectives</a>
+                        </li>
+
+                        <li>
+
+                            <a href="/lectureplan?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lecture Plan</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lab assignments</a>
+                        </li>
+
+                        <li>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Curriculum Gap</a>
+                        </li>
+
+                        <li>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>List of Experiments</a>
+                        </li>
+
+                        <li>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lab Manual</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Unit Test Question Papers</a>
+                        </li>
+                        
                        
                     </ul>
                     
@@ -155,12 +193,12 @@
 
 
          <ul class="nav nav-tabs" role = "tablist">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link active" href="#part1" role="tab" data-toggle="tab">Add Course</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#part2" role="tab" data-toggle="tab">Add Course Outcome</a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="#part3" role="tab" data-toggle="tab">CO Attainment </a>
             </li>
@@ -173,7 +211,7 @@
 
         <div class="tab-content">
               <!--<h3>Add Course</h3>-->
-              <div class="tab-pane active" role="tabpanel" id="part1">
+              <!-- <div class="tab-pane active" role="tabpanel" id="part1">
                   <form role="form" data-toggle="validator" class="shake" method="post" action="/Course">
                      
 
@@ -196,13 +234,13 @@
                             <div class="clearfix"></div>
                         </form>
                   </form>
-              </div>
+              </div> -->
 
 
 
 
               <!--<h3>Add Course Outcome</h3>-->
-              <br>
+              <!-- <br>
               <div class="tab-pane " role="tabpanel" id="part2">
                   <form role="form" data-toggle="validator" class="shake" method="post" action="/CourseOutcome">
                      
@@ -247,7 +285,7 @@
                             <div class="clearfix"></div>
                   </form>
                    <hr>
-              </div>
+              </div> -->
 
 
 
@@ -384,9 +422,9 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center">
+            <!-- <footer class="footer text-center">
                 Shreya Nigel Vinayak
-            </footer>
+            </footer> -->
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
