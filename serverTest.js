@@ -79,15 +79,15 @@ router.get('/course',function(req,res){
 });
 
 
-router.get('/report',function(req,res){
-  res.render('report');
+app.get('/report',function(req,res){
+  res.render('report',{url : req.query.course});
 });
 
 app.get('/lectureplan',function(req,res){
   console.log(req.query.course);
     mongo.connect(function (err){
          mongo.dbo.collection('Course').find({"courseName":req.query.course}).toArray(function(err , rows){
-              res.render('lectureplan',{objectives:rows});
+              res.render('lectureplan',{objectives:rows, url: req.query});
         });
     });
 });
@@ -101,7 +101,7 @@ app.get('/courseobj',function(req,res){
   console.log(req.query.course);
     mongo.connect(function (err){
          mongo.dbo.collection('Course').find({"courseName":req.query.course}).toArray(function(err , rows){
-              res.render('courseobj',{objectives:rows});
+              res.render('courseobj',{objectives:rows, url:req.query});
         });
     });
 });
@@ -1170,11 +1170,11 @@ res.redirect('/poattainment');
 });
 
 /////////////////////router.get this is diff part
-router.get('/poattainment',function(req,res){
+app.get('/poattainment',function(req,res){
    mongo.connect( function( err ) {
    mongo.dbo.collection('CourseOutcome').find().toArray(function(err , COrows){
         if (err) return console.log(err)
-         res.render('poattainment', {obj1:COrows});
+         res.render('poattainment', {obj1:COrows, url: req.query});
 
         console.log("poattainment doc read");
     });

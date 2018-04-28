@@ -26,6 +26,7 @@
 
     <script src="../js/fusioncharts/fusioncharts.js"></script>
     <script src="../js/fusioncharts/fusioncharts.charts.js"></script>
+    <script src="../js/fusioncharts/themes/fusioncharts.theme.fint.js"></script>
 
 
 </head>
@@ -109,19 +110,12 @@
                         <li>
                             <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
                         </li>
-
-                        <!-- <li class="active">
-                                <% courseData.forEach(function(rows,index){%>
-                            <a href="/dashboard" class="waves-effect active"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i><%= rows.courseID %></a>
-                            <% }); %>
-                        </li> -->
                         
                         <li>
-                            <a href="/report" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
+                            <a href="/report?course=<%=url.course%>" class="waves-effect"><i class="fa fa-font m-r-10" aria-hidden="true"></i>Report Generation</a>
                         </li>
                         
                         <li>
-                                
                             <a href="/coattain?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>CO Attainment</a>
                         </li>
 
@@ -143,27 +137,27 @@
 
                         <li>
 
-                            <a href="/lectureplan?course=<%=rows.courseName%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lecture Plan</a>
+                            <a href="/lectureplan?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lecture Plan</a>
                         </li>
                         
                         <li>
-                            <a href="/dashboard" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lab assignments</a>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lab assignments</a>
                         </li>
 
                         <li>
-                            <a href="/dashboard" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Curriculum Gap</a>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Curriculum Gap</a>
                         </li>
 
                         <li>
-                            <a href="/dashboard" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>List of Experiments</a>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>List of Experiments</a>
                         </li>
 
                         <li>
-                            <a href="/dashboard" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lab Manual</a>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Lab Manual</a>
                         </li>
                         
                         <li>
-                            <a href="/dashboard" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Unit Test Question Papers</a>
+                            <a href="/timetable?course=<%=url.course%>" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Unit Test Question Papers</a>
                         </li>
                         
                         
@@ -412,73 +406,93 @@
      
 
      <script>
-        FusionCharts.ready(function () {
+       
+       FusionCharts.ready(function () {
+
+           var chartData;
+           var category;
     
-          var chartData;
-    
-          $(function(){
+            $(function(){
             $.ajax({
-
-              <% courseData.forEach(function(rows,index){ %>
-              url: 'http://localhost:7000/chartsAA?course=<%= rows.courseName %>',
-              <% }); %>
-
-              type: 'GET',
-              dataType:'json',
-              success : function(data) {
+                url: 'http://localhost:7000/chartsAA?course=<%= url.course %>',
+                type: 'GET',
+                dataType:'json',
+                success : function(data) {
                 // console.log("Data from API endpoint "+JSON.stringify(data[0]));
                 // callback(JSON.stringify(data));     --------this gives error
                 callback(data);
-              }
+                }
             });
-          });
-    
-          function callback(response) 
-          {
-                chartData = response;
-    
+            });
+
+
+            function callback(response) 
+            {
+                chartData = response.dataArray;
+                category = response.categories;
+console.log(chartData);
                 var revenueChart = new FusionCharts
                 ({
-                    type: 'column3d',
+                    type: 'mscolumn3d',
                     renderAt: 'chart-container',
                     width: '600',
                     height: '400',
                     dataFormat: 'json',
-                    dataSource: 
-                    {
-                        "chart": {
-                                  "caption": "",
-                                  "subCaption": "",
-                                  "xAxisName": "Years",
-                                  "yAxisName": "CO Attainment Value",
-                                  "paletteColors": "#0075c2",
-                                  "valueFontColor": "#ffffff",
-                                  "baseFont": "Helvetica Neue,Arial",
-                                  "captionFontSize": "18",
-                                  "subcaptionFontSize": "14",
-                                  "subcaptionFontBold": "0",
-                                  "placeValuesInside": "1",
-                                  "showShadow": "0",
-                                  "divlineColor": "#999999",               
-                                  "divLineIsDashed": "1",
-                                  "divlineThickness": "1",
-                                  "divLineDashLen": "1",
-                                  "divLineGapLen": "1",
-                                  "canvasBgColor": "#ffffff",
-                                  // "borderThickness": "2",
-                                  // "showBorder" :"1",
-                                  "rotateValues": "0",              // values inside bar are horizontal
-                                  "labelFontSize": "15",           // 2015,2016.. 
-                                  "outCnvBaseFontSize": "15"      // co att, years, and y-axis numbers
-                        },
-    
-                        "data" : chartData
-                    }
-                });
-              
-              revenueChart.render();
-          }
-    });
+                    dataSource: {
+                            "chart": {
+                                        "caption": "Comparison of Quarterly Revenue",
+                                        "xAxisname": "Quarter",
+                                        "yAxisName": "Revenues (In USD)",
+                                        "numberPrefix": "$",
+                                        "plotFillAlpha": "80",
+
+                                        //Cosmetics
+                                        "paletteColors": "#0075c2,#1aaf5d",
+                                        "baseFontColor": "#333333",
+                                        "baseFont": "Helvetica Neue,Arial",
+                                        "captionFontSize": "14",
+                                        "subcaptionFontSize": "14",
+                                        "subcaptionFontBold": "0",
+                                        "showBorder": "0",
+                                        "bgColor": "#ffffff",
+                                        "showShadow": "0",
+                                        "canvasBgColor": "#ffffff",
+                                        "canvasBorderAlpha": "0",
+                                        "divlineAlpha": "100",
+                                        "divlineColor": "#999999",
+                                        "divlineThickness": "1",
+                                        "divLineIsDashed": "1",
+                                        "divLineDashLen": "1",
+                                        "divLineGapLen": "1",
+                                        "usePlotGradientColor": "0",
+                                        "showplotborder": "0",
+                                        "valueFontColor": "#ffffff",
+                                        "placeValuesInside": "1",
+                                        "showHoverEffect": "1",
+                                        "rotateValues": "1",
+                                        "showXAxisLine": "1",
+                                        "xAxisLineThickness": "1",
+                                        "xAxisLineColor": "#999999",
+                                        "showAlternateHGridColor": "0",
+                                        "legendBgAlpha": "0",
+                                        "legendBorderAlpha": "0",
+                                        "legendShadow": "0",
+                                        "legendItemFontSize": "10",
+                                        "legendItemFontColor": "#666666"
+                                    },
+
+                                    "categories": category,
+                                        
+                                    "dataset": chartData
+
+                                    
+
+                            }
+               });
+
+                    revenueChart.render();
+            };  
+});
     </script>
 
 
