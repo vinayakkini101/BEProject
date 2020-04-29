@@ -31,7 +31,7 @@
     "express": "^4.16.2",
     "express-session": "~1.14.1",
     "font-awesome": "4.7.0",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "jquery-editable-select": "^2.2.5",
     "jquery.easing": "^1.4.1",
     "method-override": "~2.3.6",
